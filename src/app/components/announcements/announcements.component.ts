@@ -13,7 +13,6 @@ export class AnnouncementsComponent implements OnInit {
   constructor(private vacancyService: VacancyService) { }
 
   ngOnInit(): void {
-    // Получаем объявления текущего работодателя
-    this.announcements = this.vacancyService.getEmployerAnnouncements();
+    this.announcements = [];
   }
 }

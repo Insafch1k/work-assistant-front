@@ -1,0 +1,183 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+
+.resume-container {
+
+  h1 {
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 20px 0 20px 0;
+  }
+
+  h2 {
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0 0 10px 0;
+  }
+
+
+  .want-job-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(53, 56, 63, 1);
+    border-radius: 15px;
+    flex: 1; 
+    min-width: 0;
+    margin-bottom: 10px;
+  
+    svg {
+        margin: 10px 0px 10px 10px;
+        flex-shrink: 0; 
+    }
+  
+    input {
+        background-color: rgba(53, 56, 63, 1);
+        border: 0;
+        margin: 9px 9px 9px 9px;
+        color: #ffffff;
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        font-weight: 400;
+        width: 100%; 
+        min-width: 0; 
+  
+        &:focus {
+            outline: none;
+            border-radius: 5px;
+            box-shadow: 0 0 0 1px rgba(104, 73, 255, 1)
+        }
+    }
+  }
+
+  .general-input {
+    width: 100%;
+    background-color: rgba(53, 56, 63, 1);
+    border: 0;
+    border-radius: 15px;
+    padding: 11px;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 10px;
+
+    &:focus {
+        outline: none;
+        border-radius: 15px;
+        box-shadow: 0 0 0 1px rgba(104, 73, 255, 1)
+    }
+  }
+
+  .skills-input {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(53, 56, 63, 1);
+    border-radius: 15px;
+    flex: 1; 
+    min-width: 0; 
+    margin-bottom: 10px;
+    border: 1px solid #fff;
+
+    svg {
+        margin: 10px 10px 10px 0px;
+        flex-shrink: 0; 
+    }
+
+    input {
+      background-color: rgba(53, 56, 63, 1);
+      border: 0;
+      margin: 10px 10px 10px 10px;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      width: 100%; 
+      min-width: 0; 
+
+      &:focus {
+          outline: none;
+          border-radius: 5px;
+          box-shadow: 0 0 0 1px rgba(104, 73, 255, 1)
+      }
+    }
+  }
+
+  .mini-skills-section {
+    
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+
+    .mini-skill {
+      background-color: rgba(53, 56, 63, 1);
+      border-radius: 10px;
+      border: 0;
+      max-width: 100%;
+      width: auto;
+      height: auto;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 1);
+      padding: 5px 10px 5px 10px;
+      display: inline-block;
+      word-wrap: break-word; 
+      word-break: break-all; 
+      white-space: normal; 
+      overflow-wrap: break-word; 
+      box-sizing: border-box;
+
+      &:focus {
+        outline: none;
+        border-radius: 15px;
+        box-shadow: 0 0 0 1px rgba(104, 73, 255, 1)
+      }
+    }
+
+  }
+
+  .save-button {
+    background-color: #2DD498;
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 15px;
+    padding: 10px 20px 10px 20px;
+    border: 0;
+    margin-top: 20px;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.2s;
+
+      &:hover {
+          background: #4bdda8; 
+      }
+  }
+
+  .delete-button {
+    background-color: #F56B68;
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 15px;
+    padding: 10px 20px 10px 20px;
+    border: 0;
+    margin-top: 20px;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.2s;
+
+      &:hover {
+          background: #f57e7c; 
+      }
+  }
+}

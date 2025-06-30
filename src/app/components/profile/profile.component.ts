@@ -82,11 +82,8 @@ export class ProfileComponent implements OnInit {
   }
 
   editResume(): void {
-    if (this.userResume && this.userResume.resume_id) {
-      // позже реализуем компонент с редактированием резюме
 
-      this.router.navigate(['/resume/edit', this.userResume.resume_id]);
-    }
+      this.router.navigate(['/editing-resume']);
   }
 
   startEditing(): void {

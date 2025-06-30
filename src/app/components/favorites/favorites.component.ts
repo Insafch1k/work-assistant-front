@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Vacancy } from '../../models/vacancy.model';
 import { VacancyService } from '../../services/vacancy.service';
-import { FavoritesService } from '../../services/favorites.service';
 
 @Component({
   selector: 'app-favorites',
@@ -9,23 +8,19 @@ import { FavoritesService } from '../../services/favorites.service';
   styleUrls: ['./favorites.component.scss']
 })
 export class FavoritesComponent implements OnInit {
-  favoriteVacancies: Vacancy[] = [];
-  
-  constructor(
-    private vacancyService: VacancyService,
-    private favoritesService: FavoritesService
-  ) { }
-  
+  favoriteVacancies: Vacancy[] = []; // Пустой массив для визуала
+
+  constructor(private vacancyService: VacancyService) {}
+
   ngOnInit(): void {
-    // Получаем все вакансии и фильтруем только избранные
-    this.favoriteVacancies = this.vacancyService.getAllVacancies()
-      .filter(vacancy => vacancy.isFavorite);
+    this.favoriteVacancies = [];
   }
-  
-  toggleFavorite(vacancy: Vacancy): void {
-    this.vacancyService.toggleFavorite(vacancy.job_id);
-    // Обновляем список после удаления из избранного
-    this.favoriteVacancies = this.vacancyService.getAllVacancies()
-      .filter(v => v.isFavorite);
+
+  removeFromFavorites(vacancy: Vacancy): void {
+    console.log('Метод временно отключен'); // Заглушка
+  }
+
+  toggleFavorite(vacancy: any): void {
+    console.log('Метод временно отключен'); // Заглушка
   }
 }

@@ -11,6 +11,7 @@ import { ViewHistoryComponent } from './components/view-history/view-history.com
 import { AnnouncementsComponent } from './components/announcements/announcements.component';
 import { NewAnnouncementComponent } from './components/new-announcement/new-announcement.component';
 import { EditingAnnouncementComponent } from './components/editing-announcement/editing-announcement.component';
+import { EditingResumeComponent } from './components/editing-resume/editing-resume.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/authorization', pathMatch: 'full' },
@@ -18,13 +19,14 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'resume', component: ResumeComponent },
   { path: 'vacancies', component: VacanciesComponent },
-  { path: 'vacancy-details', component: VacancyDetailsComponent },
+  { path: 'jobs/:id/seeall', component: VacancyDetailsComponent },
   { path: 'filter-vacancies', component: FilterVacanciesComponent },
   { path: 'favorites', component: FavoritesComponent },
   { path: 'view-history', component: ViewHistoryComponent },
   { path: 'announcements', component: AnnouncementsComponent },
   { path: 'new-announcement', component: NewAnnouncementComponent },
   { path: 'resume', component: ResumeComponent },
+  { path: 'editing-resume', component: EditingResumeComponent },
   { path: 'editing-announcement', component: EditingAnnouncementComponent },
 ];
 

@@ -8,12 +8,14 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 export class ResumeService {
-  private apiUrl = 'http://192.168.91.64:8000';
+  private apiUrl: string;
 
   constructor(
     private http: HttpClient,
     private userService: UserService
-  ) {}
+  ) {
+    this.apiUrl = this.userService.apiUrl;
+  }
 
   // Отправка резюме на бэкенд
   createResume(resume: Resume): Observable<Resume> {
@@ -63,7 +65,8 @@ export class ResumeService {
     );
   }
 
-  updateResume(resumeId: number, resume: Resume): Observable<Resume> {
+  // updateResume(resumeId: number, resume: Resume): Observable<Resume> {
+    updateResume(resume: Resume): Observable<Resume> {
     const resumeData = {
       job_title: resume.job_title,
       education: resume.education,
@@ -71,7 +74,12 @@ export class ResumeService {
       skills: resume.skills
     };
     
-    return this.http.put<Resume>(`${this.apiUrl}/resumes/${resumeId}`, resumeData);
+    // return this.http.put<Resume>(`${this.apiUrl}/resumes/${resumeId}`, resumeData);
+    return this.http.post<Resume>(`${this.apiUrl}/resumes`, resumeData);
+  }
+
+  deleteResume(): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/resumes`);
   }
 
 }

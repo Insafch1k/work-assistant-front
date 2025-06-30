@@ -14,7 +14,7 @@ export class UserService {
 
   private readonly TOKEN_KEY = 'auth_token';
 
-  private apiUrl = 'http://192.168.91.64:8000';
+  public readonly apiUrl = 'http://192.168.67.64:8000';
 
   public generateRandomId(): string {
     // Генерируем 10-значное число (от 1000000000 до 9999999999) для айди

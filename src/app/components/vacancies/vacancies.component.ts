@@ -10,20 +10,32 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class VacanciesComponent implements OnInit {
   vacancies: Vacancy[] = [];
+  isLoading = false;
+  error: string | null = null;
   
   constructor(
     private vacancyService: VacancyService,
-    private userService: UserService
-  ) { }
+    private userService: UserService,
+  ) {}
   
   ngOnInit(): void {
-    // Получаем вакансии из сервиса
-    this.vacancies = this.vacancyService.getAllVacancies();
+    this.loadVacancies();
   }
-  
-  toggleFavorite(vacancy: Vacancy): void {
-    // Используем сервис для переключения
-    this.vacancyService.toggleFavorite(vacancy.job_id);
+
+  loadVacancies(): void {
+    this.isLoading = true;
+    this.error = null;
+    this.vacancyService.fetchVacancies().subscribe({
+      next: (vacancies) => {
+        this.vacancies = vacancies;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Ошибка при загрузке вакансий:', err);
+        this.error = 'Не удалось загрузить вакансии. Пожалуйста, попробуйте позже.';
+        this.isLoading = false;
+      }
+    });
   }
 
   isEmployer(): boolean {

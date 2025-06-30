@@ -100,6 +100,10 @@
   border-radius: 20px;
   width: 100%;
   padding: 10px 10px 10px 10px;
+
+  .resume-editing {
+    cursor: pointer;
+  }
   
 
   h2 {
@@ -157,5 +161,16 @@
       box-sizing: border-box;
     }
   }
+
 }
 
+.loading-resume {
+
+  h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    text-align: center;
+  }
+}

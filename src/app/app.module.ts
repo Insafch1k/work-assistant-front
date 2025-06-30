@@ -22,6 +22,7 @@ import { AnnouncementsComponent } from './components/announcements/announcements
 import { NewAnnouncementComponent } from './components/new-announcement/new-announcement.component';
 import { ResumeComponent } from './components/resume/resume.component';
 import { EditingAnnouncementComponent } from './components/editing-announcement/editing-announcement.component';
+import { EditingResumeComponent } from './components/editing-resume/editing-resume.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { EditingAnnouncementComponent } from './components/editing-announcement/
     NewAnnouncementComponent,
     ResumeComponent,
     EditingAnnouncementComponent,
+    EditingResumeComponent,
   ],
   imports: [
     BrowserModule,
