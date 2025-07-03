@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Vacancy } from 'src/app/models/vacancy.model';
-import { VacancyService } from 'src/app/services/vacancy.service';
+import { AnnouncementService } from 'src/app/services/announcement.service';
+import { Announcement } from 'src/app/models/announcement.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-announcements',
@@ -8,11 +9,26 @@ import { VacancyService } from 'src/app/services/vacancy.service';
   styleUrls: ['./announcements.component.scss']
 })
 export class AnnouncementsComponent implements OnInit {
-  announcements: Vacancy[] = [];
+  announcements: Announcement[] = [];
+  
 
-  constructor(private vacancyService: VacancyService) { }
+  constructor(
+    private announcementService: AnnouncementService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    this.announcements = [];
+    this.announcementService.getMyAnnouncements().subscribe({
+      next: (announcements) => {
+        this.announcements = announcements;
+      },
+      error: (err) => {
+        console.error('Ошибка при загрузке объявлений:', err);
+      }
+    });
+  }
+
+  editAnnouncement(job_id: number) {
+    this.router.navigate(['/editing-announcement', job_id]);
   }
 }

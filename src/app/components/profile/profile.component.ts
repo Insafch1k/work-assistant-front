@@ -3,6 +3,7 @@ import { UserService } from 'src/app/services/user.service';
 import { ResumeService } from 'src/app/services/resume.service';
 import { Resume } from 'src/app/models/resume.model';
 import { Router, ActivatedRoute } from '@angular/router';
+import { subscribeOn } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -27,18 +28,42 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userName = this.userService.getUserName();
-    this.userRole = this.userService.getUserRole();
-    this.editableName = this.userName;
+    this.route.paramMap.subscribe(params => {
 
-    // Проверяем, пришли ли мы со страницы создания резюме
-    this.route.queryParams.subscribe(params => {
-      const fromResume = params['fromResume'];
-      const cacheParam = params['timestamp'] || new Date().getTime();
-      
-      // Загружаем резюме с указанием временной метки
-      if (this.userRole === 'finder') {
-        this.loadUserResume(cacheParam);
+      const employerId = params.get('employer_id');
+      if (employerId) {
+        this.loadEmployerProfile(employerId);
+
+      } else {
+
+        this.userName = this.userService.getUserName();
+        this.userRole = this.userService.getUserRole();
+        this.editableName = this.userName;
+    
+        // Проверяем, пришли ли мы со страницы создания резюме
+        this.route.queryParams.subscribe(params => {
+          const fromResume = params['fromResume'];
+          const cacheParam = params['timestamp'] || new Date().getTime();
+          
+          // Загружаем резюме с указанием временной метки
+          if (this.userRole === 'finder') {
+            this.loadUserResume(cacheParam);
+          }
+        });
+      }
+    });
+  }
+
+  loadEmployerProfile(employerId: string) {
+    this.userService.getEmployerProfile(employerId).subscribe({
+      next: (profile) => {
+        // Заполни поля профиля работодателя
+        this.userName = profile.name;
+        this.userRole = 'employer';
+        // ... и т.д.
+      },
+      error: (err) => {
+        // обработка ошибки
       }
     });
   }
@@ -82,8 +107,7 @@ export class ProfileComponent implements OnInit {
   }
 
   editResume(): void {
-
-      this.router.navigate(['/editing-resume']);
+    this.router.navigate(['/editing-resume']);
   }
 
   startEditing(): void {

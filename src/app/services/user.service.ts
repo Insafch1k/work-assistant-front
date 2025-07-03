@@ -14,7 +14,7 @@ export class UserService {
 
   private readonly TOKEN_KEY = 'auth_token';
 
-  public readonly apiUrl = 'http://192.168.67.64:8000';
+  public readonly apiUrl = 'https://tame-ducks-ring.loca.lt';
 
   public generateRandomId(): string {
     // Генерируем 10-значное число (от 1000000000 до 9999999999) для айди
@@ -49,16 +49,6 @@ export class UserService {
     localStorage.setItem(this.TG_ID_KEY, tgId);
   }
 
-  registerUser(tgId?: string): Observable<any> {
-    const userData = {
-      tg: tgId || this.getTgId() || this.generateRandomId(),
-      user_role: this.getUserRole(),
-      user_name: this.getUserName()
-    };
-  
-    return this.http.post(`${this.apiUrl}/profile/init`, userData);
-  }
-
   saveToken(token:string):void {
     localStorage.setItem(this.TOKEN_KEY, token);
   }
@@ -71,13 +61,21 @@ export class UserService {
     return !!this.getToken();
   }
 
-  login(userData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/profile/login`, userData)
-      .pipe(
-        tap(response => {
-          console.log('Полный ответ от сервера:', response);
-        })
-      );
+  registerUser(tgId: string, role: string, name: string): Observable<any> {
+    const userData = {
+      tg: tgId,
+      user_role: role,
+      user_name: name
+    };
+    return this.http.post(`${this.apiUrl}/profile/init`, userData);
+  }
+
+  login(tgId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/profile/login`, { tg: tgId });
+  }
+
+  getEmployerProfile(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/employers/${id}`);
   }
   
 }

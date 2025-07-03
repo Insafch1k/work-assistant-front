@@ -47,7 +47,7 @@ h2 {
         background-color: rgba(53, 56, 63, 1);
         border: 0;
         margin: 9px 9px 9px 9px;
-        color: #71747B;
+        color: #ffffff;
         font-family: 'Inter', sans-serif;
         font-size: 1rem;
         font-weight: 400;
@@ -69,7 +69,7 @@ h2 {
     border: 0;
     border-radius: 15px;
     padding: 11px;
-    color: #71747B;
+    color: #ffffff;
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
     font-weight: 400;
@@ -79,6 +79,57 @@ h2 {
         border-radius: 15px;
         box-shadow: 0 0 0 1px rgba(104, 73, 255, 1)
     }
+}
+
+.range-input {
+
+    display: flex;
+    gap: 20px;
+
+    .range-from-input {
+        flex: 1;
+
+        input {
+            width: 100%;
+            background-color: rgba(53, 56, 63, 1);
+            border: 0;
+            border-radius: 15px;
+            padding: 11px;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+
+            &:focus {
+                outline: none;
+                border-radius: 15px;
+                box-shadow: 0 0 0 1px rgba(104, 73, 255, 1)
+            }
+        }
+    }
+
+    .range-to-input {
+        flex: 1;
+
+        input {
+            width: 100%;
+            background-color: rgba(53, 56, 63, 1);
+            border: 0;
+            border-radius: 15px;
+            padding: 11px;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+
+            &:focus {
+                outline: none;
+                border-radius: 15px;
+                box-shadow: 0 0 0 1px rgba(104, 73, 255, 1)
+            }
+        }
+    }
+
 }
 
 .quick-option {

@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { VacancyService } from '../../services/vacancy.service';
 import { FavoritesService } from '../../services/favorites.service';
 import { Vacancy } from '../../models/vacancy.model';
+import { ViewHistoryService } from 'src/app/services/view-history.service';
+import { query } from '@angular/animations';
 
 @Component({
   selector: 'app-vacancy-details',
@@ -17,6 +19,7 @@ export class VacancyDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private vacancyService: VacancyService,
+    private viewHistoryService: ViewHistoryService
   ) { }
   
   ngOnInit(): void {
@@ -24,57 +27,28 @@ export class VacancyDetailsComponent implements OnInit {
     this.route.params.subscribe(params => {
       const id = params['id'];
       if (id && !isNaN(+id)) {
-        this.loadVacancyDetails(+id);
+        this.route.queryParams.subscribe(query => {
+          const fromHistory = query['fromHistory'];
+          this.loadVacancyDetails(+id, fromHistory);
+        });
       } else {
         console.error('Неверный идентификатор вакансии');
       }
     });
   }
   
-  loadVacancyDetails(id: number): void {
-    if (!id || isNaN(id)) {
-      console.error('Неверный идентификатор вакансии');
-      return;
-    }
-
+  loadVacancyDetails(id: number, fromHistory:boolean): void {
     this.vacancyService.getVacancyDetails(id).subscribe({
       next: (details) => {
-        if (!details) {
-          console.error('Не удалось получить данные о вакансии');
-          return;
+        this.vacancy = { ...details, job_id:id };
+        if (!fromHistory) {
+          this.viewHistoryService.viewJob(id).subscribe();
         }
-        
-        this.vacancy = {
-          ...details,
-          isFavorite: false,
-          job_id: id
-        };
-        
-        // Добавляем вакансию в историю просмотра
-        // if (this.vacancy && this.vacancy.title) {
-        //   this.viewHistoryService.addToHistory({
-        //     job_id: id,
-        //     title: this.vacancy.title,
-        //     employer_id: 0,
-        //     category: '',
-        //     description: '',
-        //     salary: this.vacancy.salary || 0,
-        //     date: this.vacancy.date || '',
-        //     time_start: '',
-        //     time_end: '',
-        //     address: this.vacancy.address || '',
-        //     rating: 0,
-        //     is_urgent: this.vacancy.is_urgent || false,
-        //     status: 'open',
-        //     created_at: '',
-        //     isFavorite: this.vacancy.isFavorite
-        //   });
-        // }
       },
       error: (err) => {
-        console.error('Ошибка при загрузке деталей вакансии:', err);
+        console.error('Ошибка при загрузке деталей вакансии', err);
       }
-    });
+    })
   }
   
   toggleFavorite(): void {

@@ -20,15 +20,15 @@ export class VacancyService {
     this.apiUrl = this.userService.apiUrl;
   }
 
-  // Получение вакансий с бэкенда
-fetchVacancies(): Observable<Vacancy[]> {
+  // Получение вакансий с бэкенда для соискателей
+fetchFinderVacancies (): Observable<Vacancy[]> {
   return this.http.get<any[]>(`${this.apiUrl}/jobs/finders`)
     .pipe(
       map(response => {
         // Преобразуем данные с бэкенда в формат нашей модели
         const vacancies: Vacancy[] = response.map((item) => ({
-            job_id: item.job_id, // Используем job_id с бэкенда
-            employer_id: 0,    // Заполняем значениями по умолчанию
+            job_id: item.job_id, 
+            employer_id: item.employer_id,
             title: item.title || 'Без названия',
             category: 'Не указана',
             description: 'Описание отсутствует',
@@ -37,11 +37,11 @@ fetchVacancies(): Observable<Vacancy[]> {
             time_start: '09:00',
             time_end: item.time_hours ? `${parseInt(item.time_hours) + 9}:00` : '18:00',
             address: item.address || 'Адрес не указан',
-            rating: 0,
-            is_urgent: false,
+            rating: item.rating,
+            is_urgent: !!item.is_urgent,
             status: 'open',
             created_at: new Date().toISOString(),
-            isFavorite: false
+            isFavorite: !!item.is_favorite
           }));
 
           return vacancies;
@@ -51,6 +51,41 @@ fetchVacancies(): Observable<Vacancy[]> {
       }),
       catchError(error => {
         console.error('Ошибка при загрузке вакансий:', error);
+        return of([]); // Возвращаем пустой массив в случае ошибки
+      })
+    );
+}
+
+// Получение вакансий для работодателя
+fetchEmployerVacancies(): Observable<Vacancy[]> {
+  return this.http.get<any[]>(`${this.apiUrl}/jobs/employers`)
+    .pipe(
+      map(response => {
+        // Преобразуем данные с бэкенда в формат нашей модели
+        const vacancies: Vacancy[] = response.map((item) => ({
+            job_id: item.job_id,
+            employer_id: item.employer_id,
+            title: item.title || 'Без названия',
+            category: 'Не указана',
+            description: 'Описание отсутствует',
+            salary: item.salary || 0,
+            date: new Date().toISOString().split('T')[0],
+            time_start: '09:00',
+            time_end: item.time_hours ? `${parseInt(item.time_hours) + 9}:00` : '18:00',
+            address: item.address || 'Адрес не указан',
+            rating: 0,
+            is_urgent: !!item.is_urgent,
+            status: 'open',
+            created_at: new Date().toISOString()
+          }));
+
+          return vacancies;
+      }),
+      tap(vacancies => {
+        console.log('Получены вакансии работодателя с сервера:', vacancies);
+      }),
+      catchError(error => {
+        console.error('Ошибка при загрузке вакансий работодателя:', error);
         return of([]); // Возвращаем пустой массив в случае ошибки
       })
     );
@@ -92,5 +127,9 @@ fetchVacancies(): Observable<Vacancy[]> {
           return of(null);
         })
       );
+  }
+
+  filterVacancies(params: any): Observable<Vacancy[]> {
+    return this.http.post<Vacancy[]>(`${this.apiUrl}/jobs/filter`, params);
   }
 }

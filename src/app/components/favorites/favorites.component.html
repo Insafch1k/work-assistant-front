@@ -1,53 +1,69 @@
 <div class="favorites-container">
     <h1>Избранное</h1>
-    <div class="empty-favorites" *ngIf="favoriteVacancies.length === 0">
+    <div class="empty-favorites" *ngIf="!isLoading && !error && favorites.length === 0">
         У вас пока нет избранных вакансий.
     </div>
-    <div class="vacancies-list" *ngIf="favoriteVacancies.length > 0">
-        <div *ngFor="let vacancy of favoriteVacancies" class="vacancy-container">
-            <div class="vacancy-card"> 
-                <div class="description-like">
-                    <p>{{ vacancy.title }}</p> 
-                    <div class="card-icons">
-                        <!-- сердечко для избранного -->
-                        <!-- [class.favorited]="vacancy.isFavorite" (click)="toggleFavorite(vacancy)" -->
-                        <svg  width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M15.8925 10.9516L11.1783 15.6666C10.8658 15.9791 10.4419 16.1546 10 16.1546C9.55806 16.1546 9.13422 15.9791 8.82167 15.6666L4.1075 10.9525C3.71781 10.5662 3.40826 10.1067 3.19661 9.60048C2.98496 9.09423 2.8754 8.55116 2.87419 8.00245C2.87299 7.45374 2.98018 6.9102 3.18961 6.40303C3.39904 5.89586 3.70658 5.43505 4.09457 5.04705C4.48257 4.65905 4.94338 4.35151 5.45055 4.14209C5.95772 3.93266 6.50127 3.82547 7.04997 3.82667C7.59868 3.82787 8.14175 3.93744 8.648 4.14909C9.15425 4.36073 9.61371 4.67029 10 5.05998C10.7846 4.29487 11.8391 3.8697 12.935 3.87657C14.0309 3.88343 15.08 4.32179 15.855 5.09667C16.63 5.87155 17.0685 6.92056 17.0755 8.01646C17.0825 9.11236 16.6575 10.1669 15.8925 10.9516Z" fill="#FF2A69" stroke="#FF2A69" stroke-width="1.5"/>
-                        </svg>
-                        <!-- срочная вакансия -->
-                        <svg *ngIf="vacancy.is_urgent" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.75 10.625L10.625 1.875V9.375H15L8.125 18.125V10.625H3.75Z" fill="#FFF024"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="payment">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8.51852 15.7143V10.7143M8.51852 10.7143V4.28571H11.2302C13.0054 4.28571 14.4444 5.72479 14.4444 7.49999V7.49999C14.4444 9.27519 13.0054 10.7143 11.2302 10.7143H8.51852Z" stroke="white" stroke-width="1.5"/>
-                        <path d="M12.5926 13.5714H5.92593" stroke="white"/>
-                        <path d="M11.4815 10.7143H5.92593" stroke="white"/>
+
+    <!-- вакансии -->
+
+    <div *ngFor="let vacancy of favorites" class="vacancy-container">
+        <div class="vacancy-card">
+            <div class="description-like">
+                <h2>{{ vacancy.title }}</h2>
+                <div class="card-icons">
+                    <!-- сердечко для избранного для соискателей-->
+                    <svg 
+                    *ngIf="!isEmployer()"
+                    (click)="toggleFavorite(vacancy)"
+                    [class.favorited]="vacancy.isFavorite"
+                    width="20" 
+                    height="20" 
+                    viewBox="0 0 20 20" 
+                    xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.8925 10.9516L11.1783 15.6666C10.8658 15.9791 10.4419 16.1546 10 16.1546C9.55806 16.1546 9.13422 15.9791 8.82167 15.6666L4.1075 10.9525C3.71781 10.5662 3.40826 10.1067 3.19661 9.60048C2.98496 9.09423 2.8754 8.55116 2.87419 8.00245C2.87299 7.45374 2.98018 6.9102 3.18961 6.40303C3.39904 5.89586 3.70658 5.43505 4.09457 5.04705C4.48257 4.65905 4.94338 4.35151 5.45055 4.14209C5.95772 3.93266 6.50127 3.82547 7.04997 3.82667C7.59868 3.82787 8.14175 3.93744 8.648 4.14909C9.15425 4.36073 9.61371 4.67029 10 5.05998C10.7846 4.29487 11.8391 3.8697 12.935 3.87657C14.0309 3.88343 15.08 4.32179 15.855 5.09667C16.63 5.87155 17.0685 6.92056 17.0755 8.01646C17.0825 9.11236 16.6575 10.1669 15.8925 10.9516Z" stroke="white" stroke-width="1.5" fill="none"/>
                     </svg>
-                    <p>{{ vacancy.salary }}р.</p>
-                </div>
-                <div class="hours">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_156_102)">
-                        <path d="M10 18.3334C14.6024 18.3334 18.3333 14.6024 18.3333 10C18.3333 5.39765 14.6024 1.66669 10 1.66669C5.39763 1.66669 1.66667 5.39765 1.66667 10C1.66667 14.6024 5.39763 18.3334 10 18.3334Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M7.91667 7.91669L10.8333 10.8334M13.3333 6.66669L9.16667 10.8334" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_156_102">
-                        <rect width="20" height="20" fill="white"/>
-                        </clipPath>
-                        </defs>
+                    <!-- срочная вакансия -->
+                    <svg *ngIf="vacancy.is_urgent" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.75 10.625L10.625 1.875V9.375H15L8.125 18.125V10.625H3.75Z" fill="#FFF024"/>
                     </svg>
-                    <p>{{ vacancy | duration }}</p>
                 </div>
-                <div class="address-rating-avatar">
+            </div>
+            <div class="payment">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.51852 15.7143V10.7143M8.51852 10.7143V4.28571H11.2302C13.0054 4.28571 14.4444 5.72479 14.4444 7.49999V7.49999C14.4444 9.27519 13.0054 10.7143 11.2302 10.7143H8.51852Z" stroke="white" stroke-width="1.5"/>
+                    <path d="M12.5926 13.5714H5.92593" stroke="white"/>
+                    <path d="M11.4815 10.7143H5.92593" stroke="white"/>
+                </svg>
+                <p>{{ vacancy.salary }}р.</p>
+            </div>
+            <div class="hours">
+
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_156_102)">
+                    <path d="M10 18.3334C14.6024 18.3334 18.3333 14.6024 18.3333 10C18.3333 5.39765 14.6024 1.66669 10 1.66669C5.39763 1.66669 1.66667 5.39765 1.66667 10C1.66667 14.6024 5.39763 18.3334 10 18.3334Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M7.91667 7.91669L10.8333 10.8334M13.3333 6.66669L9.16667 10.8334" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_156_102">
+                    <rect width="20" height="20" fill="white"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+
+                <p>{{ vacancy | duration }}</p>
+
+            </div>
+            <div class="address-rating-avatar">
+
+                <div class="address-container">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7.5 9.16669C7.5 9.82973 7.76339 10.4656 8.23223 10.9345C8.70107 11.4033 9.33696 11.6667 10 11.6667C10.663 11.6667 11.2989 11.4033 11.7678 10.9345C12.2366 10.4656 12.5 9.82973 12.5 9.16669C12.5 8.50365 12.2366 7.86776 11.7678 7.39892C11.2989 6.93008 10.663 6.66669 10 6.66669C9.33696 6.66669 8.70107 6.93008 8.23223 7.39892C7.76339 7.86776 7.5 8.50365 7.5 9.16669Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M14.7142 13.8808L11.1783 17.4167C10.8658 17.7289 10.4422 17.9042 10.0004 17.9042C9.55868 17.9042 9.13501 17.7289 8.8225 17.4167L5.28583 13.8808C4.35352 12.9485 3.71861 11.7606 3.4614 10.4674C3.2042 9.17419 3.33624 7.83376 3.84083 6.61561C4.34543 5.39745 5.19991 4.35628 6.29623 3.62376C7.39255 2.89123 8.68147 2.50024 10 2.50024C11.3185 2.50024 12.6074 2.89123 13.7038 3.62376C14.8001 4.35628 15.6546 5.39745 16.1592 6.61561C16.6638 7.83376 16.7958 9.17419 16.5386 10.4674C16.2814 11.7606 15.6465 12.9485 14.7142 13.8808Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     <p>{{ vacancy.address }}</p>
+                </div>
+
+                <div class="rating-container">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_156_105)">
                         <path d="M7.6275 4.50669C8.68334 2.61335 9.21084 1.66669 10 1.66669C10.7892 1.66669 11.3167 2.61335 12.3725 4.50669L12.6458 4.99669C12.9458 5.53502 13.0958 5.80419 13.3292 5.98169C13.5625 6.15919 13.8542 6.22502 14.4375 6.35669L14.9675 6.47669C17.0175 6.94085 18.0417 7.17252 18.2858 7.95669C18.5292 8.74002 17.8308 9.55752 16.4333 11.1917L16.0717 11.6142C15.675 12.0784 15.4758 12.3109 15.3867 12.5975C15.2975 12.885 15.3275 13.195 15.3875 13.8142L15.4425 14.3784C15.6533 16.5592 15.7592 17.6492 15.1208 18.1334C14.4825 18.6175 13.5225 18.1759 11.6042 17.2925L11.1067 17.0642C10.5617 16.8125 10.2892 16.6875 10 16.6875C9.71084 16.6875 9.43834 16.8125 8.89334 17.0642L8.39667 17.2925C6.4775 18.1759 5.5175 18.6175 4.88 18.1342C4.24084 17.6492 4.34667 16.5592 4.5575 14.3784L4.6125 13.815C4.6725 13.195 4.7025 12.885 4.6125 12.5984C4.52417 12.3109 4.325 12.0784 3.92834 11.615L3.56667 11.1917C2.16917 9.55835 1.47084 8.74085 1.71417 7.95669C1.9575 7.17252 2.98334 6.94002 5.03334 6.47669L5.56334 6.35669C6.14584 6.22502 6.43667 6.15919 6.67084 5.98169C6.905 5.80419 7.05417 5.53502 7.35417 4.99669L7.6275 4.50669Z" stroke="white" stroke-width="1.5"/>
@@ -58,14 +74,19 @@
                         </clipPath>
                         </defs>
                     </svg>
+
                     <p>{{ vacancy.rating }}</p>
-                    <img src="assets/images/user-avatar.png" alt="Аватар">
+
                 </div>
-            </div>
-            <div class="buttons-container">
-                <button class="btn-call">Позвонить</button>
-                <button class="btn-details" [routerLink]="['/vacancy-details']" [queryParams]="{id: vacancy.job_id}" >Подробнее</button>
+
+                <img src="assets/images/user-avatar.png" alt="Аватар">
             </div>
         </div>
+        
+        <div *ngIf="!isEmployer()" class="buttons-container">
+            <button class="btn-call">Позвонить</button>
+            <button class="btn-details" [routerLink]="['/jobs', vacancy.job_id, 'seeall']">Подробнее</button>
+        </div>
+
     </div>
 </div>

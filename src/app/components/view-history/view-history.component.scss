@@ -1,27 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
-.history-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    margin: 0 auto;
-  }
-  
-  h1 {
+h1 {
+    font-weight: 500;
+    font-size: 1.5rem;
     color: rgba(255, 255, 255, 1);
-        font-family: 'Inter', sans-serif;
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin: 20px 0 20px 0;
-  }
-  
-  .empty-history {
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 20px;
     text-align: center;
-    padding: 50px 0;
-    font-size: 18px;
-    color: #888;
-  }
+}
+
+.empty-history {
+    font-weight: 500;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    margin-top: 50%;
+}
 
 .vacancy-container {
     display: flex;
@@ -35,36 +30,43 @@
     background-color: rgba(53, 56, 63, 1);
     border-radius: 20px;
     width: 100%;
-    min-height: 147px;
     color: rgba(255, 255, 255, 1);
     font-family: 'Inter', sans-serif;
-    font-size: 16px;
+    font-size: 1rem;
+    padding: 10px 10px 10px 10px;
 
     .description-like {
-        display: flex;
-        flex-direction: row;
+        position: relative;
+        display: block;
+        padding-right: 60px;
+        min-height: 48px;
 
-        p {
+        h2 {
             font-weight: 500;
-            margin: 10px 22px 10px 10px;
-            flex: 1; 
-            min-width: 0; 
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 1);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
         }
 
         .card-icons {
+            position: absolute;
+            top: 0;
+            right: 0;
             display: flex;
             flex-direction: column;
+            gap: 8px;
         
             svg {
-                margin: 10px 10px 0 0;
-                flex-shrink: 0;
-                
+                cursor: pointer;
             }
-
+        
             svg.favorited path {
                 fill: #FF2A69;
                 stroke: #FF2A69;
             }
+    
+
         }
     }
 
@@ -72,15 +74,19 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        margin-bottom: 10px;
+        gap: 10px;
 
         svg {
-            margin: 0px 10px 10px 10px;
             flex-shrink: 0;
         }
 
         p {
             font-weight: 400;
-            margin: 0 0 10px 0;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 1);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
         }
     }
     
@@ -88,45 +94,66 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        
 
         svg {
-            margin: 0px 10px 0px 10px;
             flex-shrink: 0;
         }
 
         p {
             font-weight: 400;
-            margin: 0 0 0px 0;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 1);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
         }
     }
 
     .address-rating-avatar {
         display: flex;
-        flex-direction: row;
         align-items: center;
+        position: relative;
 
-        svg:first-child {
-            margin: 10px 10px 10px 10px;
-            flex-shrink: 0;
+        .address-container {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            align-items: center;
+
+            svg { 
+                margin: 0;
+
+            }
+
+            p {
+                font-weight: 400;
+                font-size: 1rem;
+                color: rgba(255, 255, 255, 1);
+                font-family: 'Inter', sans-serif;
+                margin: 0;
+            }
         }
 
-        svg:not(:first-child) {
-            margin: 0 5px 9px 55px;
-        }
+        .rating-container {
+            position: absolute;
+            top: -10px;
+            right: 50px;
 
-        p {
-            font-weight: 400;
-            margin: 10px 0 10px 0;
-        }
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
 
-        p:last-of-type {
-            margin: 0 5px 0 0;
+            p {
+                margin: 0;
+            }
         }
 
         img {
             position: absolute;
-            bottom: 10px;
-            right: 10px;
+            bottom: 0px;
+            right: 0px;
             width: 40px; 
             height: 40px;
             border-radius: 50%;

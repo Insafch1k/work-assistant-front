@@ -27,7 +27,8 @@ const routes: Routes = [
   { path: 'new-announcement', component: NewAnnouncementComponent },
   { path: 'resume', component: ResumeComponent },
   { path: 'editing-resume', component: EditingResumeComponent },
-  { path: 'editing-announcement', component: EditingAnnouncementComponent },
+  { path: 'editing-announcement/:job_id', component: EditingAnnouncementComponent },
+  { path: 'employers/:employer_id', component: ProfileComponent }
 ];
 
 @NgModule({

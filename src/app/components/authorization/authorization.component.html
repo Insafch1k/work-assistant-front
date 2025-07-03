@@ -40,10 +40,6 @@
             </div>
         </div>
 
-        <!-- <button type="button" class="btn-authorize" [disabled]="!isFormValid()" (click)="bypassApiAndNavigate()">
-            <span>Тестовый вход</span>
-        </button> -->
-
         <button type="submit" class="btn-authorize" [disabled]="!isFormValid()">
             <span *ngIf="!isLoading">Авторизоваться</span>
             <span *ngIf="isLoading">Загрузка...</span>

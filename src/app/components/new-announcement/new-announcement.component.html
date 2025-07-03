@@ -1,49 +1,58 @@
-<div class="new-announcement-container">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="new-announcement-container">
     <h1>Новое объявление</h1>
+    <h2>Категория подработки</h2>
+    <input formControlName="wanted_job" class="general-input" type="text" placeholder="Введите категорию подработки">
     <h2>Название подработки</h2>
-    <input class="general-input" type="text" placeholder="Напишите название подработки">
+    <input formControlName="title" class="general-input" type="text" placeholder="Напишите название подработки">    
     <h2>Адрес подработки</h2>
     <div class="post-location-input">
         <div class="location-input-container"></div>
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M17.5 17.5L13.8808 13.8808M13.8808 13.8808C14.4999 13.2617 14.991 12.5268 15.326 11.7179C15.6611 10.9091 15.8335 10.0422 15.8335 9.16666C15.8335 8.29115 15.6611 7.42422 15.326 6.61537C14.991 5.80651 14.4999 5.07156 13.8808 4.45249C13.2618 3.83342 12.5268 3.34234 11.718 3.0073C10.9091 2.67226 10.0422 2.49982 9.16667 2.49982C8.29116 2.49982 7.42424 2.67226 6.61538 3.0073C5.80652 3.34234 5.07157 3.83342 4.4525 4.45249C3.20223 5.70276 2.49983 7.3985 2.49983 9.16666C2.49983 10.9348 3.20223 12.6305 4.4525 13.8808C5.70277 15.1311 7.39851 15.8335 9.16667 15.8335C10.9348 15.8335 12.6306 15.1311 13.8808 13.8808Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <input type="text" placeholder="Напишите адрес подработки">
+        <input formControlName="address" type="text" placeholder="Напишите адрес подработки">
     </div>
     <h2>Время подработки</h2>
-    <input class="general-input" type="text" placeholder="Напишите время подработки">
+    <div class="range-input">
+        <div class="range-from-input">
+            <input formControlName="time_start" type="text" placeholder="От">
+        </div>
+        <div class="range-to-input">
+            <input formControlName="time_end" type="text" placeholder="До">
+        </div>
+    </div>
     <h2>Дата подработки</h2>
-    <input class="general-input" type="text" placeholder="Напишите дату подработки">
+    <input formControlName="date" class="general-input" type="text" placeholder="Напишите дату подработки">
     <h2>Зарплата</h2>
-    <input class="general-input" type="text" placeholder="Укажите заработную плату">
+    <input formControlName="salary" class="general-input" type="text" placeholder="Укажите заработную плату">
     <div class="quick-option">
         <svg [ngClass]="{'dimmed': !isUrgent}" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M3.75 10.625L10.625 1.875V9.375H15L8.125 18.125V10.625H3.75Z" fill="#FFF024"/>
         </svg>
         <h2>Срочно</h2>
         <div class="quick-checkbox">
-            <input type="checkbox" id="toggleSwitch" (change)="toggleUrgent($event)">
+            <input formControlName="is_urgent" type="checkbox" id="toggleSwitch" (change)="toggleUrgent($event)">
             <label class="slider" for="toggleSwitch"></label>
         </div>
     </div>
     <h2>Опыт работы</h2>
-    <input class="general-input" type="text" placeholder="Укажите опыт работы">
+    <input formControlName="xp" class="general-input" type="text" placeholder="Укажите опыт работы">
     <h2>Возраст</h2>
     <div>
         <label class="radio-options">
-            <input type="radio" name="age" value="14">
+            <input formControlName="age" type="radio" name="age" value="старше 14 лет">
             <h2>Старше 14 лет</h2>
         </label>
         <label class="radio-options">
-            <input type="radio" name="age" value="16">
+            <input formControlName="age" type="radio" name="age" value="старше 16 лет">
             <h2>Старше 16 лет</h2>
         </label>
         <label class="radio-options">
-            <input type="radio" name="age" value="18">
+            <input formControlName="age" type="radio" name="age" value="старше 18 лет">
             <h2>Старше 18 лет</h2>
         </label>
     </div>
     <h2>Описание подработки</h2>
-    <input class="general-input" type="text" placeholder="Напишите описание подработки">
-    <button class="btn-confirm">Разместить объявление</button>
-</div>
+    <input formControlName="description" class="general-input" type="text" placeholder="Напишите описание подработки">
+    <button type="submit" [disabled]="form.invalid" class="btn-confirm">Разместить объявление</button>
+</form>

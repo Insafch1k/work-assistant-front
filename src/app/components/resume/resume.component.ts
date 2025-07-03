@@ -65,9 +65,13 @@ export class ResumeComponent implements OnInit {
     }
     
     this.isLoading = true;
+
+    const tgId = this.userService.getTgId();
+    const role = this.userService.getUserRole();
+    const name = this.userService.getUserName();
     
     // Сначала инициализируем профиль
-    this.userService.registerUser().subscribe({
+    this.userService.registerUser(tgId, role, name).subscribe({
       next: () => {
         console.log('Профиль успешно инициализирован');
         // После успешной инициализации создаем резюме

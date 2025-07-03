@@ -17,7 +17,6 @@ export class ResumeService {
     this.apiUrl = this.userService.apiUrl;
   }
 
-  // Отправка резюме на бэкенд
   createResume(resume: Resume): Observable<Resume> {
 
     const tgId = this.userService.getTgId();
@@ -45,13 +44,12 @@ export class ResumeService {
       map(response => {
         console.log('Ответ от сервера (резюме):', response);
         
-        // Проверяем, является ли ответ массивом
         if (Array.isArray(response)) {
           if (response.length > 0) {
             return response[0];
           }
         } 
-        // Если это объект с полями резюме
+
         else if (response && response.job_title) {
           return response;
         }
@@ -60,12 +58,11 @@ export class ResumeService {
       }),
       catchError(error => {
         console.error('Ошибка при получении резюме:', error);
-        return of(null); // Возвращаем null в случае ошибки
+        return of(null); 
       })
     );
   }
 
-  // updateResume(resumeId: number, resume: Resume): Observable<Resume> {
     updateResume(resume: Resume): Observable<Resume> {
     const resumeData = {
       job_title: resume.job_title,
@@ -74,8 +71,7 @@ export class ResumeService {
       skills: resume.skills
     };
     
-    // return this.http.put<Resume>(`${this.apiUrl}/resumes/${resumeId}`, resumeData);
-    return this.http.post<Resume>(`${this.apiUrl}/resumes`, resumeData);
+    return this.http.patch<Resume>(`${this.apiUrl}/resumes/me`, resumeData);
   }
 
   deleteResume(): Observable<any> {

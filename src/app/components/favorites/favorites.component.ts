@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Vacancy } from '../../models/vacancy.model';
 import { VacancyService } from '../../services/vacancy.service';
+import { FavoritesService } from 'src/app/services/favorites.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-favorites',
@@ -8,19 +10,60 @@ import { VacancyService } from '../../services/vacancy.service';
   styleUrls: ['./favorites.component.scss']
 })
 export class FavoritesComponent implements OnInit {
-  favoriteVacancies: Vacancy[] = []; // Пустой массив для визуала
+  favorites: any[] = [];
+  isLoading = false;
+  error: string | null = null;
 
-  constructor(private vacancyService: VacancyService) {}
+  constructor(
+    private favoritesService: FavoritesService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
-    this.favoriteVacancies = [];
+    this.loadFavorites();
   }
 
-  removeFromFavorites(vacancy: Vacancy): void {
-    console.log('Метод временно отключен'); // Заглушка
+  loadFavorites():void {
+    this.isLoading = true;
+    this.favoritesService.getFavorites().subscribe({
+      next: (favorites) => {
+        this.favorites = favorites.map(vacancy => ({
+          ...vacancy,
+          isFavorite: vacancy.is_favorite
+        }));
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Ошибка при загрузке избранного:', err);
+        this.error = 'Не удалось загрузить избранное';
+        this.isLoading = false;
+      }
+    });
   }
 
   toggleFavorite(vacancy: any): void {
-    console.log('Метод временно отключен'); // Заглушка
+    if (vacancy.isFavorite) {
+      this.favoritesService.removeFromFavorites(vacancy.job_id).subscribe({
+        next: () => {
+          vacancy.isFavorite = false;
+        },
+        error: (err) => {
+          console.error('Ошибка при удалении из избранного:', err);
+        }
+      });
+    } else {
+      this.favoritesService.addToFavorites(vacancy.job_id).subscribe({
+        next: () => {
+          vacancy.isFavorite = true;
+        },
+        error: (err) => {
+          console.error('Ошибка при добавлении в избранное:', err);
+        }
+      });
+    }
+  }
+
+  isEmployer(): boolean {
+    return this.userService.getUserRole() === 'employer';
   }
 }
