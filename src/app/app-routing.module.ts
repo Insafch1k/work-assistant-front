@@ -12,6 +12,7 @@ import { AnnouncementsComponent } from './components/announcements/announcements
 import { NewAnnouncementComponent } from './components/new-announcement/new-announcement.component';
 import { EditingAnnouncementComponent } from './components/editing-announcement/editing-announcement.component';
 import { EditingResumeComponent } from './components/editing-resume/editing-resume.component';
+import { RewiewComponent } from './components/rewiew/rewiew.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/authorization', pathMatch: 'full' },
@@ -28,7 +29,8 @@ const routes: Routes = [
   { path: 'resume', component: ResumeComponent },
   { path: 'editing-resume', component: EditingResumeComponent },
   { path: 'editing-announcement/:job_id', component: EditingAnnouncementComponent },
-  { path: 'employers/:employer_id', component: ProfileComponent }
+  { path: 'employers/:employer_id', component: ProfileComponent },
+  { path: 'review', component: RewiewComponent }
 ];
 
 @NgModule({

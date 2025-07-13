@@ -2,20 +2,27 @@
     <div class="header-container">
         <h1>Подробнее</h1>
         <!-- сердечко для избранного -->
-        <svg [class.favorited]="vacancy?.isFavorite" (click)="toggleFavorite()" width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+        <svg [class.favorited]="vacancy.isFavorite" (click)="toggleFavorite()" width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
             <path d="M23.8388 16.4275L16.7675 23.5C16.2987 23.9686 15.6629 24.2319 15 24.2319C14.3371 24.2319 13.7013 23.9686 13.2325 23.5L6.16126 16.4287C5.57672 15.8493 5.11239 15.1601 4.79492 14.4007C4.47745 13.6413 4.3131 12.8267 4.31129 12.0037C4.30949 11.1806 4.47028 10.3653 4.78442 9.60454C5.09856 8.84378 5.55987 8.15257 6.14186 7.57057C6.72386 6.98858 7.41507 6.52727 8.17583 6.21313C8.93659 5.89899 9.7519 5.7382 10.575 5.74001C11.398 5.74181 12.2126 5.90616 12.972 6.22363C13.7314 6.5411 14.4206 7.00543 15 7.58997C16.177 6.44231 17.7587 5.80455 19.4025 5.81485C21.0464 5.82515 22.62 6.48268 23.7825 7.645C24.945 8.80732 25.6027 10.3808 25.6133 12.0247C25.6238 13.6685 24.9863 15.2503 23.8388 16.4275Z" stroke="white" stroke-width="1.5" fill="none" />
          </svg>
     </div>
     <div class="job-title">
-        <p>{{ vacancy?.title || 'Без названия' }}</p>
+        <p>{{ vacancy.title }}</p>
     </div>
     <div class="info-item">
+        <h2>Адрес подработки</h2>
+        <p>{{ vacancy.address }}</p>
+
+        <h2>Время подработки</h2>
+        <p>{{ vacancy.hours }} ч.</p>
+
+        <h2>Дата подработки</h2>
+        <p>{{ vacancy.date }}</p>
+
         <h2>Зарплата</h2>
-        <p>{{ vacancy?.salary || 'Не указано' }} рублей</p>
-        <h2>Время работы</h2>
-        <p>{{ vacancy?.hours || 'Не указано' }} {{ getHoursText(vacancy?.hours) || 'Не указано' }}</p>
-        <h2>Адрес работы</h2>
-        <p>{{ vacancy?.address || 'Не указано' }}</p>
+        <p>{{ vacancy.salary }} рублей</p>
+
+
     </div>
     <div class="employer-info">
         <div class="rating-review-block">
@@ -30,22 +37,22 @@
                     </clipPath>
                     </defs>
                 </svg>
-                <p>{{ vacancy?.rating || 'Не указано' }}</p>
+                <p>{{ vacancy?.rating || '0' }}</p>
             </div>
-            <a href="#">10 отзывов</a>
+            <span class="reviews-link">0 отзывов</span>
         </div>
-        <img src="assets/images/user-avatar2.png" alt="avatar">
+        <img src="assets/images/user-avatar.png" alt="avatar">
         <p>{{ vacancy?.employer_name || 'Работодатель' }}</p>    
     </div>
     <button class="btn-call">Позвонить</button>
     <div class="requirements-block">
         <h2>Возраст</h2>
-        <p>{{ vacancy?.age_restrict || 'Не указано' }}</p>
+        <p>{{ vacancy.age }}</p>
         <h2>Опыт работы</h2>
-        <p>{{ vacancy?.work_xp || 'Не указано' }}</p>
+        <p>{{ vacancy.xp }}</p>
     </div>
     <div class="description-block">
         <h2>Описание</h2>
-        <p>{{ vacancy?.description || 'Описание отсутствует' }}</p>
+        <p>{{ vacancy.description }}</p>
     </div>
 </div>

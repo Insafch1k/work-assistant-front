@@ -30,6 +30,7 @@
   <div class="mini-skills-section">
     <div *ngFor="let skill of skillsList; let i = index" class="mini-skill">
       {{ skill }}
+      <span class="delete-skill" (click)="removeSkill(i)">&times;</span>
     </div>
   </div>
 

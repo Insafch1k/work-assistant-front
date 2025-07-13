@@ -28,6 +28,7 @@ export class AnnouncementService {
       time_end: announcement.time_end,
       address: announcement.address,
       is_urgent: announcement.is_urgent,
+      car: announcement.car,
       xp: announcement.xp,
       age: announcement.age,
       wanted_job: announcement.wanted_job
@@ -42,5 +43,10 @@ export class AnnouncementService {
 
   updateAnnouncement(id: string, data: Partial<Announcement>): Observable<Announcement> {
     return this.http.patch<Announcement>(`${this.apiUrl}/jobs/me/${id}`, data);
+  }
+
+// запрос для показа обьявлений работодателя - соискателю
+  getAnnouncementsByEmployer(employerId: string): Observable<Announcement[]> {
+    return this.http.get<Announcement[]>(`${this.apiUrl}/employers/${employerId}`);
   }
 }

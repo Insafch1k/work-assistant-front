@@ -27,22 +27,18 @@ fetchFinderVacancies (): Observable<Vacancy[]> {
       map(response => {
         // Преобразуем данные с бэкенда в формат нашей модели
         const vacancies: Vacancy[] = response.map((item) => ({
-            job_id: item.job_id, 
-            employer_id: item.employer_id,
-            title: item.title || 'Без названия',
-            category: 'Не указана',
-            description: 'Описание отсутствует',
-            salary: item.salary || 0,
-            date: new Date().toISOString().split('T')[0], // Текущая дата
-            time_start: '09:00',
-            time_end: item.time_hours ? `${parseInt(item.time_hours) + 9}:00` : '18:00',
-            address: item.address || 'Адрес не указан',
-            rating: item.rating,
-            is_urgent: !!item.is_urgent,
-            status: 'open',
-            created_at: new Date().toISOString(),
-            isFavorite: !!item.is_favorite
-          }));
+          address: item.address,
+          created_at: item.created_at,
+          employer_id: item.employer_id,
+          isFavorite: item.is_favorite,
+          is_urgent: item.is_urgent,
+          job_id: item.job_id,
+          photo: item.photo ?? 'assets/images/user-avatar.png',
+          rating: item.rating,
+          salary: item.salary,
+          time_hours: item.time_hours,
+          title: item.title
+        }));
 
           return vacancies;
       }),
@@ -63,20 +59,17 @@ fetchEmployerVacancies(): Observable<Vacancy[]> {
       map(response => {
         // Преобразуем данные с бэкенда в формат нашей модели
         const vacancies: Vacancy[] = response.map((item) => ({
-            job_id: item.job_id,
+            address: item.address,
+            created_at: item.created_at,
             employer_id: item.employer_id,
-            title: item.title || 'Без названия',
-            category: 'Не указана',
-            description: 'Описание отсутствует',
-            salary: item.salary || 0,
-            date: new Date().toISOString().split('T')[0],
-            time_start: '09:00',
-            time_end: item.time_hours ? `${parseInt(item.time_hours) + 9}:00` : '18:00',
-            address: item.address || 'Адрес не указан',
-            rating: 0,
-            is_urgent: !!item.is_urgent,
-            status: 'open',
-            created_at: new Date().toISOString()
+            isFavorite: item.is_favorite,
+            is_urgent: item.is_urgent,
+            job_id: item.job_id,
+            photo: item.photo ?? 'assets/images/user-avatar.png',
+            rating: item.rating,
+            salary: item.salary,
+            time_hours: item.time_hours,
+            title: item.title
           }));
 
           return vacancies;
@@ -130,6 +123,11 @@ fetchEmployerVacancies(): Observable<Vacancy[]> {
   }
 
   filterVacancies(params: any): Observable<Vacancy[]> {
-    return this.http.post<Vacancy[]>(`${this.apiUrl}/jobs/filter`, params);
+    const fixedParams = { ...params };
+    if ('is_urgent' in fixedParams) {
+      fixedParams.is_urgent = fixedParams.is_urgent === true || fixedParams.is_urgent === 'true';
+    }
+    return this.http.post<Vacancy[]>(`${this.apiUrl}/jobs/filter`, fixedParams);
   }
+  
 }

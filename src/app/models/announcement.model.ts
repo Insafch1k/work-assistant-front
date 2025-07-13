@@ -8,6 +8,7 @@ export interface Announcement {
     time_end: string,
     address: string,
     is_urgent: boolean,
+    car: boolean,
     xp: string,
     age: string,
     wanted_job: string,

@@ -54,6 +54,10 @@ export class EditingResumeComponent implements OnInit {
     }
   }
 
+  removeSkill(index: number): void {
+    this.skillsList.splice(index, 1);
+  }
+
     // Обновление резюме
     saveResume(): void {
       // Объединяем навыки в строку
@@ -83,23 +87,17 @@ export class EditingResumeComponent implements OnInit {
     }
 
     deleteResume(): void {
-      const confirmDelete = confirm('Вы уверены, что хотите удалить резюме?');
-      
-      if (confirmDelete) {
-        this.isLoading = true;
-        
-        this.resumeService.deleteResume().subscribe({
-          next: () => {
-            this.isLoading = false;
-            this.router.navigate(['/profile']);
-          },
-          error: (error) => {
-            console.error('Ошибка удаления резюме', error);
-            this.isLoading = false;
-            alert('Не удалось удалить резюме');
-          }
-        });
-      }
+      this.isLoading = true;
+      this.resumeService.deleteResume().subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.router.navigate(['/profile']);
+        },
+        error: (error) => {
+          console.error('Ошибка удаления резюме', error);
+          this.isLoading = false;
+        }
+      });
     }
   
 }

@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
@@ -24,6 +23,8 @@ import { NewAnnouncementComponent } from './components/new-announcement/new-anno
 import { ResumeComponent } from './components/resume/resume.component';
 import { EditingAnnouncementComponent } from './components/editing-announcement/editing-announcement.component';
 import { EditingResumeComponent } from './components/editing-resume/editing-resume.component';
+import { RewiewComponent } from './components/rewiew/rewiew.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -43,16 +44,18 @@ import { EditingResumeComponent } from './components/editing-resume/editing-resu
     ResumeComponent,
     EditingAnnouncementComponent,
     EditingResumeComponent,
+    RewiewComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

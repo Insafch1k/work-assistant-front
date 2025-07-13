@@ -1,29 +1,26 @@
-<div class="profile-container">
+<!-- профиль соискателя -->
+
+<div *ngIf="!isEmployerProfileView && userRole === 'finder'"
+  class="profile-container--finder">
+
   <h1 class="profile-title">Профиль</h1>
+
   <div class="profile-user">
-    <img src="assets/images/profile_pic.png" alt="user-image" class="profile-image" />
+    <img src="assets/images/user-avatar.png" alt="user-image" class="profile-image" />
     <div class="user-name">{{ userName }}</div>
   </div>
 
   <div class="contacts-card">
     <p>Номер телефона</p>
-    <h2>+7 987 187 8633</h2>
+    <h2>временно пусто</h2>
     <p>Имя пользователя</p>
-    <h2>@ali_gurbansahedov</h2>
+    <h2>временно пусто</h2>
     <p>Роль в сервисе</p>
     <h2>{{ getRoleName() }}</h2>
   </div>
 
-  <div *ngIf="userRole === 'finder' && !userResume && !isLoadingResume" class="btn-container">
+  <div *ngIf="!isLoadingResume && !userResume" class="btn-container">
     <button routerLink="/resume"><div>+</div>Добавить резюме</button>
-  </div>
-
-  <div *ngIf="isLoadingResume" class="loading-resume">
-    <h2>Загрузка резюме...</h2>
-  </div>
-
-  <div *ngIf="resumeError" class="resume-error">
-    {{ resumeError }}
   </div>
 
   <!-- контейнер с резюме -->
@@ -47,4 +44,115 @@
     </div>
   </div>
 
+</div>
+
+<!-- профиль работодателя -->
+
+<div *ngIf="!isEmployerProfileView && userRole === 'employer'" class="profile-container--employer">
+  
+  <h1 class="profile-title">Профиль</h1>
+
+  <div class="profile-user">
+    <div class="rating-review-block">
+      <div class="rating-block">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_156_105)">
+              <path d="M7.6275 4.50669C8.68334 2.61335 9.21084 1.66669 10 1.66669C10.7892 1.66669 11.3167 2.61335 12.3725 4.50669L12.6458 4.99669C12.9458 5.53502 13.0958 5.80419 13.3292 5.98169C13.5625 6.15919 13.8542 6.22502 14.4375 6.35669L14.9675 6.47669C17.0175 6.94085 18.0417 7.17252 18.2858 7.95669C18.5292 8.74002 17.8308 9.55752 16.4333 11.1917L16.0717 11.6142C15.675 12.0784 15.4758 12.3109 15.3867 12.5975C15.2975 12.885 15.3275 13.195 15.3875 13.8142L15.4425 14.3784C15.6533 16.5592 15.7592 17.6492 15.1208 18.1334C14.4825 18.6175 13.5225 18.1759 11.6042 17.2925L11.1067 17.0642C10.5617 16.8125 10.2892 16.6875 10 16.6875C9.71084 16.6875 9.43834 16.8125 8.89334 17.0642L8.39667 17.2925C6.4775 18.1759 5.5175 18.6175 4.88 18.1342C4.24084 17.6492 4.34667 16.5592 4.5575 14.3784L4.6125 13.815C4.6725 13.195 4.7025 12.885 4.6125 12.5984C4.52417 12.3109 4.325 12.0784 3.92834 11.615L3.56667 11.1917C2.16917 9.55835 1.47084 8.74085 1.71417 7.95669C1.9575 7.17252 2.98334 6.94002 5.03334 6.47669L5.56334 6.35669C6.14584 6.22502 6.43667 6.15919 6.67084 5.98169C6.905 5.80419 7.05417 5.53502 7.35417 4.99669L7.6275 4.50669Z" stroke="white" stroke-width="1.5"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_156_105">
+              <rect width="20" height="20" fill="white"/>
+              </clipPath>
+              </defs>
+          </svg>
+          <p>{{ 0 }}</p>
+      </div>
+      <span class="reviews-link">0 отзывов</span>
+    </div>
+    <img src="assets/images/user-avatar.png" alt="user-image" class="profile-image" />
+    <div class="user-name">{{ userName }}</div>
+  </div>
+
+  <div class="contacts-card">
+    <p>Номер телефона</p>
+    <h2>временно пусто</h2>
+    <p>Имя пользователя</p>
+    <h2>временно пусто</h2>
+    <p>Роль в сервисе</p>
+    <h2>{{ getRoleName() }}</h2>
+  </div>
+
+</div>
+
+<!-- профиль работодателя, который видит соискатель -->
+
+<div *ngIf="isEmployerProfileView" class="profile-container--view-employer">
+  
+  <h1 class="profile-title">Профиль</h1>
+  
+  <div class="profile-user">
+    <div class="rating-review-block">
+      <div class="rating-block">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_156_105)">
+              <path d="M7.6275 4.50669C8.68334 2.61335 9.21084 1.66669 10 1.66669C10.7892 1.66669 11.3167 2.61335 12.3725 4.50669L12.6458 4.99669C12.9458 5.53502 13.0958 5.80419 13.3292 5.98169C13.5625 6.15919 13.8542 6.22502 14.4375 6.35669L14.9675 6.47669C17.0175 6.94085 18.0417 7.17252 18.2858 7.95669C18.5292 8.74002 17.8308 9.55752 16.4333 11.1917L16.0717 11.6142C15.675 12.0784 15.4758 12.3109 15.3867 12.5975C15.2975 12.885 15.3275 13.195 15.3875 13.8142L15.4425 14.3784C15.6533 16.5592 15.7592 17.6492 15.1208 18.1334C14.4825 18.6175 13.5225 18.1759 11.6042 17.2925L11.1067 17.0642C10.5617 16.8125 10.2892 16.6875 10 16.6875C9.71084 16.6875 9.43834 16.8125 8.89334 17.0642L8.39667 17.2925C6.4775 18.1759 5.5175 18.6175 4.88 18.1342C4.24084 17.6492 4.34667 16.5592 4.5575 14.3784L4.6125 13.815C4.6725 13.195 4.7025 12.885 4.6125 12.5984C4.52417 12.3109 4.325 12.0784 3.92834 11.615L3.56667 11.1917C2.16917 9.55835 1.47084 8.74085 1.71417 7.95669C1.9575 7.17252 2.98334 6.94002 5.03334 6.47669L5.56334 6.35669C6.14584 6.22502 6.43667 6.15919 6.67084 5.98169C6.905 5.80419 7.05417 5.53502 7.35417 4.99669L7.6275 4.50669Z" stroke="white" stroke-width="1.5"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_156_105">
+              <rect width="20" height="20" fill="white"/>
+              </clipPath>
+              </defs>
+          </svg>
+          <p>{{ employerProfile?.rating }}</p>
+      </div>
+      <span class="reviews-link">0 отзывов</span>
+    </div>
+    <img src="assets/images/user-avatar.png" alt="user-image" class="profile-image" />
+    <div class="user-name">{{ employerProfile?.user_name }}</div>
+  </div>
+
+  <button class="review-btn" [routerLink]="['/review']">Оставить отзыв</button>
+
+  <h2>Объявления</h2>
+
+  <div class="vacancy-container">
+    <div *ngFor="let announcement of announcements"
+    class="vacancy-card"
+    [routerLink]="['/jobs', announcement.job_id, 'seeall']"
+    style="cursor:pointer;">
+        <p class="vacancy-title">{{ announcement.title }}</p>
+        <div class="vacancy-details">
+          <!-- отключено -->
+          <!-- <div class="hours">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_156_102)">
+              <path d="M10 18.3334C14.6024 18.3334 18.3333 14.6024 18.3333 10C18.3333 5.39765 14.6024 1.66669 10 1.66669C5.39763 1.66669 1.66667 5.39765 1.66667 10C1.66667 14.6024 5.39763 18.3334 10 18.3334Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M7.91667 7.91669L10.8333 10.8334M13.3333 6.66669L9.16667 10.8334" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_156_102">
+              <rect width="20" height="20" fill="white"/>
+              </clipPath>
+              </defs>
+            </svg>
+            <p>{{ announcement.time_hours }} ч.</p>
+          </div> -->
+          <div class="location">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.5 9.16663C7.5 9.82967 7.76339 10.4656 8.23223 10.9344C8.70107 11.4032 9.33696 11.6666 10 11.6666C10.663 11.6666 11.2989 11.4032 11.7678 10.9344C12.2366 10.4656 12.5 9.82967 12.5 9.16663C12.5 8.50358 12.2366 7.8677 11.7678 7.39886C11.2989 6.93002 10.663 6.66663 10 6.66663C9.33696 6.66663 8.70107 6.93002 8.23223 7.39886C7.76339 7.8677 7.5 8.50358 7.5 9.16663Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M14.7142 13.8808L11.1783 17.4167C10.8658 17.7289 10.4422 17.9042 10.0004 17.9042C9.55868 17.9042 9.13501 17.7289 8.8225 17.4167L5.28583 13.8808C4.35352 12.9485 3.71861 11.7606 3.4614 10.4674C3.2042 9.17419 3.33624 7.83376 3.84083 6.61561C4.34543 5.39745 5.19991 4.35628 6.29623 3.62376C7.39255 2.89123 8.68147 2.50024 10 2.50024C11.3185 2.50024 12.6074 2.89123 13.7038 3.62376C14.8001 4.35628 15.6546 5.39745 16.1592 6.61561C16.6638 7.83376 16.7958 9.17419 16.5386 10.4674C16.2814 11.7606 15.6465 12.9485 14.7142 13.8808Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <p>{{ announcement.address }}</p>
+          </div>
+        </div>
+        <div class="payment">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.51852 15.7143V10.7143M8.51852 10.7143V4.28577H11.2302C13.0054 4.28577 14.4444 5.72485 14.4444 7.50005V7.50005C14.4444 9.27525 13.0054 10.7143 11.2302 10.7143H8.51852Z" stroke="white" stroke-width="1.5"/>
+            <path d="M12.5926 13.5714H5.92593" stroke="white"/>
+            <path d="M11.4815 10.7142H5.92593" stroke="white"/>
+          </svg>
+          <p>{{ announcement.salary }}р.</p>
+        </div>
+    </div>
+  </div>
 </div>

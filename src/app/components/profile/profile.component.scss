@@ -1,31 +1,29 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
 
-.profile-container {
+.profile-container--finder {
 
   h1 {
     color: rgba(255, 255, 255, 1);
     font-family: 'Inter', sans-serif;
     font-size: 1.5rem;
     font-weight: 600;
-    text-align: center;
-    
+    text-align: center; 
   }
 
   .profile-user {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    margin-left: 130px;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
 
-  
-    img {
+    .profile-image {
       width: 60px;
       height: 60px;
       border-radius: 50%;
-
     }
-  
+
     .user-name {
       color: rgba(255, 255, 255, 1);
       font-family: 'Inter', sans-serif;
@@ -33,7 +31,7 @@
       font-weight: 600;
     }
   }
-
+  
   .contacts-card {
     display: flex;
     flex-direction: column;
@@ -42,15 +40,16 @@
     width: 100%;
     margin-bottom: 20px;
     padding: 10px 10px 10px 10px;
-
+  
     h2 {
       color: rgba(255, 255, 255, 1);
       font-family: 'Inter', sans-serif;
       font-size: 1rem;
       font-weight: 400;
       margin: 0 0 10px 0;
+      
     }
-
+  
     p {
       color: #71747B;
       font-family: 'Inter', sans-serif;
@@ -58,119 +57,363 @@
       font-weight: 400;
       margin: 0 0 5px 0;
     }
-
-  }
-
-}
-
-
-.btn-container {
-  display: flex;
-  width: 100%;
-  margin-bottom: 20px;
-
-  button {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  background: rgba(104, 73, 255, 1); 
-  color: #fff;
-  border: none;
-  border-radius: 15px;
-  padding: 10px;
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-
-      &:hover {
-          background: #7d5fff; 
-      }
-  }
-}
-
-.resume-container {
-
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(53, 56, 63, 1);
-  border-radius: 20px;
-  width: 100%;
-  padding: 10px 10px 10px 10px;
-
-  .resume-editing {
-    cursor: pointer;
-  }
   
-
-  h2 {
-    color: rgba(255, 255, 255, 1);
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    margin: 0 0 10px 0;
   }
 
-  p {
-    color: #71747B;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    margin: 0 0 10px 0;
-  }
-
-  .resume-title {
+  .btn-container {
+    display: flex;
+    width: 100%;
+    margin-bottom: 20px;
+  
+    button {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-
-
-    h2 {
-      font-weight: 500;
-      margin: 0;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    background: rgba(104, 73, 255, 1); 
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    padding: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  
+        &:hover {
+            background: #7d5fff; 
+        }
     }
   }
-
-  .mini-skills {
+  
+  .resume-container {
+  
     display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
+    flex-direction: column;
+    background-color: rgba(53, 56, 63, 1);
+    border-radius: 20px;
+    width: 100%;
+    padding: 10px 10px 10px 10px;
     
-    .mini-skill {
-      background-color: rgba(25, 26, 31, 1);
-      border-radius: 10px;
-      border: 0;
-      max-width: 100%;
-      width: auto;
-      height: auto;
+  
+    .resume-editing {
+      cursor: pointer;
+    }
+    
+  
+    h2 {
+      color: rgba(255, 255, 255, 1);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      margin: 0 0 10px 0;
+      word-break: break-all;     
+      overflow-wrap: anywhere;    
+      white-space: normal;  
+    }
+  
+    p {
+      color: #71747B;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 400;
+      margin: 0 0 10px 0;
+    }
+  
+    .resume-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+  
+  
+      h2 {
+        font-weight: 500;
+        margin: 0;
+      }
+    }
+  
+    .mini-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      
+      .mini-skill {
+        background-color: rgba(25, 26, 31, 1);
+        border-radius: 10px;
+        border: 0;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 1);
+        padding: 5px 10px 5px 10px;
+        display: inline-block;
+        word-wrap: break-word; 
+        word-break: break-all; 
+        white-space: normal; 
+        overflow-wrap: break-word; 
+        box-sizing: border-box;
+      }
+    }
+  
+  }
+  
+  .loading-resume {
+  
+    h2 {
       font-family: 'Inter', sans-serif;
       font-size: 1rem;
       font-weight: 400;
       color: rgba(255, 255, 255, 1);
-      padding: 5px 10px 5px 10px;
-      display: inline-block;
-      word-wrap: break-word; 
-      word-break: break-all; 
-      white-space: normal; 
-      overflow-wrap: break-word; 
-      box-sizing: border-box;
+      text-align: center;
     }
-  }
-
+  }  
+  
 }
 
-.loading-resume {
+.profile-container--employer {
 
+  h1 {
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center; 
+  }
+
+  .profile-user {
+    display: flex;
+    flex-direction: row;
+    margin-left: 67px;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+
+    .profile-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
+
+    .user-name {
+      color: rgba(255, 255, 255, 1);
+      font-family: 'Inter', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .rating-review-block {
+      display: flex;
+      flex-direction: column;
+    
+      .reviews-link {
+          color: #2DD498;
+          font-family: 'Inter', sans-serif;
+          font-size: 0.75rem;
+          font-weight: 400;
+          text-decoration: none
+      }
+
+      .rating-block {
+          display: flex;
+          flex-direction: row;
+          gap: 5px;
+          margin-bottom: 5px;
+          justify-content: flex-end;
+
+          p {
+            color: rgba(255, 255, 255, 1);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            margin: 0;
+          }
+      }
+    }
+    
+  }
+  
+  .contacts-card {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(53, 56, 63, 1);
+    border-radius: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px 10px 10px 10px;
+  
+    h2 {
+      color: rgba(255, 255, 255, 1);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      margin: 0 0 10px 0;
+    }
+  
+    p {
+      color: #71747B;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      margin: 0 0 5px 0;
+    }
+  
+  }
+  
+}
+
+.profile-container--view-employer {
+
+  h1 {
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center; 
+  }
+
+  .profile-user {
+    display: flex;
+    flex-direction: row;
+    margin-left: 67px;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+
+    .profile-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
+
+    .user-name {
+      color: rgba(255, 255, 255, 1);
+      font-family: 'Inter', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .rating-review-block {
+      display: flex;
+      flex-direction: column;
+    
+      .reviews-link {
+        color: #2DD498;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.75rem;
+        font-weight: 400;
+        text-decoration: none
+      }
+
+      .rating-block {
+          display: flex;
+          flex-direction: row;
+          gap: 5px;
+          margin-bottom: 5px;
+          justify-content: flex-end;
+
+          p {
+            color: rgba(255, 255, 255, 1);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            margin: 0;
+          }
+      }
+    }
+    
+  }
+
+  .review-btn {
+    background-color: #2DD498;
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 15px;
+    padding: 10px 20px 10px 20px;
+    border: 0;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 20px;
+
+    &:hover {
+        background: #4bdda8; 
+    }
+  }
+  
   h2 {
+    color: rgba(255, 255, 255, 1);
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
     font-weight: 400;
-    color: rgba(255, 255, 255, 1);
-    text-align: center;
+    margin: 0 0 20px 0;
+  }
+
+  .vacancy-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 20px;
+
+    .vacancy-card {
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(53, 56, 63, 1);
+        border-radius: 20px;
+        width: 100%;
+        margin-bottom: 20px;
+        padding: 10px 10px 10px 10px;
+
+        p {
+            color: rgba(255, 255, 255, 1);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-size: 500;
+            margin: 0;
+        }
+
+        .vacancy-title {
+            width: 258px;
+            height: 38px;
+            margin-bottom: 9px;
+        }
+
+        .vacancy-details {
+            display: flex;
+            margin-bottom: 9px;
+            gap: 10px;
+
+            // отключено
+            // .hours {
+            //     display: flex;
+            //     flex-direction: row;
+            //     align-items: center;
+            //     gap: 10px;
+            // }
+
+            .location {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 10px;
+            }
+
+        }
+
+        .payment {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+        }
+    }
   }
 }
+

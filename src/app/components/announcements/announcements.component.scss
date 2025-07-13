@@ -58,6 +58,7 @@
             width: 100%;
             margin-bottom: 20px;
             padding: 10px 10px 10px 10px;
+            justify-content: space-between;
 
             p {
                 color: rgba(255, 255, 255, 1);
@@ -68,9 +69,14 @@
             }
 
             .vacancy-title {
-                width: 258px;
-                height: 38px;
-                margin-bottom: 9px;
+                margin-bottom: 10px;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                word-break: break-word;
             }
 
             .vacancy-details {
@@ -83,6 +89,10 @@
                     flex-direction: row;
                     align-items: center;
                     gap: 10px;
+                    max-width: 90px; 
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                 }
 
                 .location {
@@ -90,6 +100,22 @@
                     flex-direction: row;
                     align-items: center;
                     gap: 10px;
+                    max-width: 180px;
+                    min-width: 0;
+                    
+                    svg {
+                        flex-shrink: 0;
+                    }
+
+                    .address-text {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        min-width: 0;
+                        flex-shrink: 1;
+                        flex-grow: 1;
+                    }
+                    
                 }
 
             }
@@ -99,14 +125,18 @@
                 flex-direction: row;
                 align-items: center;
                 gap: 10px;
+                max-width: 160px; 
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
             }
 
             .icons-container {
                 display: flex;
                 flex-direction: column;
-                margin: 0 10px 0 22px;
                 gap: 10px;
-
+                margin-left: 20px;
                 .edit-button {
                     cursor: pointer;
                 }

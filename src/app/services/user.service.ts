@@ -14,10 +14,10 @@ export class UserService {
 
   private readonly TOKEN_KEY = 'auth_token';
 
-  public readonly apiUrl = 'https://tame-ducks-ring.loca.lt';
+  public readonly apiUrl = 'https://strong-cloths-fry.loca.lt';
 
   public generateRandomId(): string {
-    // Генерируем 10-значное число (от 1000000000 до 9999999999) для айди
+    // Генерируем 10-значное число для Id
     const min = 1000000000;
     const max = 9999999999;
     return Math.floor(Math.random() * (max - min + 1) + min).toString();

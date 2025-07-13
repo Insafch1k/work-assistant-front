@@ -18,6 +18,14 @@ export class FilterService {
    }
 
    filterVacancies(params: any): Observable<Vacancy[]> {
-    return this.http.post<Vacancy[]>(`${this.apiUrl}/jobs/filter`, params);
+    // Копируем объект, чтобы не мутировать исходные params
+    const fixedParams = { ...params };
+  
+    // Преобразуем is_urgent к boolean
+    if ('is_urgent' in fixedParams) {
+      fixedParams.is_urgent = fixedParams.is_urgent === true || fixedParams.is_urgent === 'true';
+    }
+  
+    return this.http.post<Vacancy[]>(`${this.apiUrl}/jobs/filter`, fixedParams);
   }
 }

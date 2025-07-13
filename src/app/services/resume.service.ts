@@ -33,9 +33,9 @@ export class ResumeService {
     return this.http.post<Resume>(`${this.apiUrl}/resumes`, resumeData);
   }
 
-  // Получение резюме с бэкенда
+  // получение резюме
   getResume(timestamp?: number): Observable<Resume | null> {
-    // Добавляем параметр для предотвращения кэширования
+
     const url = timestamp ? 
       `${this.apiUrl}/resumes?_=${timestamp}` : 
       `${this.apiUrl}/resumes`;

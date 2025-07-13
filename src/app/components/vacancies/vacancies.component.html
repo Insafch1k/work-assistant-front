@@ -15,14 +15,6 @@
         </div>
     </div>
 
-    <div *ngIf="isLoading" class="loading-indicator">
-        Загрузка вакансий...
-      </div>
-      
-      <div *ngIf="error" class="error-message">
-        {{ error }}
-    </div>
-
     <!-- вакансии -->
     
     <div *ngFor="let vacancy of vacancies" class="vacancy-container">
@@ -69,7 +61,7 @@
                     </defs>
                 </svg>
 
-                <p>{{ vacancy | duration }}</p>
+                <p>{{ vacancy.time_hours }} ч.</p>
 
             </div>
             <div class="address-rating-avatar">
@@ -99,17 +91,26 @@
                 </div>
 
                 <img 
-                *ngIf="!isEmployer()" 
-                [routerLink]="['/employers', vacancy.employer_id]" 
+                [routerLink]="!isEmployer() ? ['/employers', vacancy.employer_id] : null"
                 src="assets/images/user-avatar.png" 
                 alt="Аватар"
-                style="cursor:pointer"
-                >
+                style="cursor:pointer">
+                
             </div>
         </div>
         
         <div *ngIf="!isEmployer()" class="buttons-container">
-            <button class="btn-call">Позвонить</button>
+            <svg style="cursor: pointer;" width="75" height="40" viewBox="0 0 75 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="75" height="40" rx="15" fill="#6849FF"/>
+                <path d="M38.0769 28.0563C39.6703 28.0563 41.2279 27.5838 42.5528 26.6986C43.8776 25.8133 44.9102 24.5551 45.52 23.083C46.1297 21.6109 46.2893 19.9911 45.9784 18.4283C45.6676 16.8655 44.9003 15.4301 43.7736 14.3034C42.6469 13.1767 41.2114 12.4094 39.6486 12.0985C38.0859 11.7877 36.466 11.9472 34.9939 12.557C33.5218 13.1667 32.2636 14.1993 31.3784 15.5242C30.4931 16.849 30.0206 18.4066 30.0206 20C30.0206 21.289 30.3232 22.5064 30.8621 23.5869C31.2676 24.4023 30.7036 25.5025 30.4888 26.3054C30.4412 26.483 30.4412 26.67 30.4888 26.8476C30.5363 27.0252 30.6298 27.1871 30.7598 27.3171C30.8898 27.4471 31.0518 27.5406 31.2294 27.5882C31.407 27.6358 31.5939 27.6357 31.7715 27.5882C32.5745 27.3733 33.6746 26.8094 34.4901 27.2158C35.6047 27.7692 36.8324 28.0569 38.0769 28.0563Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+
+            <svg style="cursor: pointer;" width="75" height="40" viewBox="0 0 75 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="75" height="40" rx="15" fill="#6849FF"/>
+                <path d="M34.4963 11.9437C34.9439 11.9437 36.7342 15.9719 36.7342 16.4194C36.7342 17.3146 35.3915 18.2097 34.9439 19.1049C34.4963 20 35.3915 20.8952 36.2866 21.7903C36.6357 22.1394 38.0769 23.5806 38.972 23.133C39.8672 22.6854 40.7623 21.3427 41.6575 21.3427C42.1051 21.3427 46.1332 23.133 46.1332 23.5806C46.1332 25.3709 44.7905 26.7136 43.4478 27.1612C42.1051 27.6087 41.2099 27.6087 39.4196 27.1612C37.6293 26.7136 36.2866 26.266 34.0488 24.0282C31.8109 21.7903 31.3633 20.4476 30.9158 18.6573C30.4682 16.867 30.4682 15.9719 30.9158 14.6292C31.3633 13.2864 32.706 11.9437 34.4963 11.9437Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+                
+                
             <button class="btn-details" [routerLink]="['/jobs', vacancy.job_id, 'seeall']">Подробнее</button>
         </div>
 

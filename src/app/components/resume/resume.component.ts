@@ -50,6 +50,10 @@ export class ResumeComponent implements OnInit {
       this.currentSkill = '';
     }
   }
+
+  removeSkill(index: number): void {
+    this.skillsList.splice(index, 1);
+  }
   
   // Сохранение резюме
   saveResume(): void {

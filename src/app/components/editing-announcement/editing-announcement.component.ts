@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 export class EditingAnnouncementComponent implements OnInit {
   job_id!: number;
   form!: FormGroup;
-  isUrgent: boolean = false;
+  formError: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -39,7 +39,6 @@ export class EditingAnnouncementComponent implements OnInit {
   }
 
   initForm(announcement: Announcement) {
-    this.isUrgent = !!announcement.is_urgent;
     this.form = this.fb.group({
       wanted_job: [announcement.wanted_job, Validators.required],
       title: [announcement.title, Validators.required],
@@ -48,7 +47,8 @@ export class EditingAnnouncementComponent implements OnInit {
       time_end: [announcement.time_end, Validators.required],
       date: [announcement.date, Validators.required],
       salary: [announcement.salary, [Validators.required, Validators.pattern(/^\d+$/)]],
-      is_urgent: [this.isUrgent],
+      is_urgent: [announcement.is_urgent],
+      car: [announcement.car],
       xp: [announcement.xp],
       age: [announcement.age, Validators.required],
       description: [announcement.description, Validators.required]
@@ -56,22 +56,62 @@ export class EditingAnnouncementComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.form.valid && this.job_id !== undefined) {
-      const formValue = this.form.value;
-      formValue.salary = Number(formValue.salary);
-      this.announcementService.updateAnnouncement(String(this.job_id), formValue).subscribe({
-        next: (_response: any) => {
-          this.router.navigate(['/announcements']);
-        },
-        error: (_err: any) => {
-        }
-      });
+    this.formError = '';
+    if (this.form.invalid || this.job_id === undefined) {
+      this.formError = 'Заполните все поля';
+      return;
     }
+  
+    const formValue = this.form.value;
+    formValue.salary = Number(formValue.salary);
+  
+    this.announcementService.updateAnnouncement(String(this.job_id), formValue).subscribe({
+      next: (_response: any) => {
+        this.router.navigate(['/announcements']);
+      },
+      error: (_err: any) => {
+        this.formError = 'Ошибка при сохранении изменений';
+      }
+    });
   }
 
-  toggleUrgent(event: Event): void {
-    const checkbox = event.target as HTMLInputElement;
-    this.isUrgent = checkbox.checked;
-    this.form.get('is_urgent')?.setValue(this.isUrgent);
+  onDateInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let value = input.value.replace(/\D/g, ''); // Только цифры
+  
+    if (value.length > 2) {
+      value = value.slice(0, 2) + '.' + value.slice(2);
+    }
+    if (value.length > 5) {
+      value = value.slice(0, 5) + '.' + value.slice(5, 9);
+    }
+    if (value.length > 10) {
+      value = value.slice(0, 10);
+    }
+  
+    input.value = value;
+    this.form.get('date')?.setValue(value, { emitEvent: false });
+  }
+  
+  onTimeInput(event: Event, controlName: string): void {
+    const input = event.target as HTMLInputElement;
+    let value = input.value.replace(/\D/g, '');
+  
+    if (value.length > 2) {
+      value = value.slice(0, 2) + ':' + value.slice(2, 4);
+    }
+    if (value.length > 5) {
+      value = value.slice(0, 5);
+    }
+  
+    input.value = value;
+    this.form.get(controlName)?.setValue(value, { emitEvent: false });
+  }
+  
+  onSalaryInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let value = input.value.replace(/\D/g, '');
+    input.value = value;
+    this.form.get('salary')?.setValue(value, { emitEvent: false });
   }
 }

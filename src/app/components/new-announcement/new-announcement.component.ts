@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./new-announcement.component.scss']
 })
 export class NewAnnouncementComponent {
-  isUrgent: boolean = false;
   form: FormGroup;
+  formError: string = '';
 
   constructor(
     private fb: FormBuilder, 
@@ -27,35 +27,73 @@ export class NewAnnouncementComponent {
       time_end: ['', Validators.required],
       address: ['', Validators.required],
       is_urgent: [false],
+      car: [false],
       xp: [''],
       age: ['', Validators.required]
     });
   }
-  
-  toggleUrgent(event: Event): void {
-    const checkbox = event.target as HTMLInputElement;
-    this.isUrgent = checkbox.checked;
-    console.log('isUrgent:', this.isUrgent);
-  }
 
   onSubmit() {
-    if (this.form.valid) {
-      const formValue = this.form.value;
-      const announcementData = {
-        ...formValue,
-        salary: Number(formValue.salary),
-        // остальные поля как есть
-      };
-      console.log('Отправляемые данные:', announcementData);
-      this.announcementService.createAnnouncement(announcementData).subscribe({
-        next: (response) => {
-          console.log('Успешно отправлено!', response);
-          this.router.navigate(['/announcements']);
-        },
-        error: (err) => {
-          console.error('Ошибка при отправке:', err);
-        }
-      });
+    this.formError = '';
+    if (this.form.invalid) {
+      this.formError = 'Заполните все поля';
+      return;
     }
+  
+    const formValue = this.form.value;
+    const announcementData = {
+      ...formValue,
+      salary: Number(formValue.salary),
+    };
+  
+    this.announcementService.createAnnouncement(announcementData).subscribe({
+      next: (response) => {
+        this.router.navigate(['/announcements']);
+      },
+      error: (err) => {
+        this.formError = 'Ошибка при отправке объявления';
+        console.error('Ошибка при создании:', err);
+      }
+    });
+  }
+
+  onDateInput(event: Event): void {
+    // const input = event.target as HTMLInputElement;
+    // let value = input.value.replace(/\D/g, ''); // Только цифры
+  
+    // if (value.length > 2) {
+    //   value = value.slice(0, 2) + '-' + value.slice(2);
+    // }
+    // if (value.length > 5) {
+    //   value = value.slice(0, 5) + '-' + value.slice(5, 9);
+    // }
+    // if (value.length > 10) {
+    //   value = value.slice(0, 10);
+    // }
+  
+    // input.value = value;
+    // this.form.get('date')?.setValue(value, { emitEvent: false });
+  }
+  
+  onTimeInput(event: Event, controlName: string): void {
+    // const input = event.target as HTMLInputElement;
+    // let value = input.value.replace(/\D/g, '');
+  
+    // if (value.length > 2) {
+    //   value = value.slice(0, 2) + ':' + value.slice(2, 4);
+    // }
+    // if (value.length > 5) {
+    //   value = value.slice(0, 5);
+    // }
+  
+    // input.value = value;
+    // this.form.get(controlName)?.setValue(value, { emitEvent: false });
+  }
+  
+  onSalaryInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let value = input.value.replace(/\D/g, '');
+    input.value = value;
+    this.form.get('salary')?.setValue(value, { emitEvent: false });
   }
 }

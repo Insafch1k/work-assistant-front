@@ -19,7 +19,8 @@ export class VacancyDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private vacancyService: VacancyService,
-    private viewHistoryService: ViewHistoryService
+    private viewHistoryService: ViewHistoryService,
+    private favoritesService: FavoritesService
   ) { }
   
   ngOnInit(): void {
@@ -40,7 +41,11 @@ export class VacancyDetailsComponent implements OnInit {
   loadVacancyDetails(id: number, fromHistory:boolean): void {
     this.vacancyService.getVacancyDetails(id).subscribe({
       next: (details) => {
-        this.vacancy = { ...details, job_id:id };
+        this.vacancy = { 
+          ...details, 
+          job_id: id, 
+          isFavorite: details.is_favorite 
+        };
         if (!fromHistory) {
           this.viewHistoryService.viewJob(id).subscribe();
         }
@@ -52,32 +57,25 @@ export class VacancyDetailsComponent implements OnInit {
   }
   
   toggleFavorite(): void {
-    console.log('Метод временно отключен'); // Заглушка
-  }
-  
-  getHoursText(hours: number | string): string {
-    if (hours === undefined || hours === null) {
-      return 'часов';
-    }
-    
-    // Преобразуем в число, если это строка
-    const numHours = typeof hours === 'string' ? parseFloat(hours) : hours;
-    
-    // Получаем только целую часть для склонения
-    const intHours = Math.floor(numHours);
-    
-    // Последняя цифра и предпоследняя цифра
-    const lastDigit = intHours % 10;
-    const lastTwoDigits = intHours % 100;
-    
-    if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
-      return 'часов';
-    } else if (lastDigit === 1) {
-      return 'час';
-    } else if (lastDigit >= 2 && lastDigit <= 4) {
-      return 'часа';
+    if (!this.vacancy) return;
+    if (this.vacancy.isFavorite) {
+      this.favoritesService.removeFromFavorites(this.vacancy.job_id).subscribe({
+        next: () => {
+          this.vacancy.isFavorite = false;
+        },
+        error: (err) => {
+          console.error('Ошибка при удалении из избранного:', err);
+        }
+      });
     } else {
-      return 'часов';
+      this.favoritesService.addToFavorites(this.vacancy.job_id).subscribe({
+        next: () => {
+          this.vacancy.isFavorite = true;
+        },
+        error: (err) => {
+          console.error('Ошибка при добавлении в избранное:', err);
+        }
+      });
     }
   }
 }

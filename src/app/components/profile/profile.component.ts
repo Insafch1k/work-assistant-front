@@ -4,6 +4,8 @@ import { ResumeService } from 'src/app/services/resume.service';
 import { Resume } from 'src/app/models/resume.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { subscribeOn } from 'rxjs';
+import { Announcement } from 'src/app/models/announcement.model';
+import { AnnouncementService } from 'src/app/services/announcement.service';
 
 @Component({
   selector: 'app-profile',
@@ -19,53 +21,54 @@ export class ProfileComponent implements OnInit {
   isLoadingResume: boolean = false;
   resumeSkills: string[] = [];
   resumeError: string = '';
+  isEmployerProfileView: boolean = false;
+  announcements: Announcement[] = [];
+  employerProfile: any
 
   constructor (
     private userService: UserService,
     private resumeService: ResumeService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private announcementService: AnnouncementService
   ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-
       const employerId = params.get('employer_id');
+      this.userRole = this.userService.getUserRole();
+  
       if (employerId) {
+        // Соискатель смотрит профиль работодателя
+        this.isEmployerProfileView = true;
         this.loadEmployerProfile(employerId);
-
       } else {
-
+        // Пользователь смотрит свой профиль (соискатель или работодатель)
+        this.isEmployerProfileView = false;
         this.userName = this.userService.getUserName();
         this.userRole = this.userService.getUserRole();
-        this.editableName = this.userName;
-    
-        // Проверяем, пришли ли мы со страницы создания резюме
-        this.route.queryParams.subscribe(params => {
-          const fromResume = params['fromResume'];
-          const cacheParam = params['timestamp'] || new Date().getTime();
-          
-          // Загружаем резюме с указанием временной метки
-          if (this.userRole === 'finder') {
-            this.loadUserResume(cacheParam);
-          }
-        });
+        if (this.userRole === 'finder') {
+          this.loadUserResume();
+        }
       }
     });
   }
 
   loadEmployerProfile(employerId: string) {
     this.userService.getEmployerProfile(employerId).subscribe({
-      next: (profile) => {
-        // Заполни поля профиля работодателя
-        this.userName = profile.name;
+      next: (data) => {
+        this.employerProfile = data.profile; 
+        this.announcements = data.vacancies; 
         this.userRole = 'employer';
-        // ... и т.д.
       },
       error: (err) => {
-        // обработка ошибки
+
       }
     });
+  }
+
+  goToVacancyDetails(jobId: number) {
+    this.router.navigate(['/jobs', jobId, 'seeall']);
   }
 
   loadUserResume(cacheParam?: number): void {
@@ -93,7 +96,6 @@ export class ProfileComponent implements OnInit {
         this.isLoadingResume = false;
       },
       error: (error) => {
-        // Если ошибка 500, это может быть из-за отсутствия резюме
         if (error.status === 500) {
           console.log('Резюме не найдено (ошибка 500)');
           this.userResume = null;

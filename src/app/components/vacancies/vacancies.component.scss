@@ -68,14 +68,6 @@
     flex-shrink: 0; 
 }
 
-.loading-indicator {
-    font-weight: 500;
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 1);
-    font-family: 'Inter', sans-serif;
-    text-align: center;
-}
-
 .vacancy-container {
     display: flex;
     flex-direction: column;
@@ -97,7 +89,7 @@
         position: relative;
         display: block;
         padding-right: 60px;
-        min-height: 48px;
+        margin-bottom: 10px;
 
         h2 {
             font-weight: 500;
@@ -105,6 +97,13 @@
             color: rgba(255, 255, 255, 1);
             font-family: 'Inter', sans-serif;
             margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-word;
         }
 
         .card-icons {
@@ -145,6 +144,13 @@
             color: rgba(255, 255, 255, 1);
             font-family: 'Inter', sans-serif;
             margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-word;
         }
     }
     
@@ -166,6 +172,13 @@
             color: rgba(255, 255, 255, 1);
             font-family: 'Inter', sans-serif;
             margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-word;
         }
     }
 
@@ -182,7 +195,7 @@
 
             svg { 
                 margin: 0;
-
+                flex-shrink: 0;
             }
 
             p {
@@ -191,6 +204,12 @@
                 color: rgba(255, 255, 255, 1);
                 font-family: 'Inter', sans-serif;
                 margin: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                max-width: 160px;
+                margin: 0;
+                display: block;
             }
         }
 
@@ -222,7 +241,7 @@
 .buttons-container {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 10px;
     margin-top: 10px;
     width: 100%;
 
@@ -232,7 +251,7 @@
         text-align: center;
     }
 
-    .btn-call {
+    .btn-details {
         background: rgba(25, 26, 31, 1); 
         color: #fff;
         border: 1.5px solid rgba(104, 73, 255, 1); 
@@ -246,23 +265,6 @@
 
         &:hover {
             background: rgb(33, 34, 41); 
-        }
-    }
-
-    .btn-details {
-        background: rgba(104, 73, 255, 1); 
-        color: #fff;
-        border: none;
-        border-radius: 15px;
-        padding: 10px;
-        font-family: 'Inter', sans-serif;
-        font-size: 16px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: background 0.2s;
-
-        &:hover {
-            background: #7d5fff; 
         }
     }
 }

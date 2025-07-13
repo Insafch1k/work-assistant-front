@@ -3,17 +3,20 @@
 body, html {
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  // overflow-x: hidden;
   width: 100%;
 }
 
 body {
   background-color: rgba(25, 26, 31, 1);
   font-family: 'Inter', sans-serif;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
