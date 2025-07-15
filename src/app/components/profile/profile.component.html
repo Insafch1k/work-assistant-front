@@ -75,9 +75,9 @@
 
   <div class="contacts-card">
     <p>Номер телефона</p>
-    <h2>временно пусто</h2>
+    <h2>{{ phoneNumber ? phoneNumber : 'Не указан' }}</h2>
     <p>Имя пользователя</p>
-    <h2>временно пусто</h2>
+    <h2>{{ username ? username : 'Не указан' }}</h2>
     <p>Роль в сервисе</p>
     <h2>{{ getRoleName() }}</h2>
   </div>

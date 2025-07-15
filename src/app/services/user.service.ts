@@ -13,7 +13,7 @@ export class UserService {
 
   private readonly TOKEN_KEY = 'auth_token';
 
-  public readonly apiUrl = 'https://strong-cloths-fry.loca.lt';
+  public readonly apiUrl = 'https://podrabot.ru/api';
 
   public generateRandomId(): string {
     // Генерируем 10-значное число для Id

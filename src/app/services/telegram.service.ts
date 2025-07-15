@@ -20,5 +20,20 @@ export class TelegramService {
     } 
     return '';
   }
+
+  getUserPhone(): string {
+    if (window.Telegram && window.Telegram.WebApp) {
+      return window.Telegram.WebApp.initDataUnsafe?.user?.phone_number || '';
+    }
+    return '';
+  }
+  
+  getUserUsername(): string {
+    if (window.Telegram && window.Telegram.WebApp) {
+      const username = window.Telegram.WebApp.initDataUnsafe?.user?.username;
+      return username ? '@' + username : '';
+    }
+    return '';
+  }
 }
 

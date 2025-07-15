@@ -5,6 +5,7 @@ import { Resume } from 'src/app/models/resume.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Announcement } from 'src/app/models/announcement.model';
 import { AnnouncementService } from 'src/app/services/announcement.service';
+import { TelegramService } from 'src/app/services/telegram.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,16 +24,23 @@ export class ProfileComponent implements OnInit {
   isEmployerProfileView: boolean = false;
   announcements: Announcement[] = [];
   employerProfile: any
+  phoneNumber: string = '';
+  username: string = '';
 
   constructor (
     private userService: UserService,
     private resumeService: ResumeService,
     private router: Router,
     private route: ActivatedRoute,
-    private announcementService: AnnouncementService
+    private announcementService: AnnouncementService,
+    private telegramService: TelegramService
   ) {}
 
   ngOnInit(): void {
+    
+    this.phoneNumber = this.telegramService.getUserPhone();
+    this.username = this.telegramService.getUserUsername();
+
     this.route.paramMap.subscribe(params => {
       const employerId = params.get('employer_id');
       this.userRole = this.userService.getUserRole();
