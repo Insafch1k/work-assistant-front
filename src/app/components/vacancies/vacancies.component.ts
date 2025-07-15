@@ -97,4 +97,31 @@ export class VacanciesComponent implements OnInit {
       });
     }
   }
+
+  openTelegramChat(vacancy: Vacancy): void {
+
+    const employerId = vacancy.employer_id;
+    if (!employerId) {
+      alert('Не найден работодатель для этой вакансии');
+      return;
+    }
+  
+
+    this.userService.getEmployerProfile(employerId.toString()).subscribe({
+      next: (profile) => {
+        const tgId = profile?.tg_id;
+        if (tgId) {
+
+          window.open(`tg://user?id=${tgId}`, '_blank');
+
+        } else {
+          alert('У работодателя не указан Telegram ID');
+        }
+      },
+      error: (err) => {
+        alert('Не удалось получить профиль работодателя');
+        console.error(err);
+      }
+    });
+  }
 }
