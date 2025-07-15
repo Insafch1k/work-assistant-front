@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Vacancy } from '../../models/vacancy.model';
-import { VacancyService } from '../../services/vacancy.service';
 import { FavoritesService } from 'src/app/services/favorites.service';
 import { UserService } from 'src/app/services/user.service';
 

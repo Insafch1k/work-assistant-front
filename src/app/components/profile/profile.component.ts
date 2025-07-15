@@ -3,7 +3,6 @@ import { UserService } from 'src/app/services/user.service';
 import { ResumeService } from 'src/app/services/resume.service';
 import { Resume } from 'src/app/models/resume.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { subscribeOn } from 'rxjs';
 import { Announcement } from 'src/app/models/announcement.model';
 import { AnnouncementService } from 'src/app/services/announcement.service';
 

@@ -58,36 +58,36 @@ export class NewAnnouncementComponent {
   }
 
   onDateInput(event: Event): void {
-    // const input = event.target as HTMLInputElement;
-    // let value = input.value.replace(/\D/g, ''); // Только цифры
+    const input = event.target as HTMLInputElement;
+    let value = input.value.replace(/\D/g, ''); // Только цифры
   
-    // if (value.length > 2) {
-    //   value = value.slice(0, 2) + '-' + value.slice(2);
-    // }
-    // if (value.length > 5) {
-    //   value = value.slice(0, 5) + '-' + value.slice(5, 9);
-    // }
-    // if (value.length > 10) {
-    //   value = value.slice(0, 10);
-    // }
+    if (value.length > 2) {
+      value = value.slice(0, 2) + '.' + value.slice(2);
+    }
+    if (value.length > 5) {
+      value = value.slice(0, 5) + '.' + value.slice(5, 9);
+    }
+    if (value.length > 10) {
+      value = value.slice(0, 10);
+    }
   
-    // input.value = value;
-    // this.form.get('date')?.setValue(value, { emitEvent: false });
+    input.value = value;
+    this.form.get('date')?.setValue(value, { emitEvent: false });
   }
   
   onTimeInput(event: Event, controlName: string): void {
-    // const input = event.target as HTMLInputElement;
-    // let value = input.value.replace(/\D/g, '');
+    const input = event.target as HTMLInputElement;
+    let value = input.value.replace(/\D/g, '');
   
-    // if (value.length > 2) {
-    //   value = value.slice(0, 2) + ':' + value.slice(2, 4);
-    // }
-    // if (value.length > 5) {
-    //   value = value.slice(0, 5);
-    // }
+    if (value.length > 2) {
+      value = value.slice(0, 2) + ':' + value.slice(2, 4);
+    }
+    if (value.length > 5) {
+      value = value.slice(0, 5);
+    }
   
-    // input.value = value;
-    // this.form.get(controlName)?.setValue(value, { emitEvent: false });
+    input.value = value;
+    this.form.get(controlName)?.setValue(value, { emitEvent: false });
   }
   
   onSalaryInput(event: Event): void {

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Vacancy } from '../models/vacancy.model';
-import { FavoritesService } from './favorites.service';
 import { UserService } from './user.service';
 import { map, tap, catchError } from 'rxjs/operators';
 
