@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TelegramService } from './telegram.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +11,12 @@ export class UserService {
   private readonly USER_ROLE_KEY = 'user_role';
   private readonly USER_NAME_KEY = 'user_name';
   private readonly TG_ID_KEY = 'tg_id';
+  private readonly PHONE_KEY = 'phone';
+  private readonly TG_USERNAME_KEY = 'tg_username';
 
   private readonly TOKEN_KEY = 'auth_token';
 
-  public readonly apiUrl = 'https://podrabot.ru/api';
+  public readonly apiUrl = 'https://eager-camels-arrive.loca.lt/api';
 
   public generateRandomId(): string {
     // Генерируем 10-значное число для Id
@@ -22,7 +25,10 @@ export class UserService {
     return Math.floor(Math.random() * (max - min + 1) + min).toString();
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private telegramService: TelegramService
+  ) { }
 
   getUserRole():string {
     return localStorage.getItem(this.USER_ROLE_KEY) || '';
@@ -61,10 +67,13 @@ export class UserService {
   }
 
   registerUser(tgId: string, role: string, name: string): Observable<any> {
+    const tgUsername = this.telegramService.getUserUsername(); // Получаем username с @
     const userData = {
       tg: tgId,
       user_role: role,
-      user_name: name
+      user_name: name,
+      // tg_username: tgUsername
+      tg_username: '@testuser1234'
     };
     return this.http.post(`${this.apiUrl}/profile/init`, userData);
   }
@@ -75,6 +84,26 @@ export class UserService {
 
   getEmployerProfile(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/employers/${id}`);
+  }
+
+  updateEmployerPhone(phone: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/profile`, { phone });
+  }
+
+  savePhoneNumber(phone: string): void {
+    localStorage.setItem(this.PHONE_KEY, phone);
+  }
+  
+  getPhoneNumber(): string | null {
+    return localStorage.getItem(this.PHONE_KEY);
+  }
+  
+  getTgUsername(): string | null {
+    return localStorage.getItem(this.TG_USERNAME_KEY);
+  }
+
+  getMyProfile(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/profile/me`);
   }
   
 }

@@ -26,6 +26,12 @@ export class ProfileComponent implements OnInit {
   employerProfile: any
   phoneNumber: string = '';
   username: string = '';
+  isEditingPhone: boolean = false;
+  editablePhone: string = '';
+  phoneError: string = '';
+  photo: string = '';
+  rating: string = '';
+  reviewCount: number = 0;
 
   constructor (
     private userService: UserService,
@@ -33,34 +39,51 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private announcementService: AnnouncementService,
-    private telegramService: TelegramService
+    private telegramService: TelegramService,
   ) {}
 
   ngOnInit(): void {
-    
-    this.phoneNumber = this.telegramService.getUserPhone();
-    this.username = this.telegramService.getUserUsername();
-
+    this.userRole = this.userService.getUserRole();
+  
     this.route.paramMap.subscribe(params => {
       const employerId = params.get('employer_id');
-      this.userRole = this.userService.getUserRole();
   
       if (employerId) {
         // Соискатель смотрит профиль работодателя
         this.isEmployerProfileView = true;
         this.loadEmployerProfile(employerId);
       } else {
-        // Пользователь смотрит свой профиль (соискатель или работодатель)
+        // Пользователь смотрит свой профиль
         this.isEmployerProfileView = false;
-        this.userName = this.userService.getUserName();
-        this.userRole = this.userService.getUserRole();
-        if (this.userRole === 'finder') {
+        if (this.userRole === 'employer') {
+          this.loadMyProfile(); // только для работодателя
+        } else if (this.userRole === 'finder') {
+          this.userName = this.userService.getUserName();
           this.loadUserResume();
         }
       }
     });
   }
 
+// для профиля работодателя
+  loadMyProfile() {
+    this.userService.getMyProfile().subscribe({
+      next: (profile) => {
+        this.userName = profile.user_name;
+        this.phoneNumber = profile.phone;
+        this.username = profile.tg_username;
+        this.userRole = profile.user_role;
+        this.photo = profile.photo || 'assets/images/user-avatar.png'; 
+        this.rating = profile.rating;
+        this.reviewCount = profile.review_count;
+      },
+      error: (err) => {
+        console.error('Ошибка загрузки профиля:', err);
+      }
+    });
+  }
+
+// для профиля работодателя который видит соискатель
   loadEmployerProfile(employerId: string) {
     this.userService.getEmployerProfile(employerId).subscribe({
       next: (data) => {
@@ -144,5 +167,81 @@ export class ProfileComponent implements OnInit {
       return 'Соискатель'
     }
     return 'Работодатель';
+  }
+
+  startEditingPhone() {
+    this.isEditingPhone = true;
+    // Если номер не указан или пустой — подставляем +7
+    this.editablePhone = this.phoneNumber && this.phoneNumber !== 'Не указан' ? this.phoneNumber : '+7';
+  }
+  
+  onPhoneInput(event: any) {
+    let value = event.target.value;
+  
+    // Удаляем всё, кроме цифр, после +7
+    if (value.startsWith('+7')) {
+      // Оставляем только цифры после +7
+      let digits = value.slice(2).replace(/\D/g, '').slice(0, 10);
+      this.editablePhone = '+7' + digits;
+    } else {
+      // Если пользователь удалил +7, возвращаем +7 и только цифры
+      let digits = value.replace(/\D/g, '').slice(0, 10);
+      this.editablePhone = '+7' + digits;
+    }
+  }
+
+  onPhoneKeyDown(event: KeyboardEvent) {
+    const input = event.target as HTMLInputElement;
+    // Запретить удалять +7
+    if (
+      (input.selectionStart ?? 0) <= 2 &&
+      (event.key === 'Backspace' || event.key === 'Delete')
+    ) {
+      event.preventDefault();
+      return;
+    }
+    // Разрешить только цифры, Backspace, Delete, стрелки
+    if (
+      !/[0-9]/.test(event.key) &&
+      event.key !== 'Backspace' &&
+      event.key !== 'Delete' &&
+      event.key !== 'ArrowLeft' &&
+      event.key !== 'ArrowRight' &&
+      event.key !== 'Tab'
+    ) {
+      event.preventDefault();
+    }
+  }
+  
+  validatePhone() {
+    const phonePattern = /^\+7\d{10}$/;
+    if (!phonePattern.test(this.editablePhone)) {
+      this.phoneError = 'Введите номер в формате +7XXXXXXXXXX';
+    } else {
+      this.phoneError = '';
+    }
+  }
+  
+  savePhone() {
+    if (this.editablePhone.length !== 12) {
+      alert('Введите 10 цифр после +7');
+      return;
+    }
+    this.userService.updateEmployerPhone(this.editablePhone).subscribe({
+      next: () => {
+        if (this.userRole === 'employer') {
+          this.loadMyProfile(); // обновляем только для работодателя
+        }
+        this.isEditingPhone = false;
+      },
+      error: () => {
+        alert('Не удалось обновить номер телефона');
+      }
+    });
+  }
+
+  cancelEditingPhone() {
+    this.isEditingPhone = false;
+    this.editablePhone = this.phoneNumber;
   }
 }

@@ -36,7 +36,10 @@ fetchFinderVacancies (): Observable<Vacancy[]> {
           rating: item.rating,
           salary: item.salary,
           time_hours: item.time_hours,
-          title: item.title
+          title: item.title,
+          phone: item.phone ?? null,
+          tg_username: item.tg_username ?? null,
+          car: item.car ?? null
         }));
 
           return vacancies;
@@ -68,7 +71,10 @@ fetchEmployerVacancies(): Observable<Vacancy[]> {
             rating: item.rating,
             salary: item.salary,
             time_hours: item.time_hours,
-            title: item.title
+            title: item.title,
+            phone: item.phone ?? null,
+            tg_username: item.tg_username ?? null,
+            car: item.car ?? null
           }));
 
           return vacancies;

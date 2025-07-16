@@ -247,7 +247,7 @@
     width: 100%;
     margin-bottom: 20px;
     padding: 10px 10px 10px 10px;
-  
+
     h2 {
       color: rgba(255, 255, 255, 1);
       font-family: 'Inter', sans-serif;
@@ -255,6 +255,13 @@
       font-weight: 400;
       margin: 0 0 10px 0;
     }
+
+    .number-block {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  
   
     p {
       color: #71747B;
@@ -266,6 +273,50 @@
   
   }
   
+}
+
+.edit-phone-input {
+  background-color: rgba(53, 56, 63, 1);
+  border: 1px solid #6849FF;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 1rem;
+  padding: 6px 12px;
+  outline: none;
+  width: 140px;
+  margin-right: 0px;
+} 
+
+.save-phone-btn, .cancel-phone-btn {
+  background: #6849FF;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 6px 14px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.save-phone-btn:hover {
+  background: #7d69e1;
+}
+.cancel-phone-btn {
+  background: #f57e7c;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 1.2rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.cancel-phone-btn:hover {
+  background: #ff8fa3;
 }
 
 .profile-container--view-employer {

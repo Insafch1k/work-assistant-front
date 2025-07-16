@@ -45,8 +45,10 @@
             <span *ngIf="isLoading">Загрузка...</span>
         </button>
 
-        <div class="registration-message" *ngIf="registrationMessage">
-            {{ registrationMessage }}
+        <div *ngIf="tgUsernameMissing" style="color: #F56B68; margin-top: 10px;">
+            У вас не установлен username в Telegram.<br>
+            Пожалуйста, откройте настройки Telegram и задайте себе username (имя пользователя), чтобы продолжить.
         </div>
+
     </form>
 </div>

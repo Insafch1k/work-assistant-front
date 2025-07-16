@@ -10,4 +10,7 @@ export interface Vacancy {
   created_at: string;
   time_hours: number;
   photo: string | null;
+  phone: string;
+  tg_username: string;
+  car?: boolean | string | null;
 }

@@ -15,6 +15,7 @@ export class AuthorizationComponent implements OnInit{
   hoverRole: 'employer' | 'finder' | '' = '';
   registrationMessage: string = '';
   isLoading: boolean = false;
+  tgUsernameMissing: boolean = false;
 
   private isProcessing = false;
 
@@ -31,6 +32,9 @@ export class AuthorizationComponent implements OnInit{
     if (tgId) {
       this.userService.saveTgId(tgId);
     }
+
+    const tgUsername = this.telegramService.getUserUsername();
+    this.tgUsernameMissing = !tgUsername;
 
     const savedRole = this.userService.getUserRole();
     if (savedRole === 'finder' || savedRole === 'employer') {

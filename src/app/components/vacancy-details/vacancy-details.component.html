@@ -55,4 +55,7 @@
         <h2>Описание</h2>
         <p>{{ vacancy.description }}</p>
     </div>
+    <div *ngIf="vacancy.car === true" class="car-required">
+        <p>С собой требуется машина!</p>  🚗
+    </div>
 </div>
