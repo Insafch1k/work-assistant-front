@@ -72,8 +72,8 @@ export class UserService {
       tg: tgId,
       user_role: role,
       user_name: name,
-      // tg_username: tgUsername
-      tg_username: '@testuser1234'
+      tg_username: tgUsername
+
     };
     return this.http.post(`${this.apiUrl}/profile/init`, userData);
   }
