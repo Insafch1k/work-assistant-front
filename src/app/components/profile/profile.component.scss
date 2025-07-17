@@ -2,12 +2,35 @@
 
 .profile-container--finder {
 
-  h1 {
-    color: rgba(255, 255, 255, 1);
-    font-family: 'Inter', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 600;
-    text-align: center; 
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    h1 {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        color: rgba(255, 255, 255, 1);
+        font-family: 'Inter', sans-serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-align: center; 
+        
+    }
+
+    svg {
+        cursor: pointer;
+        margin-left: auto; 
+        fill: #fff;
+        width: 24px;
+        height: 24px;
+    }
   }
 
   .profile-user {
@@ -179,12 +202,35 @@
 
 .profile-container--employer {
 
-  h1 {
-    color: rgba(255, 255, 255, 1);
-    font-family: 'Inter', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 600;
-    text-align: center; 
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    h1 {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        color: rgba(255, 255, 255, 1);
+        font-family: 'Inter', sans-serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-align: center; 
+        
+    }
+
+    svg {
+        cursor: pointer;
+        margin-left: auto; 
+        fill: #fff;
+        width: 24px;
+        height: 24px;
+    }
   }
 
   .profile-user {
@@ -322,13 +368,13 @@
 .profile-container--view-employer {
 
   h1 {
-    color: rgba(255, 255, 255, 1);
-    font-family: 'Inter', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 600;
-    text-align: center; 
+      color: rgba(255, 255, 255, 1);
+      font-family: 'Inter', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-align: center; 
+      
   }
-
   .profile-user {
     display: flex;
     flex-direction: row;

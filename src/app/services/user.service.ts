@@ -16,14 +16,7 @@ export class UserService {
 
   private readonly TOKEN_KEY = 'auth_token';
 
-  public readonly apiUrl = 'https://eager-camels-arrive.loca.lt/api';
-
-  public generateRandomId(): string {
-    // Генерируем 10-значное число для Id
-    const min = 1000000000;
-    const max = 9999999999;
-    return Math.floor(Math.random() * (max - min + 1) + min).toString();
-  }
+  public readonly apiUrl = 'http://192.168.240.93:8000/api';
 
   constructor(
     private http: HttpClient,
@@ -78,8 +71,8 @@ export class UserService {
     return this.http.post(`${this.apiUrl}/profile/init`, userData);
   }
 
-  login(tgId: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/profile/login`, { tg: tgId });
+  login(tgId: string, role: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/profile/login`, { tg: tgId, user_role: role });
   }
 
   getEmployerProfile(id: string): Observable<any> {
@@ -105,5 +98,4 @@ export class UserService {
   getMyProfile(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/profile/me`);
   }
-  
 }

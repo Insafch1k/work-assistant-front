@@ -244,4 +244,9 @@ export class ProfileComponent implements OnInit {
     this.isEditingPhone = false;
     this.editablePhone = this.phoneNumber;
   }
+
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/authorization']);
+  }
 }
