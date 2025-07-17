@@ -60,7 +60,7 @@ export class UserService {
   }
 
   registerUser(tgId: string, role: string, name: string): Observable<any> {
-    const tgUsername = this.telegramService.getUserUsername(); // Получаем username с @
+    const tgUsername = this.telegramService.getUserUsername(); 
     const userData = {
       tg: tgId,
       user_role: role,
