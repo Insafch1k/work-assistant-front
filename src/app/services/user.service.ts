@@ -74,7 +74,14 @@ export class UserService {
 
   login(tgId: string, role: string): Observable<any> {
     const photoUrl = this.telegramService.getUserPhotoUrl();
-    return this.http.patch(`${this.apiUrl}/profile/login`, { tg: tgId, user_role: role, photo: photoUrl });
+    const tgUsername = this.telegramService.getUserUsername();
+    const body = {
+      user_role: role,
+      tg: tgId,
+      photo: photoUrl,
+      tg_username: tgUsername
+    };
+    return this.http.patch(`${this.apiUrl}/profile/login`, body);
   }
 
   getEmployerProfile(id: string): Observable<any> {
