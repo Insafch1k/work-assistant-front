@@ -57,4 +57,20 @@ export class ViewHistoryComponent implements OnInit{
   isEmployer(): boolean {
     return this.userService.getUserRole() === 'employer';
   }
+
+  callEmployer(vacancy: any): void {
+    if (vacancy.phone) {
+      window.open(`tel:${vacancy.phone}`, '_blank');
+    } else {
+      alert('У работодателя не указан номер телефона');
+    }
+  }
+  
+  writeEmployer(vacancy: any): void {
+    if (vacancy.tg_username) {
+      window.open(`https://t.me/${vacancy.tg_username.replace('@', '')}`, '_blank');
+    } else {
+      alert('У работодателя не указан Telegram username');
+    }
+  }
 }

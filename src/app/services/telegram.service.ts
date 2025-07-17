@@ -35,5 +35,12 @@ export class TelegramService {
     }
     return '';
   }
+
+  getUserPhotoUrl(): string {
+    if (window.Telegram && window.Telegram.WebApp) {
+      return window.Telegram.WebApp.initDataUnsafe?.user?.photo_url || '';
+    }
+    return '';
+  }
 }
 

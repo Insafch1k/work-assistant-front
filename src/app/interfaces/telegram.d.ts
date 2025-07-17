@@ -4,6 +4,7 @@ interface TelegramWebAppUser {
     last_name?: string;
     username?: string;
     phone_number?: string;
+    photo_url?: string;
   }
   
   interface TelegramWebAppInitDataUnsafe {

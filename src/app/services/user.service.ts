@@ -60,19 +60,21 @@ export class UserService {
   }
 
   registerUser(tgId: string, role: string, name: string): Observable<any> {
-    const tgUsername = this.telegramService.getUserUsername(); 
+    const tgUsername = this.telegramService.getUserUsername();
+    const photoUrl = this.telegramService.getUserPhotoUrl(); 
     const userData = {
       tg: tgId,
       user_role: role,
       user_name: name,
-      tg_username: tgUsername
-
+      tg_username: tgUsername,
+      photo: photoUrl
     };
     return this.http.post(`${this.apiUrl}/profile/init`, userData);
   }
 
   login(tgId: string, role: string): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/profile/login`, { tg: tgId, user_role: role });
+    const photoUrl = this.telegramService.getUserPhotoUrl();
+    return this.http.patch(`${this.apiUrl}/profile/login`, { tg: tgId, user_role: role, photo: photoUrl });
   }
 
   getEmployerProfile(id: string): Observable<any> {
