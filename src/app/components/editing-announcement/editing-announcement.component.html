@@ -1,7 +1,11 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="new-announcement-container" *ngIf="form">
     <h1>Редактирование</h1>
     <h2>Категория подработки</h2>
-    <input formControlName="wanted_job" class="general-input" type="text" placeholder="Введите категорию подработки">
+    <select formControlName="wanted_job" class="general-input">
+      <option value="">Выберите категорию</option>
+      <option value="Шабашка">Шабашка</option>
+      <option value="Общепит">Общепит</option>
+    </select>
     <h2>Название подработки</h2>
     <input formControlName="title" class="general-input" type="text" placeholder="Напишите название подработки">    
     <h2>Адрес подработки</h2>
