@@ -5,7 +5,6 @@ import { Resume } from 'src/app/models/resume.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Announcement } from 'src/app/models/announcement.model';
 import { AnnouncementService } from 'src/app/services/announcement.service';
-import { TelegramService } from 'src/app/services/telegram.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,49 +14,46 @@ import { TelegramService } from 'src/app/services/telegram.service';
 export class ProfileComponent implements OnInit {
   userName: string = '';
   userRole: string = '';
-  editableName: string = '';
-  isEditing: boolean = false;
+  photo: string = '';
+  phoneNumber: string = '';
+  username: string = '';
+  rating: string = '';
+  reviewCount: number = 0;
+  isEmployerProfileView: boolean = false;
+  employerProfile: any;
+  announcements: Announcement[] = [];
+
+  // Для finder
   userResume: Resume | null = null;
   isLoadingResume: boolean = false;
   resumeSkills: string[] = [];
-  resumeError: string = '';
-  isEmployerProfileView: boolean = false;
-  announcements: Announcement[] = [];
-  employerProfile: any
-  phoneNumber: string = '';
-  username: string = '';
+
+  // Для редактирования телефона
   isEditingPhone: boolean = false;
   editablePhone: string = '';
   phoneError: string = '';
-  photo: string = '';
-  rating: string = '';
-  reviewCount: number = 0;
 
-  constructor (
+  constructor(
     private userService: UserService,
     private resumeService: ResumeService,
     private router: Router,
     private route: ActivatedRoute,
-    private announcementService: AnnouncementService,
-    private telegramService: TelegramService,
+    private announcementService: AnnouncementService
   ) {}
 
   ngOnInit(): void {
     this.userRole = this.userService.getUserRole();
-  
     this.route.paramMap.subscribe(params => {
       const employerId = params.get('employer_id');
-  
       if (employerId) {
-        // Соискатель смотрит профиль работодателя
         this.isEmployerProfileView = true;
         this.loadEmployerProfile(employerId);
       } else {
-        // Пользователь смотрит свой профиль
         this.isEmployerProfileView = false;
         if (this.userRole === 'employer') {
-          this.loadMyProfile(); // только для работодателя
+          this.loadEmployerProfileCached();
         } else if (this.userRole === 'finder') {
+          this.loadFinderPhotoCached();
           this.userName = this.userService.getUserName();
           this.loadUserResume();
         }
@@ -65,126 +61,93 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-// для профиля работодателя
-  loadMyProfile() {
-    this.userService.getMyProfile().subscribe({
-      next: (profile) => {
-        this.userName = profile.user_name;
-        this.phoneNumber = profile.phone;
-        this.username = profile.tg_username;
-        this.userRole = profile.user_role;
-        this.photo = profile.photo || 'assets/images/user-avatar.png'; 
-        this.rating = profile.rating;
-        this.reviewCount = profile.review_count;
-      },
-      error: (err) => {
-        console.error('Ошибка загрузки профиля:', err);
-      }
-    });
+  // --- Кэш для работодателя ---
+  loadEmployerProfileCached() {
+    const cached = this.userService.getCachedProfile();
+    if (cached) {
+      this.setEmployerProfileFields(cached);
+    } else {
+      this.userService.getMyProfile().subscribe({
+        next: (profile) => {
+          this.userService.cacheProfile(profile);
+          this.setEmployerProfileFields(profile);
+        },
+        error: () => {}
+      });
+    }
   }
 
-// для профиля работодателя который видит соискатель
+  setEmployerProfileFields(profile: any) {
+    this.userName = profile.user_name;
+    this.phoneNumber = profile.phone;
+    this.username = profile.tg_username;
+    this.userRole = profile.user_role;
+    this.photo = profile.photo || 'assets/images/user-avatar.png';
+    this.rating = profile.rating;
+    this.reviewCount = profile.review_count;
+  }
+
+  // --- Кэш для finder (только фото) ---
+  loadFinderPhotoCached() {
+    const cachedPhoto = this.userService.getCachedProfilePhoto();
+    if (cachedPhoto) {
+      this.photo = cachedPhoto;
+    } else {
+      this.userService.getMyProfile().subscribe({
+        next: (profile) => {
+          const photo = profile.photo || 'assets/images/user-avatar.png';
+          this.userService.cacheProfilePhoto(photo);
+          this.photo = photo;
+        },
+        error: () => {
+          this.photo = 'assets/images/user-avatar.png';
+        }
+      });
+    }
+  }
+
+  // --- Для просмотра профиля работодателя соискателем ---
   loadEmployerProfile(employerId: string) {
     this.userService.getEmployerProfile(employerId).subscribe({
       next: (data) => {
-        this.employerProfile = data.profile; 
-        this.announcements = data.vacancies; 
+        this.employerProfile = data.profile;
+        this.announcements = data.vacancies;
         this.userRole = 'employer';
       },
-      error: (err) => {
-
-      }
+      error: () => {}
     });
   }
 
-  goToVacancyDetails(jobId: number) {
-    this.router.navigate(['/jobs', jobId, 'seeall']);
-  }
-
-  loadUserResume(cacheParam?: number): void {
+  // --- Для finder: резюме ---
+  loadUserResume(): void {
     this.isLoadingResume = true;
-    console.log('Загрузка резюме...');
-    
-    this.resumeService.getResume(cacheParam).subscribe({
+    this.resumeService.getResume().subscribe({
       next: (resume) => {
-        console.log('Полный ответ от сервера (резюме):', resume);
-        
-        if (resume) {
-          this.userResume = resume;
-          console.log('Установлено резюме:', this.userResume);
-          
-          // Разбиваем навыки на массив для отображения
-          if (this.userResume.skills) {
-            this.resumeSkills = this.userResume.skills.split(',').map(skill => skill.trim());
-            console.log('Навыки:', this.resumeSkills);
-          }
-        } else {
-          console.log('Резюме не найдено в ответе');
-          this.userResume = null;
+        this.userResume = resume;
+        if (resume && resume.skills) {
+          this.resumeSkills = resume.skills.split(',').map(skill => skill.trim());
         }
-        
         this.isLoadingResume = false;
       },
-      error: (error) => {
-        if (error.status === 500) {
-          console.log('Резюме не найдено (ошибка 500)');
-          this.userResume = null;
-        } else {
-          console.error('Ошибка при загрузке резюме:', error);
-          this.resumeError = 'Не удалось загрузить резюме';
-        }
+      error: () => {
+        this.userResume = null;
         this.isLoadingResume = false;
       }
     });
   }
 
-  editResume(): void {
-    this.router.navigate(['/editing-resume']);
-  }
-
-  startEditing(): void {
-    this.isEditing = true;
-
-    this.editableName = this.userName; 
-  }
-
-  saveChanges () {
-    if (this.editableName && this.editableName.trim().length >= 2) {
-      this.userName = this.editableName.trim();
-      this.userService.saveUserName(this.userName);
-      this.isEditing = false;
-    }
-  }
-
-  cancelEditing () {
-    this.editableName = this.userName;
-
-    this.isEditing = false;
-  }
-
-  getRoleName():string {
-    if (this.userRole === 'finder') {
-      return 'Соискатель'
-    }
-    return 'Работодатель';
-  }
-
+  // --- Телефон ---
   startEditingPhone() {
     this.isEditingPhone = true;
-    // Если номер не указан или пустой — подставляем +7
     this.editablePhone = this.phoneNumber && this.phoneNumber !== 'Не указан' ? this.phoneNumber : '+7';
   }
-  
+
   onPhoneInput(event: any) {
     let value = event.target.value;
-  
-    // Удаляем всё, кроме цифр, после +7
     if (value.startsWith('+7')) {
-      // Оставляем только цифры после +7
       let digits = value.slice(2).replace(/\D/g, '').slice(0, 10);
       this.editablePhone = '+7' + digits;
     } else {
-      // Если пользователь удалил +7, возвращаем +7 и только цифры
       let digits = value.replace(/\D/g, '').slice(0, 10);
       this.editablePhone = '+7' + digits;
     }
@@ -192,15 +155,11 @@ export class ProfileComponent implements OnInit {
 
   onPhoneKeyDown(event: KeyboardEvent) {
     const input = event.target as HTMLInputElement;
-    // Запретить удалять +7
-    if (
-      (input.selectionStart ?? 0) <= 2 &&
-      (event.key === 'Backspace' || event.key === 'Delete')
-    ) {
+    if ((input.selectionStart ?? 0) <= 2 &&
+      (event.key === 'Backspace' || event.key === 'Delete')) {
       event.preventDefault();
       return;
     }
-    // Разрешить только цифры, Backspace, Delete, стрелки
     if (
       !/[0-9]/.test(event.key) &&
       event.key !== 'Backspace' &&
@@ -212,16 +171,7 @@ export class ProfileComponent implements OnInit {
       event.preventDefault();
     }
   }
-  
-  validatePhone() {
-    const phonePattern = /^\+7\d{10}$/;
-    if (!phonePattern.test(this.editablePhone)) {
-      this.phoneError = 'Введите номер в формате +7XXXXXXXXXX';
-    } else {
-      this.phoneError = '';
-    }
-  }
-  
+
   savePhone() {
     if (this.editablePhone.length !== 12) {
       alert('Введите 10 цифр после +7');
@@ -229,10 +179,12 @@ export class ProfileComponent implements OnInit {
     }
     this.userService.updateEmployerPhone(this.editablePhone).subscribe({
       next: () => {
-        if (this.userRole === 'employer') {
-          this.loadMyProfile(); // обновляем только для работодателя
-        }
+        this.phoneNumber = this.editablePhone;
         this.isEditingPhone = false;
+        // Обновим кэш профиля
+        this.userService.getMyProfile().subscribe({
+          next: (profile) => this.userService.cacheProfile(profile)
+        });
       },
       error: () => {
         alert('Не удалось обновить номер телефона');
@@ -245,8 +197,29 @@ export class ProfileComponent implements OnInit {
     this.editablePhone = this.phoneNumber;
   }
 
+  // --- Прочее ---
   logout() {
     localStorage.clear();
+    this.userService.clearProfileCache();
     this.router.navigate(['/authorization']);
+  }
+
+  getPhotoSrc(): string {
+    if (!this.photo) return 'assets/images/user-avatar.png';
+    if (this.photo.startsWith('http')) return this.photo;
+    return `${this.userService.apiUrl}${this.photo}`;
+  }
+
+  getRoleName(): string {
+    if (this.userRole === 'finder') return 'Соискатель';
+    return 'Работодатель';
+  }
+
+  goToVacancyDetails(jobId: number) {
+    this.router.navigate(['/jobs', jobId, 'seeall']);
+  }
+
+  editResume(): void {
+    this.router.navigate(['/editing-resume']);
   }
 }

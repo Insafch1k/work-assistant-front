@@ -13,7 +13,7 @@
   </div>
 
   <div class="profile-user">
-    <img src="assets/images/user-avatar.png" alt="user-image" class="profile-image" />
+    <img [src]="getPhotoSrc()" alt="user-image" class="profile-image"/>
     <div class="user-name">{{ userName }}</div>
   </div>
 
@@ -74,7 +74,7 @@
       </div>
       <span class="reviews-link">{{ reviewCount }} отзывов</span>
     </div>
-    <img [src]="photo" alt="user-image" class="profile-image" />
+    <img [src]="getPhotoSrc()" alt="user-image" class="profile-image"/>
     <div class="user-name">{{ userName }}</div>
   </div>
 
@@ -134,7 +134,7 @@
       </div>
       <span class="reviews-link">0 отзывов</span>
     </div>
-    <img src="assets/images/user-avatar.png" alt="user-image" class="profile-image" />
+    <img [src]="getPhotoSrc()" alt="user-image" class="profile-image"/>
     <div class="user-name">{{ employerProfile?.user_name }}</div>
   </div>
 

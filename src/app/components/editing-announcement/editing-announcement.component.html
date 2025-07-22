@@ -80,13 +80,18 @@
       <h2>Требуется авто</h2>
 
       <div class="quick-checkbox">
-        <input formControlName="is_car_required" type="checkbox" id="toggleCar">
+        <input formControlName="car" type="checkbox" id="toggleCar">
         <label class="slider" for="toggleCar"></label>
       </div>
     </div>
 
     <h2>Опыт работы</h2>
-    <input formControlName="xp" class="general-input" type="text" placeholder="Укажите опыт работы">
+    <select formControlName="xp" class="general-input">
+      <option class="" value="">Выберите опыт работы</option>
+      <option value="нет опыта">Нет опыта</option>
+      <option value="от 1 года">От 1 года</option>
+      <option value="от 3 лет">От 3 лет</option>
+    </select>
     <h2>Возраст</h2>
     <div>
         <label class="radio-options">

@@ -17,7 +17,7 @@ export class VacancyService {
     private userService: UserService
   ) {
     this.apiUrl = this.userService.apiUrl;
-  }
+  }  
 
   // Получение вакансий с бэкенда для соискателей
 fetchFinderVacancies (): Observable<Vacancy[]> {
