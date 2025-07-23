@@ -21,6 +21,7 @@ p {
     font-size: 1rem;
     font-weight: 400;
     margin-top: 0;
+    overflow-wrap: anywhere;
 }
 
 .details-container {
@@ -97,7 +98,7 @@ p {
 .employer-info {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    padding-left: 65px;
     align-items: center;
     gap: 10px;
     margin-top: 10px;
@@ -126,6 +127,9 @@ p {
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
     margin-bottom: 20px;
+    flex: 1;
+    min-width: 0; 
+    text-align: center;
 
 }
 
@@ -143,4 +147,57 @@ p {
     p {
         color: #84868c;
     }
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 20px;
+
+    .button-call, .button-write {
+        flex: 1;
+        min-width: 0; 
+        text-align: center;
+    }
+
+    .button-write {
+        background: rgba(25, 26, 31, 1); 
+        color: #fff;
+        border: 1.5px solid rgba(104, 73, 255, 1); 
+        border-radius: 15px;
+        padding: 10px;
+        font-family: 'Inter', sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+
+        &:hover {
+            background: rgb(33, 34, 41); 
+        }
+    }
+
+    .button-call {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        background: rgba(104, 73, 255, 1); 
+        color: #fff;
+        border: none;
+        border-radius: 15px;
+        padding: 10px;
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s;
+
+            &:hover {
+                background: #7d5fff; 
+            }
+        }
 }

@@ -14,7 +14,7 @@ export class UserService {
   private readonly PROFILE_CACHE_KEY = 'profile_cache';
   private readonly PROFILE_PHOTO_KEY = 'profile_photo';
 
-  public readonly apiUrl = 'https://breezy-seas-check.loca.lt/api';
+  public readonly apiUrl = 'https://violet-spiders-lie.loca.lt/api';
 
   constructor(
     private http: HttpClient,

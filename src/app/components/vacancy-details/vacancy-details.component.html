@@ -10,6 +10,9 @@
         <p>{{ vacancy.title }}</p>
     </div>
     <div class="info-item">
+        <h2>Категория подработки</h2>
+        <p>{{ vacancy.wanted_job }}</p>
+
         <h2>Адрес подработки</h2>
         <p>{{ vacancy.address }}</p>
 
@@ -42,9 +45,12 @@
             <span class="reviews-link">0 отзывов</span>
         </div>
         <img src="assets/images/user-avatar.png" alt="avatar">
-        <p>{{ vacancy?.employer_name || 'Работодатель' }}</p>    
+        <p>{{ vacancy?.user_name || 'Работодатель' }}</p>    
     </div>
-    <button class="btn-call">Позвонить</button>
+    <div class="buttons-container">
+        <button class="button-write" (click)="writeEmployer(vacancy)">Написать</button>
+        <button class="button-call" (click)="callEmployer(vacancy)">Позвонить</button>
+    </div>
     <div class="requirements-block">
         <h2>Возраст</h2>
         <p>{{ vacancy.age }}</p>
