@@ -14,7 +14,7 @@ export class UserService {
   private readonly PROFILE_CACHE_KEY = 'profile_cache';
   private readonly PROFILE_PHOTO_KEY = 'profile_photo';
 
-  public readonly apiUrl = 'https://cruel-actors-bathe.loca.lt/api';
+  public readonly apiUrl = 'https://breezy-seas-check.loca.lt/api';
 
   constructor(
     private http: HttpClient,
@@ -92,10 +92,8 @@ export class UserService {
       tg: tgId,
       user_role: role,
       user_name: name,
-      // tg_username: this.telegramService.getUserUsername(),
+      tg_username: this.telegramService.getUserUsername(),
       // photo: this.telegramService.getUserPhotoUrl()
-      tg_username: '@qwerty1',
-      photo: "https://multi-admin.ru/mediabank_blog/11/248087/8f425a5d663dde66070340637cbb48b83o70mgluoka.jpg"
     };
     return this.http.post(`${this.apiUrl}/profile/init`, userData);
   }
@@ -104,10 +102,8 @@ export class UserService {
     const body = {
       tg: tgId,
       user_role: role,
-      // tg_username: this.telegramService.getUserUsername(),
+      tg_username: this.telegramService.getUserUsername(),
       // photo: this.telegramService.getUserPhotoUrl()
-      tg_username: '@qwerty1',
-      photo: "https://multi-admin.ru/mediabank_blog/11/248087/8f425a5d663dde66070340637cbb48b83o70mgluoka.jpg"
     };
     return this.http.patch(`${this.apiUrl}/profile/login`, body);
   }

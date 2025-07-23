@@ -204,10 +204,15 @@ export class ProfileComponent implements OnInit {
     this.router.navigate(['/authorization']);
   }
 
+  // getPhotoSrc(): string {
+  //   if (!this.photo) return 'assets/images/user-avatar.png';
+  //   if (this.photo.startsWith('http')) return this.photo;
+  //   return `${this.userService.apiUrl}${this.photo}`;
+  // }
+
   getPhotoSrc(): string {
-    if (!this.photo) return 'assets/images/user-avatar.png';
-    if (this.photo.startsWith('http')) return this.photo;
-    return `${this.userService.apiUrl}${this.photo}`;
+    // Всегда возвращаем дефолтную картинку
+    return 'assets/images/user-avatar.png';
   }
 
   getRoleName(): string {

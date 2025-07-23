@@ -19,6 +19,20 @@ export class VacancyService {
     this.apiUrl = this.userService.apiUrl;
   }  
 
+  // /** Формирует полный путь к фото */
+  // private getPhotoUrl(photo: string | null | undefined): string {
+  //   if (!photo) return 'assets/images/user-avatar.png';
+  //   if (photo.startsWith('http')) return photo;
+  //   // Если apiUrl заканчивается на /api, убираем /api
+  //   const base = this.apiUrl.endsWith('/api') ? this.apiUrl.replace('/api', '') : this.apiUrl;
+  //   return `${base}${photo}`;
+  // }
+
+  private getPhotoUrl(photo: string | null | undefined): string {
+    // Всегда возвращаем дефолтную картинку
+    return 'assets/images/user-avatar.png';
+  }
+
   // Получение вакансий с бэкенда для соискателей
 fetchFinderVacancies (): Observable<Vacancy[]> {
   return this.http.get<any[]>(`${this.apiUrl}/jobs/finders`)
@@ -32,7 +46,7 @@ fetchFinderVacancies (): Observable<Vacancy[]> {
           isFavorite: item.is_favorite,
           is_urgent: item.is_urgent,
           job_id: item.job_id,
-          photo: item.photo ?? 'assets/images/user-avatar.png',
+          photo: this.getPhotoUrl(item.photo),
           rating: item.rating,
           salary: item.salary,
           time_hours: item.time_hours,
@@ -67,7 +81,7 @@ fetchEmployerVacancies(): Observable<Vacancy[]> {
             isFavorite: item.is_favorite,
             is_urgent: item.is_urgent,
             job_id: item.job_id,
-            photo: item.photo ?? 'assets/images/user-avatar.png',
+            photo: this.getPhotoUrl(item.photo),
             rating: item.rating,
             salary: item.salary,
             time_hours: item.time_hours,
