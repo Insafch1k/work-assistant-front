@@ -137,15 +137,14 @@ p {
     background: rgb(33, 34, 41); 
 }
 
-.car-required {
+.car-required, .urgent-required {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: baseline;
     gap: 10px;
 
     p {
-        color: #84868c;
+        color: #ffffff;
+        font-size: 16px;
     }
 }
 

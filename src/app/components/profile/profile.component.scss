@@ -35,11 +35,10 @@
 
   .profile-user {
     display: flex;
-    flex-direction: row;
-    margin-left: 130px;
+    flex-direction: column;
     gap: 10px;
-    margin-bottom: 20px;
     align-items: center;
+    margin-bottom: 20px;
 
     .profile-image {
       width: 60px;
@@ -235,11 +234,10 @@
 
   .profile-user {
     display: flex;
-    flex-direction: row;
-    margin-left: 67px;
+    flex-direction: column;
     gap: 10px;
-    margin-bottom: 20px;
     align-items: center;
+    margin-bottom: 20px;
 
     .profile-image {
       width: 60px;
@@ -377,11 +375,10 @@
   }
   .profile-user {
     display: flex;
-    flex-direction: row;
-    margin-left: 67px;
+    flex-direction: column;
     gap: 10px;
-    margin-bottom: 20px;
     align-items: center;
+    margin-bottom: 20px;
 
     .profile-image {
       width: 60px;
