@@ -67,8 +67,8 @@ export class UserService {
   clearProfileCache(): void {
     localStorage.removeItem(this.PROFILE_CACHE_KEY);
     localStorage.removeItem(this.PROFILE_PHOTO_KEY);
+    localStorage.removeItem(this.USER_ROLE_KEY);
   }
-
   // --- Роль и имя пользователя ---
   getUserRole(): string {
     return localStorage.getItem(this.USER_ROLE_KEY) || '';

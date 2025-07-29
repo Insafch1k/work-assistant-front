@@ -27,11 +27,21 @@ export class TelegramService {
     }
     return '';
   }
-  
+
   getUserUsername(): string {
-    if (window.Telegram && window.Telegram.WebApp) {
-      const username = window.Telegram.WebApp.initDataUnsafe?.user?.username;
-      return username ? '@' + username : '';
+    try {
+      if (window.Telegram && window.Telegram.WebApp) {
+        // Принудительная проверка и приведение к строке
+        console.log('Telegram WebApp:', window.Telegram.WebApp);
+        console.log('initDataUnsafe:', window.Telegram.WebApp.initDataUnsafe);
+
+        const username = window.Telegram.WebApp.initDataUnsafe?.user?.username;
+        console.log('Raw username:', username);
+        
+        return username ? '@' + String(username).trim() : '';
+      }
+    } catch (error) {
+      console.error('Error getting Telegram username:', error);
     }
     return '';
   }

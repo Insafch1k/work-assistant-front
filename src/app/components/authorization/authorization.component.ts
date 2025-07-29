@@ -26,6 +26,9 @@ export class AuthorizationComponent implements OnInit{
   ) {}
   
   ngOnInit(): void {
+    // принудительная отчистка роли
+    this.userService.saveUserRole('');
+
     this.userName = this.telegramService.getUserName();
     const tgId = this.telegramService.getUserId();
 
@@ -34,7 +37,7 @@ export class AuthorizationComponent implements OnInit{
     }
 
     const tgUsername = this.telegramService.getUserUsername();
-    this.tgUsernameMissing = !tgUsername;
+    this.tgUsernameMissing = !tgUsername || tgUsername.trim() === '@';
 
     const savedRole = this.userService.getUserRole();
     if (savedRole === 'finder' || savedRole === 'employer') {
