@@ -14,9 +14,9 @@
 
   <div class="profile-user">
     <img [src]="getPhotoSrc()" alt="user-image" class="profile-image"/>
-    <div class="user-name">{{ userName }}</div>
   </div>
-
+  <div class="user-name">{{ userName }}</div>
+  
   <div *ngIf="!isLoadingResume && !userResume" class="btn-container">
     <button routerLink="/resume"><div>+</div>Добавить резюме</button>
   </div>
@@ -75,8 +75,8 @@
       <span class="reviews-link">{{ reviewCount }} отзывов</span>
     </div>
     <img [src]="getPhotoSrc()" alt="user-image" class="profile-image"/>
-    <div class="user-name">{{ userName }}</div>
   </div>
+  <div class="user-name">{{ userName }}</div>
 
   <div class="contacts-card">
     <p>Номер телефона</p>
@@ -135,8 +135,8 @@
       <span class="reviews-link">0 отзывов</span>
     </div>
     <img [src]="getPhotoSrc()" alt="user-image" class="profile-image"/>
-    <div class="user-name">{{ employerProfile?.user_name }}</div>
   </div>
+  <div class="user-name">{{ employerProfile?.user_name }}</div>
 
   <button class="review-btn" [routerLink]="['/review']">Оставить отзыв</button>
 

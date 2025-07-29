@@ -35,23 +35,26 @@
 
   .profile-user {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
     gap: 10px;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 
     .profile-image {
       width: 60px;
       height: 60px;
       border-radius: 50%;
     }
+  }
 
-    .user-name {
-      color: rgba(255, 255, 255, 1);
-      font-family: 'Inter', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
+  .user-name {
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Inter', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 20px;
   }
   
   .contacts-card {
@@ -234,22 +237,16 @@
 
   .profile-user {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-left: 60px;
 
     .profile-image {
       width: 60px;
       height: 60px;
       border-radius: 50%;
-    }
-
-    .user-name {
-      color: rgba(255, 255, 255, 1);
-      font-family: 'Inter', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 600;
     }
 
     .rating-review-block {
@@ -281,6 +278,15 @@
       }
     }
     
+  }
+
+  .user-name {
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Inter', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 20px;
   }
   
   .contacts-card {
@@ -375,22 +381,16 @@
   }
   .profile-user {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-left: 60px;
 
     .profile-image {
       width: 60px;
       height: 60px;
       border-radius: 50%;
-    }
-
-    .user-name {
-      color: rgba(255, 255, 255, 1);
-      font-family: 'Inter', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 600;
     }
 
     .rating-review-block {
@@ -422,6 +422,15 @@
       }
     }
     
+  }
+
+  .user-name {
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Inter', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 20px;
   }
 
   .review-btn {
