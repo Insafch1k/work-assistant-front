@@ -26,6 +26,7 @@ export class AnnouncementService {
       date: announcement.date,
       time_start: announcement.time_start,
       time_end: announcement.time_end,
+      city: announcement.city,
       address: announcement.address,
       is_urgent: announcement.is_urgent,
       car: announcement.car,
@@ -43,6 +44,10 @@ export class AnnouncementService {
 
   updateAnnouncement(id: string, data: Partial<Announcement>): Observable<Announcement> {
     return this.http.patch<Announcement>(`${this.apiUrl}/jobs/me/${id}`, data);
+  }
+
+  deleteAnnouncement(jobId: string) {
+    return this.http.delete<any>(`${this.apiUrl}/jobs/me/${jobId}`);
   }
 
 // запрос для показа обьявлений работодателя - соискателю

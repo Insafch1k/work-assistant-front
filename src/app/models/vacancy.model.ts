@@ -3,6 +3,7 @@ export interface Vacancy {
   employer_id: number;
   title: string;
   salary: number;
+  city: string;
   address: string;
   rating: string; 
   is_urgent: boolean;

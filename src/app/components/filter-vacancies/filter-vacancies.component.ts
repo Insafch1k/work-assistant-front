@@ -23,13 +23,14 @@ export class FilterVacanciesComponent implements OnInit {
     this.form = this.fb.group({
       wanted_job: [''],
       address: [''],
+      city: [''],
       time_start: [''],
       time_end: [''],
       date: [''],
       time_hours: [''],
       salary: [''],
-      is_urgent: [false],
-      is_car_required: [false],
+      is_urgent: [''],
+      car: [''],
       xp: [''],
       age: ['']
     });
@@ -47,24 +48,35 @@ export class FilterVacanciesComponent implements OnInit {
     const params: any = {};
     Object.keys(this.form.value).forEach(key => {
       const value = this.form.value[key];
+      
+      // Пропускаем пустые значения
+      if (value === '' || value === null || value === undefined) {
+        return;
+      }
+      
       if (key === 'is_urgent') {
-        params[key] = value === true || value === 'true';
-      } else if (key === 'salary' && value !== '') {
+        if (value === true || value === 'true') {
+          params[key] = true;
+        }
+      } 
+
+      if (key === 'car') {
+        if (value === true || value === 'true') {
+          params[key] = true;
+        }
+      }
+
+      if (key === 'salary') {
         params[key] = Number(value);
-      } else if (key === 'date' && value) {
-        params[key] = value;
-      } else if (value !== '' && value !== false) {
+      }
+
+      else {
         params[key] = value;
       }
     });
   
-    if (params.salary && !isNaN(params.salary)) {
-      params.salary = Number(params.salary);
-    }
-  
     this.router.navigate(['/vacancies'], { queryParams: params });
   }
-
   onDateInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     let value = input.value.replace(/\D/g, ''); // Оставляем только цифры

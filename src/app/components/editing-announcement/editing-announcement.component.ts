@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AnnouncementService } from 'src/app/services/announcement.service';
 import { Router } from '@angular/router';
 import { Announcement } from 'src/app/models/announcement.model';
 import { ActivatedRoute } from '@angular/router';
+
+declare const Dadata: any;
 
 @Component({
   selector: 'app-editing-announcement',
@@ -42,6 +44,7 @@ export class EditingAnnouncementComponent implements OnInit {
     this.form = this.fb.group({
       wanted_job: [announcement.wanted_job, Validators.required],
       title: [announcement.title, Validators.required],
+      city: [announcement.city, Validators.required],
       address: [announcement.address, Validators.required],
       time_start: [announcement.time_start, Validators.required],
       time_end: [announcement.time_end, Validators.required],
@@ -53,6 +56,26 @@ export class EditingAnnouncementComponent implements OnInit {
       age: [announcement.age, Validators.required],
       description: [announcement.description, Validators.required]
     });
+  }
+
+  ngAfterViewInit() {
+    const input = document.getElementById('address');
+    if (input && typeof Dadata !== 'undefined') {
+      Dadata.createSuggestions(input, {
+        token: '441d69731e712ccdc0783034f9e890d8727629df',
+        type: 'address',
+        onSelect: (suggestion: any) => {
+          // Получаем полный адрес из подсказки
+          const fullAddress = suggestion.value;
+          // Получаем город или населённый пункт
+          const city = suggestion.data.city || suggestion.data.settlement || '';
+          
+          // Заполняем оба поля
+          this.form.get('address')?.setValue(fullAddress);
+          this.form.get('city')?.setValue(city);
+        }
+      });
+    }
   }
 
   onSubmit() {
@@ -73,6 +96,21 @@ export class EditingAnnouncementComponent implements OnInit {
         this.formError = 'Ошибка при сохранении изменений';
       }
     });
+  }
+
+  onDelete() {
+    if (confirm('Вы уверены, что хотите удалить это объявление?')) {
+      this.announcementService.deleteAnnouncement(String(this.job_id)).subscribe({
+        next: (response) => {
+          console.log('Объявление удалено:', response.message);
+          this.router.navigate(['/announcements']);
+        },
+        error: (err) => {
+          this.formError = 'Ошибка при удалении объявления';
+          console.error('Ошибка при удалении:', err);
+        }
+      });
+    }
   }
 
   onDateInput(event: Event): void {

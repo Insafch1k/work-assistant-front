@@ -6,6 +6,7 @@ export interface Announcement {
     date: string,
     time_start: string,
     time_end: string,
+    city: string,
     address: string,
     is_urgent: boolean,
     car: boolean,

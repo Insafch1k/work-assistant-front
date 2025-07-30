@@ -41,6 +41,7 @@ fetchFinderVacancies (): Observable<Vacancy[]> {
         // Преобразуем данные с бэкенда в формат нашей модели
         const vacancies: Vacancy[] = response.map((item) => ({
           address: item.address,
+          city: item.city,
           created_at: item.created_at,
           employer_id: item.employer_id,
           isFavorite: item.is_favorite,
@@ -76,6 +77,7 @@ fetchEmployerVacancies(): Observable<Vacancy[]> {
         // Преобразуем данные с бэкенда в формат нашей модели
         const vacancies: Vacancy[] = response.map((item) => ({
             address: item.address,
+            city: item.city,
             created_at: item.created_at,
             employer_id: item.employer_id,
             isFavorite: item.is_favorite,
@@ -139,6 +141,17 @@ fetchEmployerVacancies(): Observable<Vacancy[]> {
           return of(null);
         })
       );
+  }
+
+  // Получение вакансий с фильтром по городам
+  fetchFinderVacanciesWithCityFilter(city?: string): Observable<Vacancy[]> {
+    if (city) {
+      // Используем существующий метод filterVacancies с параметром city
+      return this.filterVacancies({ city: city });
+    } else {
+      // Если город не указан, загружаем все вакансии
+      return this.fetchFinderVacancies();
+    }
   }
 
   filterVacancies(params: any): Observable<Vacancy[]> {
