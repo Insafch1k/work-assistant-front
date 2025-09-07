@@ -75,7 +75,7 @@ export class FilterVacanciesComponent implements OnInit {
       }
     });
   
-    this.router.navigate(['/vacancies'], { queryParams: params });
+    this.router.navigate(['/app/vacancies'], { queryParams: params });
   }
   onDateInput(event: Event): void {
     const input = event.target as HTMLInputElement;

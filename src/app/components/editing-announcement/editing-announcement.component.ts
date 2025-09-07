@@ -32,7 +32,7 @@ export class EditingAnnouncementComponent implements OnInit {
         if (found) {
           this.initForm(found);
         } else {
-          this.router.navigate(['/announcements']);
+          this.router.navigate(['/app/announcements']);
         }
       },
       error: (err) => {
@@ -90,7 +90,7 @@ export class EditingAnnouncementComponent implements OnInit {
   
     this.announcementService.updateAnnouncement(String(this.job_id), formValue).subscribe({
       next: (_response: any) => {
-        this.router.navigate(['/announcements']);
+        this.router.navigate(['/app/announcements']);
       },
       error: (_err: any) => {
         this.formError = 'Ошибка при сохранении изменений';
@@ -103,7 +103,7 @@ export class EditingAnnouncementComponent implements OnInit {
       this.announcementService.deleteAnnouncement(String(this.job_id)).subscribe({
         next: (response) => {
           console.log('Объявление удалено:', response.message);
-          this.router.navigate(['/announcements']);
+          this.router.navigate(['/app/announcements']);
         },
         error: (err) => {
           this.formError = 'Ошибка при удалении объявления';

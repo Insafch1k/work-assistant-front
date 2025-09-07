@@ -18,7 +18,7 @@
   <div class="user-name">{{ userName }}</div>
   
   <div *ngIf="!isLoadingResume && !userResume" class="btn-container">
-    <button routerLink="/resume"><div>+</div>Добавить резюме</button>
+    <button routerLink="/app/resume"><div>+</div>Добавить резюме</button>
   </div>
 
   <!-- контейнер с резюме -->
@@ -138,14 +138,14 @@
   </div>
   <div class="user-name">{{ employerProfile?.user_name }}</div>
 
-  <button class="review-btn" [routerLink]="['/review']">Оставить отзыв</button>
+  <button class="review-btn" [routerLink]="['/app/review']">Оставить отзыв</button>
 
   <h2>Объявления</h2>
 
   <div class="vacancy-container">
     <div *ngFor="let announcement of announcements"
     class="vacancy-card"
-    [routerLink]="['/jobs', announcement.job_id, 'seeall']"
+    [routerLink]="['/app/jobs', announcement.job_id, 'seeall']"
     style="cursor:pointer;">
         <p class="vacancy-title">{{ announcement.title }}</p>
         <div class="vacancy-details">

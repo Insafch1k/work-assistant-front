@@ -2,6 +2,6 @@
   <div class="content-container">
     <router-outlet></router-outlet>
   </div>
-  <app-finder-navigation *ngIf="userService.getUserRole() === 'finder' && !router.url.includes('/authorization')"></app-finder-navigation>
-  <app-employer-navigation *ngIf="userService.getUserRole() === 'employer' && !router.url.includes('/authorization')"></app-employer-navigation>
+  <app-finder-navigation *ngIf="userService.getUserRole() === 'finder' && !router.url.includes('/app/authorization')"></app-finder-navigation>
+  <app-employer-navigation *ngIf="userService.getUserRole() === 'employer' && !router.url.includes('/app/authorization')"></app-employer-navigation>
 </div>

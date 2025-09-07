@@ -29,6 +29,6 @@ export class AnnouncementsComponent implements OnInit {
   }
 
   editAnnouncement(job_id: number) {
-    this.router.navigate(['/editing-announcement', job_id]);
+    this.router.navigate(['/app/editing-announcement', job_id]);
   }
 }

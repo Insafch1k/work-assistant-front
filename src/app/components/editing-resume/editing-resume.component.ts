@@ -37,7 +37,7 @@ export class EditingResumeComponent implements OnInit {
           this.skillsList = this.resume.skills ? this.resume.skills.split(',') : [];
         } else {
           // Если резюме нет, перенаправляем на создание
-          this.router.navigate(['/resume']);
+          this.router.navigate(['/app/resume']);
         }
       },
       error: (error) => {
@@ -76,7 +76,7 @@ export class EditingResumeComponent implements OnInit {
         next: (response) => {
           console.log('Резюме обновлено', response);
           this.isLoading = false;
-          this.router.navigate(['/profile']);
+          this.router.navigate(['/app/profile']);
         },
         error: (error) => {
           console.error('Ошибка обновления резюме', error);
@@ -91,7 +91,7 @@ export class EditingResumeComponent implements OnInit {
       this.resumeService.deleteResume().subscribe({
         next: () => {
           this.isLoading = false;
-          this.router.navigate(['/profile']);
+          this.router.navigate(['/app/profile']);
         },
         error: (error) => {
           console.error('Ошибка удаления резюме', error);

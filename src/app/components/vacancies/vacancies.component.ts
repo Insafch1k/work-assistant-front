@@ -179,7 +179,7 @@ export class VacanciesComponent implements OnInit {
     this.closeCityDropdown();
     
     // Добавляем параметр города в URL
-    this.router.navigate(['/vacancies'], { 
+    this.router.navigate(['/app/vacancies'], { 
       queryParams: { city: city },
       queryParamsHandling: 'merge' // Сохраняем другие параметры
     });
@@ -192,7 +192,7 @@ export class VacanciesComponent implements OnInit {
     this.closeCityDropdown();
     
     // Убираем параметр города из URL
-    this.router.navigate(['/vacancies'], { 
+    this.router.navigate(['/app/vacancies'], { 
       queryParams: { city: null },
       queryParamsHandling: 'merge'
     });

@@ -38,8 +38,10 @@ export class NewAnnouncementComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    console.log('ngAfterViewInit вызван автоматически!');
     const input = document.getElementById('address');
     if (input && typeof Dadata !== 'undefined') {
+      console.log('Dadata найден, создаю подсказки для поля:', input);
       Dadata.createSuggestions(input, {
         token: '441d69731e712ccdc0783034f9e890d8727629df',
         type: 'address',
@@ -54,6 +56,8 @@ export class NewAnnouncementComponent implements AfterViewInit {
           this.form.get('city')?.setValue(city);
         }
       });
+    } else {
+      console.log('Dadata не найден или поле address не найдено');
     }
   }
 
@@ -72,7 +76,7 @@ export class NewAnnouncementComponent implements AfterViewInit {
   
     this.announcementService.createAnnouncement(announcementData).subscribe({
       next: (response) => {
-        this.router.navigate(['/announcements']);
+        this.router.navigate(['/app/announcements']);
       },
       error: (err) => {
         this.formError = 'Ошибка при отправке объявления';

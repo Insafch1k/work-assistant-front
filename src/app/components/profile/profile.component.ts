@@ -201,7 +201,7 @@ export class ProfileComponent implements OnInit {
   logout() {
     localStorage.clear();
     this.userService.clearProfileCache();
-    this.router.navigate(['/authorization']);
+    this.router.navigate(['/app/authorization']);
   }
 
   // getPhotoSrc(): string {
@@ -221,10 +221,10 @@ export class ProfileComponent implements OnInit {
   }
 
   goToVacancyDetails(jobId: number) {
-    this.router.navigate(['/jobs', jobId, 'seeall']);
+    this.router.navigate(['/app/jobs', jobId, 'seeall']);
   }
 
   editResume(): void {
-    this.router.navigate(['/editing-resume']);
+    this.router.navigate(['/app/editing-resume']);
   }
 }

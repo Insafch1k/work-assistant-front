@@ -36,21 +36,14 @@ export class ResumeService {
   // получение резюме
   getResume(timestamp?: number): Observable<Resume | null> {
 
-    const url = timestamp ? 
-      `${this.apiUrl}/resumes?_=${timestamp}` : 
-      `${this.apiUrl}/resumes`;
+    const url = `${this.apiUrl}/resumes`;
     
     return this.http.get<any>(url).pipe(
       map(response => {
         console.log('Ответ от сервера (резюме):', response);
         
-        if (Array.isArray(response)) {
-          if (response.length > 0) {
-            return response[0];
-          }
-        } 
 
-        else if (response && response.job_title) {
+        if (response && response.job_title) {
           return response;
         }
         

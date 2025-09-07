@@ -33,7 +33,7 @@ export class ResumeComponent implements OnInit {
       next: (existingResume) => {
         if (existingResume) {
           alert('У вас уже есть резюме. Вы можете редактировать его в профиле.');
-          this.router.navigate(['/profile']);
+          this.router.navigate(['/app/profile']);
         }
       },
       error: (error) => {
@@ -103,7 +103,7 @@ export class ResumeComponent implements OnInit {
         console.log('Резюме успешно сохранено', response);
         this.isLoading = false;
         // Переходим на профиль с параметром, указывающим, что нужно обновить данные
-        this.router.navigate(['/profile'], { 
+        this.router.navigate(['/app/profile'], { 
           queryParams: { fromResume: 'true', timestamp: new Date().getTime() } 
         });
       },

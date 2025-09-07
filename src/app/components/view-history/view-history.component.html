@@ -83,7 +83,7 @@
             </div>
 
             <img 
-            [routerLink]="!isEmployer() ? ['/employers', vacancy.employer_id] : null"
+            [routerLink]="!isEmployer() ? ['/app/employers', vacancy.employer_id] : null"
             src="assets/images/user-avatar.png" 
             alt="Аватар"
             style="cursor:pointer">
@@ -102,7 +102,7 @@
             <rect width="75" height="40" rx="15" fill="#6849FF"/>
             <path d="M34.4963 11.9437C34.9439 11.9437 36.7342 15.9719 36.7342 16.4194C36.7342 17.3146 35.3915 18.2097 34.9439 19.1049C34.4963 20 35.3915 20.8952 36.2866 21.7903C36.6357 22.1394 38.0769 23.5806 38.972 23.133C39.8672 22.6854 40.7623 21.3427 41.6575 21.3427C42.1051 21.3427 46.1332 23.133 46.1332 23.5806C46.1332 25.3709 44.7905 26.7136 43.4478 27.1612C42.1051 27.6087 41.2099 27.6087 39.4196 27.1612C37.6293 26.7136 36.2866 26.266 34.0488 24.0282C31.8109 21.7903 31.3633 20.4476 30.9158 18.6573C30.4682 16.867 30.4682 15.9719 30.9158 14.6292C31.3633 13.2864 32.706 11.9437 34.4963 11.9437Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>  
-        <button class="btn-details" [routerLink]="['/jobs', vacancy.job_id, 'seeall']">Подробнее</button>
+        <button class="btn-details" [routerLink]="['/app/jobs', vacancy.job_id, 'seeall']">Подробнее</button>
     </div>
 
   </div>

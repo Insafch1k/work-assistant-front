@@ -104,7 +104,7 @@ export class AuthorizationComponent implements OnInit{
           this.userService.saveToken(loginResponse.access_token);
           this.registrationMessage = 'Авторизация успешна';
           setTimeout(() => {
-            this.router.navigate(['/profile']);
+            this.router.navigate(['/app/profile']);
           }, 1000);
         } else {
           this.registrationMessage = 'Ошибка получения токена';
@@ -120,7 +120,7 @@ export class AuthorizationComponent implements OnInit{
                 this.userService.saveToken(initResponse.access_token);
                 this.registrationMessage = 'Регистрация успешна';
                 setTimeout(() => {
-                  this.router.navigate(['/profile']);
+                  this.router.navigate(['/app/profile']);
                 }, 1000);
               } else {
                 this.registrationMessage = 'Ошибка получения токена при регистрации';
