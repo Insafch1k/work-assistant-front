@@ -42,7 +42,12 @@
 
         <button type="submit" class="btn-authorize" [disabled]="!isFormValid()">
             <span *ngIf="!isLoading">Авторизоваться</span>
-            <span *ngIf="isLoading">Загрузка...</span>
+            <!-- <span *ngIf="isLoading">Загрузка...</span> -->
+        </button>
+
+        <!-- кнопка входа в админ панель -->
+        <button *ngIf="isAdmin" type="button" class="btn-admin" (click)="goToAdminPanel()">
+            <p>Админ-панель</p>
         </button>
 
         <div *ngIf="tgUsernameMissing" style="color: #F56B68; margin-top: 10px;">

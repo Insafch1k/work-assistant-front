@@ -143,23 +143,23 @@ fetchEmployerVacancies(): Observable<Vacancy[]> {
       );
   }
 
-  // Получение вакансий с фильтром по городам
-  fetchFinderVacanciesWithCityFilter(city?: string): Observable<Vacancy[]> {
-    if (city) {
-      // Используем существующий метод filterVacancies с параметром city
-      return this.filterVacancies({ city: city });
-    } else {
-      // Если город не указан, загружаем все вакансии
-      return this.fetchFinderVacancies();
+    // Получение вакансий с фильтром по городам
+    fetchFinderVacanciesWithCityFilter(city?: string): Observable<Vacancy[]> {
+      if (city) {
+        // Используем существующий метод filterVacancies с параметром city
+        return this.filterVacancies({ city: city });
+      } else {
+        // Если город не указан, загружаем все вакансии
+        return this.fetchFinderVacancies();
+      }
     }
-  }
 
-  filterVacancies(params: any): Observable<Vacancy[]> {
-    const fixedParams = { ...params };
-    if ('is_urgent' in fixedParams) {
-      fixedParams.is_urgent = fixedParams.is_urgent === true || fixedParams.is_urgent === 'true';
+    filterVacancies(params: any): Observable<Vacancy[]> {
+      const fixedParams = { ...params };
+      if ('is_urgent' in fixedParams) {
+        fixedParams.is_urgent = fixedParams.is_urgent === true || fixedParams.is_urgent === 'true';
+      }
+      return this.http.post<Vacancy[]>(`${this.apiUrl}/jobs/filter`, fixedParams);
     }
-    return this.http.post<Vacancy[]>(`${this.apiUrl}/jobs/filter`, fixedParams);
-  }
   
 }

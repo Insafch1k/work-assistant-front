@@ -285,3 +285,59 @@ select option {
   background-color: #2c2c2c !important;
   color: white !important;
 }
+
+// // Стили для админ панели
+// .admin-section {
+//   margin-top: 30px;
+//   width: 100%;
+//   display: flex;
+//   justify-content: center;
+// }
+
+// .btn-admin {
+//   background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+//   color: white;
+//   border: none;
+//   border-radius: 20px;
+//   padding: 15px 30px;
+//   font-size: 16px;
+//   font-family: 'Inter', sans-serif;
+//   font-weight: 500;
+//   cursor: pointer;
+//   transition: all 0.3s ease;
+//   box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  
+//   &:hover {
+//     background: linear-gradient(135deg, #ee5a24, #ff6b6b);
+//     transform: translateY(-2px);
+//     box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+//   }
+  
+//   &:active {
+//     transform: translateY(0);
+//   }
+// }
+
+.btn-admin {
+  color: white;
+  border: none;
+  border-radius: 20px;
+  background-color: #F56B68;
+  padding: 0;
+  height: 60px;
+  width: 100%;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  &:hover:not(:disabled) {
+    background-color: #ed8f8e;
+  }
+}

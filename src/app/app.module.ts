@@ -24,6 +24,7 @@ import { ResumeComponent } from './components/resume/resume.component';
 import { EditingAnnouncementComponent } from './components/editing-announcement/editing-announcement.component';
 import { EditingResumeComponent } from './components/editing-resume/editing-resume.component';
 import { RewiewComponent } from './components/rewiew/rewiew.component';
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { RewiewComponent } from './components/rewiew/rewiew.component';
     EditingAnnouncementComponent,
     EditingResumeComponent,
     RewiewComponent,
+    AdminPanelComponent,
   ],
   imports: [
     BrowserModule,

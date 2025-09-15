@@ -108,7 +108,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    // border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     
     span {
         color: white;
@@ -136,7 +136,7 @@
 
 .city-search-container {
     padding: 10px 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    // border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .city-search-input {
@@ -181,7 +181,6 @@
 
 .no-results {
     color: rgba(255, 255, 255, 0.5);
-    font-style: italic;
     cursor: default;
     
     &:hover {

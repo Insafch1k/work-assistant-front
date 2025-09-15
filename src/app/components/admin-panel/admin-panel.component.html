@@ -1,0 +1,90 @@
+<div class="admin-panel-container">
+  <!-- Заголовок -->
+  <div class="admin-header">
+    <button class="back-btn" (click)="goBack()">
+      Назад
+    </button>
+    <h1>Админ панель</h1>
+  </div>
+
+  <!-- Метрики -->
+  <div class="metrics-container">
+    
+    <!-- Основные метрики -->
+    <div class="metrics-section">
+      <h2>📊 Основные метрики</h2>
+      <div class="period-select">
+        <label>Период: </label>
+        <select [ngModel]="selectedWindow" (ngModelChange)="onWindowChange($event)">
+          <option value="today">Сегодня</option>
+          <option value="yesterday">Вчера</option>
+          <option value="7d">За 7 дней</option>
+          <option value="30d">За 30 дней</option>
+        </select>
+      </div>
+      <ng-container *ngIf="metrics as m">
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon">👥</div>
+          <div class="metric-content">
+            <h3>Зарегистрированные пользователи</h3>
+            <p class="metric-value">{{ formatNumber(m.registeredUsers || 0) }}</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">⚡</div>
+          <div class="metric-content">
+            <h3>Активные пользователи</h3>
+            <p class="metric-value">{{ formatNumber(m.activeUsers || 0) }}</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">📝</div>
+          <div class="metric-content">
+            <h3>Новые вакансии</h3>
+            <p class="metric-value">{{ formatNumber(m.newVacancies || 0) }}</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">📤</div>
+          <div class="metric-content">
+            <h3>Отклики</h3>
+            <p class="metric-value">{{ formatNumber(m.responsesCount || 0) }}</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">📈</div>
+          <div class="metric-content">
+            <h3>Коэффициент откликов</h3>
+            <p class="metric-value">{{ (m.responseRate || 0).toFixed(2) }}</p>
+          </div>
+        </div>
+      </div>
+      </ng-container>
+    </div>
+
+    <!-- Графики -->
+    <!-- <div class="metrics-section full-width-section">
+      <h2>📈 Графики и аналитика</h2>
+      
+      <div class="chart-container">
+        <h3>Рост пользователей</h3>
+        <div class="chart">
+          📊 График роста пользователей (здесь будет Chart.js или другой график)
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h3>Активность по дням</h3>
+        <div class="chart">
+          📈 График активности (здесь будет график активности)
+        </div>
+      </div>
+    </div> -->
+
+  </div>
+</div>

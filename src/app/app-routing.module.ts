@@ -13,6 +13,7 @@ import { NewAnnouncementComponent } from './components/new-announcement/new-anno
 import { EditingAnnouncementComponent } from './components/editing-announcement/editing-announcement.component';
 import { EditingResumeComponent } from './components/editing-resume/editing-resume.component';
 import { RewiewComponent } from './components/rewiew/rewiew.component';
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'app/authorization' },
@@ -33,7 +34,8 @@ const routes: Routes = [
       { path: 'editing-resume', component: EditingResumeComponent },
       { path: 'editing-announcement/:job_id', component: EditingAnnouncementComponent },
       { path: 'employers/:employer_id', component: ProfileComponent },
-      { path: 'review', component: RewiewComponent }
+      { path: 'review', component: RewiewComponent },
+      { path: 'admin', component: AdminPanelComponent }
     ]
   }
 ];

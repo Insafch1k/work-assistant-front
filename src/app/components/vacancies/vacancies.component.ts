@@ -4,6 +4,7 @@ import { VacancyService } from '../../services/vacancy.service';
 import { UserService } from 'src/app/services/user.service';
 import { FavoritesService } from 'src/app/services/favorites.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MetricsService } from 'src/app/services/metrics.service';
 
 @Component({
   selector: 'app-vacancies',
@@ -26,8 +27,8 @@ export class VacanciesComponent implements OnInit {
     private userService: UserService,
     private favoritesService: FavoritesService,
     private route: ActivatedRoute,
-    private router: Router
-    
+    private router: Router,
+    private metricsService: MetricsService
   ) {}
   
   ngOnInit(): void {
@@ -121,6 +122,12 @@ export class VacanciesComponent implements OnInit {
 
   callEmployer(vacancy: Vacancy): void {
     if (vacancy.phone) {
+      // Отправляем событие отклика на вакансию
+      const tgId = this.userService.getTgId();
+      if (tgId) {
+        this.metricsService.trackVacancySent(tgId);
+      }
+      
       window.open(`tel:${vacancy.phone}`, '_blank');
     } else {
       alert('У работодателя не указан номер телефона');
@@ -129,6 +136,12 @@ export class VacanciesComponent implements OnInit {
 
   writeEmployer(vacancy: Vacancy): void {
     if (vacancy.tg_username) {
+      // Отправляем событие отклика на вакансию
+      const tgId = this.userService.getTgId();
+      if (tgId) {
+        this.metricsService.trackVacancySent(tgId);
+      }
+      
       window.open(`https://t.me/${vacancy.tg_username.replace('@', '')}`, '_blank');
     } else {
       alert('У работодателя не указан Telegram username');

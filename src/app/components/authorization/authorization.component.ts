@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { TelegramService } from 'src/app/services/telegram.service';
+import { AdminService } from 'src/app/services/admin.service';
+import { MetricsService } from 'src/app/services/metrics.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,12 +18,15 @@ export class AuthorizationComponent implements OnInit{
   registrationMessage: string = '';
   isLoading: boolean = false;
   tgUsernameMissing: boolean = false;
+  isAdmin: boolean = false;
 
   private isProcessing = false;
 
   constructor (
     private telegramService: TelegramService,
     private userService: UserService,
+    private adminService: AdminService,
+    private metricsService: MetricsService,
     private router: Router
   ) {}
   
@@ -30,7 +35,12 @@ export class AuthorizationComponent implements OnInit{
     this.userService.saveUserRole('');
 
     this.userName = this.telegramService.getUserName();
-    const tgId = this.telegramService.getUserId();
+    let tgId = this.telegramService.getUserId();
+
+    // Если Telegram ID не получен из Telegram WebApp, берем из localStorage
+    if (!tgId) {
+      tgId = this.userService.getTgId();
+    }
 
     if (tgId) {
       this.userService.saveTgId(tgId);
@@ -43,6 +53,9 @@ export class AuthorizationComponent implements OnInit{
     if (savedRole === 'finder' || savedRole === 'employer') {
       this.selectedRole = savedRole as 'finder' | 'employer';
     }
+
+    // проверяем, является ли пользователь админом
+    this.isAdmin = this.adminService.isAdmin(tgId);
   }
 
   selectRoleByImage(role: 'finder' | 'employer', event: Event): void {
@@ -119,6 +132,10 @@ export class AuthorizationComponent implements OnInit{
               if (initResponse && initResponse.access_token) {
                 this.userService.saveToken(initResponse.access_token);
                 this.registrationMessage = 'Регистрация успешна';
+                
+                // Отправляем событие регистрации пользователя
+                this.metricsService.trackUserRegistered(tgId);
+                
                 setTimeout(() => {
                   this.router.navigate(['/app/profile']);
                 }, 1000);
@@ -149,5 +166,11 @@ export class AuthorizationComponent implements OnInit{
       return 'Я работодатель';
     }
     return 'Выберите роль';
+  }
+
+
+  //  переход в админ панель
+  goToAdminPanel(): void {
+    this.router.navigate(['/app/admin']);
   }
 }

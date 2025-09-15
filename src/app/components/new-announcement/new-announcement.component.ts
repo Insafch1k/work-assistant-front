@@ -2,6 +2,8 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AnnouncementService } from 'src/app/services/announcement.service';
 import { Router } from '@angular/router';
+import { MetricsService } from 'src/app/services/metrics.service';
+import { UserService } from 'src/app/services/user.service';
 
 declare const Dadata: any;
 
@@ -18,7 +20,9 @@ export class NewAnnouncementComponent implements AfterViewInit {
   constructor(
     private fb: FormBuilder, 
     private announcementService: AnnouncementService,
-    private router: Router
+    private router: Router,
+    private metricsService: MetricsService,
+    private userService: UserService
   ) {
     this.form = this.fb.group({
       wanted_job: ['', Validators.required],
@@ -76,6 +80,12 @@ export class NewAnnouncementComponent implements AfterViewInit {
   
     this.announcementService.createAnnouncement(announcementData).subscribe({
       next: (response) => {
+        // Отправляем событие создания объявления
+        const tgId = this.userService.getTgId();
+        if (tgId) {
+          this.metricsService.trackVacancyPublished(tgId);
+        }
+        
         this.router.navigate(['/app/announcements']);
       },
       error: (err) => {
