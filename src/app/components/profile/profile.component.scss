@@ -322,6 +322,26 @@
     }
   
   }
+
+  .warning-card {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(53, 56, 63, 1);
+    border-radius: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-left: 4px solid #F56B68;
+
+    .warning-text {
+      color: #F56B68;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.4;
+      margin: 0;
+    }
+  }
   
 }
 

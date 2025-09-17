@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { TelegramService } from 'src/app/services/telegram.service';
 import { AdminService } from 'src/app/services/admin.service';
-import { MetricsService } from 'src/app/services/metrics.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,7 +16,6 @@ export class AuthorizationComponent implements OnInit{
   hoverRole: 'employer' | 'finder' | '' = '';
   registrationMessage: string = '';
   isLoading: boolean = false;
-  tgUsernameMissing: boolean = false;
   isAdmin: boolean = false;
 
   private isProcessing = false;
@@ -26,7 +24,6 @@ export class AuthorizationComponent implements OnInit{
     private telegramService: TelegramService,
     private userService: UserService,
     private adminService: AdminService,
-    private metricsService: MetricsService,
     private router: Router
   ) {}
   
@@ -45,9 +42,6 @@ export class AuthorizationComponent implements OnInit{
     if (tgId) {
       this.userService.saveTgId(tgId);
     }
-
-    const tgUsername = this.telegramService.getUserUsername();
-    this.tgUsernameMissing = !tgUsername || tgUsername.trim() === '@';
 
     const savedRole = this.userService.getUserRole();
     if (savedRole === 'finder' || savedRole === 'employer') {
@@ -132,9 +126,6 @@ export class AuthorizationComponent implements OnInit{
               if (initResponse && initResponse.access_token) {
                 this.userService.saveToken(initResponse.access_token);
                 this.registrationMessage = 'Регистрация успешна';
-                
-                // Отправляем событие регистрации пользователя
-                this.metricsService.trackUserRegistered(tgId);
                 
                 setTimeout(() => {
                   this.router.navigate(['/app/profile']);

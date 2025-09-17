@@ -49,11 +49,6 @@
         <button *ngIf="isAdmin" type="button" class="btn-admin" (click)="goToAdminPanel()">
             <p>Админ-панель</p>
         </button>
-
-        <div *ngIf="tgUsernameMissing" style="color: #F56B68; margin-top: 10px;">
-            У вас не установлен username в Telegram.<br>
-            Пожалуйста, откройте настройки Telegram и задайте себе username (имя пользователя), чтобы продолжить.
-        </div>
-
+        
     </form>
 </div>

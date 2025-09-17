@@ -108,7 +108,22 @@
     <p>Роль в сервисе</p>
     <h2>{{ getRoleName() }}</h2>
   </div>
-
+   
+   <div *ngIf="!username" class="warning-card">
+     <p class="warning-text">
+       У вас не установлен @username в Telegram.<br>
+       Он нужен, чтобы работники могли написать вам в личные сообщения через Telegram.<br>
+       Откройте настройки Telegram и задайте себе @username.
+     </p>
+   </div>
+   
+   <div *ngIf="!phoneNumber" class="warning-card">
+     <p class="warning-text">
+       У вас не указан номер телефона.<br>
+       Укажите номер, чтобы работники могли позвонить вам напрямую.
+     </p>
+   </div>
+  
 </div>
 
 <!-- профиль работодателя, который видит соискатель -->

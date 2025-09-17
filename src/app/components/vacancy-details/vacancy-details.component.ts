@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { VacancyService } from '../../services/vacancy.service';
 import { FavoritesService } from '../../services/favorites.service';
+import { UserService } from 'src/app/services/user.service';
+import { MetricsService } from 'src/app/services/metrics.service';
 import { Vacancy } from '../../models/vacancy.model';
 import { ViewHistoryService } from 'src/app/services/view-history.service';
 import { query } from '@angular/animations';
@@ -20,7 +22,9 @@ export class VacancyDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private vacancyService: VacancyService,
     private viewHistoryService: ViewHistoryService,
-    private favoritesService: FavoritesService
+    private favoritesService: FavoritesService,
+    private userService: UserService,
+    private metricsService: MetricsService
   ) { }
   
   ngOnInit(): void {
@@ -81,6 +85,10 @@ export class VacancyDetailsComponent implements OnInit {
 
   callEmployer(vacancy: Vacancy): void {
     if (vacancy.phone) {
+      const tgId = this.userService.getTgId();
+      if (tgId) {
+        this.metricsService.trackVacancySent(tgId);
+      }
       window.open(`tel:${vacancy.phone}`, '_blank');
     } else {
       alert('У работодателя не указан номер телефона');
@@ -89,6 +97,10 @@ export class VacancyDetailsComponent implements OnInit {
 
   writeEmployer(vacancy: Vacancy): void {
     if (vacancy.tg_username) {
+      const tgId = this.userService.getTgId();
+      if (tgId) {
+        this.metricsService.trackVacancySent(tgId);
+      }
       window.open(`https://t.me/${vacancy.tg_username.replace('@', '')}`, '_blank');
     } else {
       alert('У работодателя не указан Telegram username');

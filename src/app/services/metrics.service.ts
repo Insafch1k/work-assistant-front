@@ -15,7 +15,7 @@ export interface MetricsData {
 export type MetricsWindow = 'today' | 'yesterday' | '7d' | '30d';
 
 export interface TrackEventData {
-  event_name: 'user_registered' | 'vacancy_published' | 'vacancy_sent';
+  event_name: 'vacancy_sent';
   user_id: string;
 }
 
@@ -165,28 +165,6 @@ export class MetricsService {
           return of(null);
         })
       );
-  }
-
-  /**
-   * Отправляет событие регистрации пользователя
-   * @param userId - ID пользователя
-   */
-  trackUserRegistered(userId: string): void {
-    this.trackEvent({
-      event_name: 'user_registered',
-      user_id: userId
-    }).subscribe();
-  }
-
-  /**
-   * Отправляет событие публикации вакансии
-   * @param userId - ID пользователя
-   */
-  trackVacancyPublished(userId: string): void {
-    this.trackEvent({
-      event_name: 'vacancy_published',
-      user_id: userId
-    }).subscribe();
   }
 
   /**

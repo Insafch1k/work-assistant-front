@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FavoritesService } from 'src/app/services/favorites.service';
 import { UserService } from 'src/app/services/user.service';
+import { MetricsService } from 'src/app/services/metrics.service';
 
 @Component({
   selector: 'app-favorites',
@@ -14,7 +15,8 @@ export class FavoritesComponent implements OnInit {
 
   constructor(
     private favoritesService: FavoritesService,
-    private userService: UserService
+    private userService: UserService,
+    private metricsService: MetricsService
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +69,10 @@ export class FavoritesComponent implements OnInit {
 
   callEmployer(vacancy: any): void {
     if (vacancy.phone) {
+      const tgId = this.userService.getTgId();
+      if (tgId) {
+        this.metricsService.trackVacancySent(tgId);
+      }
       window.open(`tel:${vacancy.phone}`, '_blank');
     } else {
       alert('У работодателя не указан номер телефона');
@@ -75,6 +81,10 @@ export class FavoritesComponent implements OnInit {
   
   writeEmployer(vacancy: any): void {
     if (vacancy.tg_username) {
+      const tgId = this.userService.getTgId();
+      if (tgId) {
+        this.metricsService.trackVacancySent(tgId);
+      }
       window.open(`https://t.me/${vacancy.tg_username.replace('@', '')}`, '_blank');
     } else {
       alert('У работодателя не указан Telegram username');
