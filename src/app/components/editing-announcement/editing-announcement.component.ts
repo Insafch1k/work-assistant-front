@@ -84,6 +84,13 @@ export class EditingAnnouncementComponent implements OnInit {
       this.formError = 'Заполните все поля';
       return;
     }
+
+    // Валидация даты: запрещаем прошедшие дни; сегодняшнюю дату разрешаем при любом времени
+    const dateStr: string = this.form.get('date')?.value;
+    if (dateStr && this.isPastCalendarDate(dateStr)) {
+      this.formError = 'Вы указали прошедшую дату. Пожалуйста, исправьте.';
+      return;
+    }
   
     const formValue = this.form.value;
     formValue.salary = Number(formValue.salary);
@@ -151,5 +158,15 @@ export class EditingAnnouncementComponent implements OnInit {
     let value = input.value.replace(/\D/g, '');
     input.value = value;
     this.form.get('salary')?.setValue(value, { emitEvent: false });
+  }
+
+  // Helpers
+  private isPastCalendarDate(ddmmyyyy: string): boolean {
+    const [dd, mm, yyyy] = ddmmyyyy.split('.').map(Number);
+    if (!dd || !mm || !yyyy) return false;
+    const target = new Date(yyyy, mm - 1, dd, 0, 0, 0, 0);
+    const today = new Date();
+    const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0);
+    return target < todayOnly;
   }
 }
