@@ -16,7 +16,7 @@ export type MetricsWindow = 'today' | 'yesterday' | '7d' | '30d';
 
 export interface TrackEventData {
   event_name: 'vacancy_sent';
-  user_id: string;
+  tg_id: string;
 }
 
 @Injectable({
@@ -171,10 +171,10 @@ export class MetricsService {
    * Отправляет событие отклика на вакансию
    * @param userId - ID пользователя
    */
-  trackVacancySent(userId: string): void {
+  trackVacancySent(tgId: string): void {
     this.trackEvent({
       event_name: 'vacancy_sent',
-      user_id: userId
+      tg_id: tgId
     }).subscribe();
   }
 
