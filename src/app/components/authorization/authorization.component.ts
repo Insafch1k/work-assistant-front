@@ -48,8 +48,18 @@ export class AuthorizationComponent implements OnInit{
       this.selectedRole = savedRole as 'finder' | 'employer';
     }
 
-    // проверяем, является ли пользователь админом
-    this.isAdmin = this.adminService.isAdmin(tgId);
+    // проверяем, является ли пользователь админом через API
+    if (tgId) {
+      this.adminService.isAdmin().subscribe({
+        next: (isAdmin) => {
+          this.isAdmin = isAdmin;
+        },
+        error: (error) => {
+          console.error('Ошибка проверки прав админа:', error);
+          this.isAdmin = false;
+        }
+      });
+    }
   }
 
   selectRoleByImage(role: 'finder' | 'employer', event: Event): void {

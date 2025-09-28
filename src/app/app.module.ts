@@ -25,6 +25,7 @@ import { EditingAnnouncementComponent } from './components/editing-announcement/
 import { EditingResumeComponent } from './components/editing-resume/editing-resume.component';
 import { RewiewComponent } from './components/rewiew/rewiew.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { AdminPanelComponent } from './components/admin-panel/admin-panel.compon
     EditingResumeComponent,
     RewiewComponent,
     AdminPanelComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,

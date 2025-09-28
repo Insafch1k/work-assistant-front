@@ -172,7 +172,7 @@
             </svg>
                 
                 
-            <button class="btn-details" [routerLink]="['/app/jobs', vacancy.job_id, 'seeall']">Подробнее</button>
+            <button class="btn-details" (click)="viewDetails(vacancy)">Подробнее</button>
         </div>
 
     </div>

@@ -1,0 +1,8 @@
+<div *ngIf="subscriptionService.showModal" class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <span class="close-btn" (click)="closeModal()">×</span>
+    </div>
+    <p>Для продолжения подпишитесь на канал подработок <a href="{{subscriptionService.channelUrl}}" target="_blank" (click)="openChannel()">{{subscriptionService.channelUrl}}</a></p>
+  </div>
+</div>
