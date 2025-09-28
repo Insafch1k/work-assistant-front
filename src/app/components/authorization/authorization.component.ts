@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { TelegramService } from 'src/app/services/telegram.service';
-import { AdminService } from 'src/app/services/admin.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,14 +15,12 @@ export class AuthorizationComponent implements OnInit{
   hoverRole: 'employer' | 'finder' | '' = '';
   registrationMessage: string = '';
   isLoading: boolean = false;
-  isAdmin: boolean = false;
 
   private isProcessing = false;
 
   constructor (
     private telegramService: TelegramService,
     private userService: UserService,
-    private adminService: AdminService,
     private router: Router
   ) {}
   
@@ -46,19 +43,6 @@ export class AuthorizationComponent implements OnInit{
     const savedRole = this.userService.getUserRole();
     if (savedRole === 'finder' || savedRole === 'employer') {
       this.selectedRole = savedRole as 'finder' | 'employer';
-    }
-
-    // проверяем, является ли пользователь админом через API
-    if (tgId) {
-      this.adminService.isAdmin().subscribe({
-        next: (isAdmin) => {
-          this.isAdmin = isAdmin;
-        },
-        error: (error) => {
-          console.error('Ошибка проверки прав админа:', error);
-          this.isAdmin = false;
-        }
-      });
     }
   }
 
@@ -167,11 +151,5 @@ export class AuthorizationComponent implements OnInit{
       return 'Я работодатель';
     }
     return 'Выберите роль';
-  }
-
-
-  //  переход в админ панель
-  goToAdminPanel(): void {
-    this.router.navigate(['/app/admin']);
   }
 }

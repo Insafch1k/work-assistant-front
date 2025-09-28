@@ -5,6 +5,7 @@ import { Resume } from 'src/app/models/resume.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Announcement } from 'src/app/models/announcement.model';
 import { AnnouncementService } from 'src/app/services/announcement.service';
+import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
   selector: 'app-profile',
@@ -33,16 +34,24 @@ export class ProfileComponent implements OnInit {
   editablePhone: string = '';
   phoneError: string = '';
 
+  // Для админки
+  isAdmin: boolean = false;
+
   constructor(
     private userService: UserService,
     private resumeService: ResumeService,
     private router: Router,
     private route: ActivatedRoute,
-    private announcementService: AnnouncementService
+    private announcementService: AnnouncementService,
+    private adminService: AdminService
   ) {}
 
   ngOnInit(): void {
     this.userRole = this.userService.getUserRole();
+    
+    // Проверяем права админа
+    this.checkAdminAccess();
+    
     this.route.paramMap.subscribe(params => {
       const employerId = params.get('employer_id');
       if (employerId) {
@@ -202,6 +211,24 @@ export class ProfileComponent implements OnInit {
     localStorage.clear();
     this.userService.clearProfileCache();
     this.router.navigate(['/app/authorization']);
+  }
+
+  // Проверка прав админа
+  private checkAdminAccess(): void {
+    this.adminService.isAdmin().subscribe({
+      next: (isAdmin) => {
+        this.isAdmin = isAdmin;
+      },
+      error: (error) => {
+        console.error('Ошибка проверки прав админа:', error);
+        this.isAdmin = false;
+      }
+    });
+  }
+
+  // Переход в админ панель
+  goToAdminPanel(): void {
+    this.router.navigate(['/app/admin']);
   }
 
   // getPhotoSrc(): string {
