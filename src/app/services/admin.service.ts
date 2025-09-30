@@ -58,15 +58,16 @@ export class AdminService {
     offset: number;
     name_filter?: string;
   }): Observable<UsersResponse> {
-    let httpParams = new HttpParams()
-      .set('limit', params.limit.toString())
-      .set('offset', params.offset.toString());
-    
+    const body: any = {
+      limit: params.limit,
+      offset: params.offset,
+    };
+
     if (params.name_filter) {
-      httpParams = httpParams.set('name_filter', params.name_filter);
+      body.name_filter = params.name_filter;
     }
 
-    return this.http.get<UsersResponse>(`${this.userService.apiUrl}/admin/get_users`, { params: httpParams });
+    return this.http.post<UsersResponse>(`${this.userService.apiUrl}/admin/get_users`, body);
   }
 
   // Бан пользователя
