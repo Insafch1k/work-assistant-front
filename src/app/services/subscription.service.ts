@@ -63,21 +63,6 @@ export class SubscriptionService {
     });
   }
 
-  // Проверка подписки по городу (для публикации объявления)
-  checkSubscriptionForCity(city: string): Observable<SubscriptionResponse> {
-    return this.http.get<SubscriptionResponse>(`${this.apiUrl}/jobs/check_subscription`, {
-      params: { city }
-    });
-  }
-
-  async checkSubscriptionForCityAsync(city: string): Promise<SubscriptionResponse> {
-    return new Promise((resolve, reject) => {
-      this.checkSubscriptionForCity(city).subscribe({
-        next: (response) => resolve(response),
-        error: (error) => reject(error)
-      });
-    });
-  }
 
   closeModal() {
     this.showModal = false;

@@ -67,37 +67,6 @@ export class NewAnnouncementComponent implements AfterViewInit {
 
   onSubmit() {
     this.formError = '';
-    // Проверка подписки через бэкенд по выбранному городу
-    const city = this.form.get('city')?.value || '';
-    if (!city) {
-      this.formError = 'Укажите город';
-      return;
-    }
-
-    // Выполняем проверку подписки и только затем продолжаем сабмит
-    this.subscriptionService.checkSubscriptionForCityAsync(city)
-      .then((resp) => {
-        if (!resp.access) {
-          this.subscriptionService.channelUrl = `https://t.me/${resp.channel?.replace('@','')}`;
-          this.subscriptionService.showModal = true;
-          throw new Error('no-access');
-        }
-
-        // если есть доступ — продолжаем обычную отправку
-        this.submitAfterCheck();
-      })
-      .catch((err) => {
-        if (String(err?.message) !== 'no-access') {
-          this.formError = 'Ошибка проверки подписки';
-        }
-      });
-  }
-
-  private submitAfterCheck() {
-    if (this.form.invalid) {
-      this.formError = 'Заполните все поля';
-      return;
-    }
     if (this.form.invalid) {
       this.formError = 'Заполните все поля';
       return;
@@ -109,23 +78,31 @@ export class NewAnnouncementComponent implements AfterViewInit {
       this.formError = 'Вы указали прошедшую дату. Пожалуйста, исправьте.';
       return;
     }
-  
+
     const formValue = this.form.value;
     const announcementData = {
       ...formValue,
       salary: Number(formValue.salary),
     };
-  
+
     this.announcementService.createAnnouncement(announcementData).subscribe({
       next: (response) => {
         this.router.navigate(['/app/announcements']);
       },
       error: (err) => {
-        this.formError = 'Ошибка при отправке объявления';
-        console.error('Ошибка при создании:', err);
+        // Проверяем, это ошибка подписки или другая ошибка
+        if (err.error && err.error.access === false && err.error.channel) {
+          // Показываем модалку с каналом
+          this.subscriptionService.channelUrl = `https://t.me/${err.error.channel.replace('@', '')}`;
+          this.subscriptionService.showModal = true;
+        } else {
+          this.formError = 'Ошибка при отправке объявления';
+          console.error('Ошибка при создании:', err);
+        }
       }
     });
   }
+
 
   onDateInput(event: Event): void {
     const input = event.target as HTMLInputElement;
