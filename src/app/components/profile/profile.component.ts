@@ -3,6 +3,7 @@ import { UserService } from 'src/app/services/user.service';
 import { ResumeService } from 'src/app/services/resume.service';
 import { Resume } from 'src/app/models/resume.model';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SubscriptionService } from 'src/app/services/subscription.service';
 import { Announcement } from 'src/app/models/announcement.model';
 import { AnnouncementService } from 'src/app/services/announcement.service';
 import { AdminService } from 'src/app/services/admin.service';
@@ -43,7 +44,8 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private announcementService: AnnouncementService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private subscriptionService: SubscriptionService
   ) {}
 
   ngOnInit(): void {
@@ -249,6 +251,13 @@ export class ProfileComponent implements OnInit {
 
   goToVacancyDetails(jobId: number) {
     this.router.navigate(['/app/jobs', jobId, 'seeall']);
+  }
+
+  openAnnouncement(announcement: Announcement): void {
+    const jobId = Number(announcement.job_id);
+    if (!isNaN(jobId)) {
+      this.subscriptionService.checkSubscriptionAndNavigate(jobId, ['/app/jobs', String(jobId), 'seeall']);
+    }
   }
 
   editResume(): void {

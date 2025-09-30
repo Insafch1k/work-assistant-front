@@ -180,7 +180,7 @@
   <div class="vacancy-container">
     <div *ngFor="let announcement of announcements"
     class="vacancy-card"
-    [routerLink]="['/app/jobs', announcement.job_id, 'seeall']"
+    (click)="openAnnouncement(announcement)"
     style="cursor:pointer;">
         <p class="vacancy-title">{{ announcement.title }}</p>
         <div class="vacancy-details">

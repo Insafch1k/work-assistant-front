@@ -98,7 +98,7 @@ export class AdminPanelComponent implements OnInit {
 
   //Возврат к авторизации
   goBack(): void {
-    this.router.navigate(['/app/authorization']);
+    this.router.navigate(['/app/profile']);
   }
 
   toggleMetrics(): void {

@@ -235,4 +235,5 @@ export class VacanciesComponent implements OnInit {
     this.showCityDropdown = false;
     // НЕ очищаем citySearchText, чтобы сохранить введенный текст
   }
+
 }
