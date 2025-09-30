@@ -86,7 +86,7 @@ export class NewAnnouncementComponent implements AfterViewInit {
     };
 
     this.announcementService.createAnnouncement(announcementData).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         // Проверяем, это успешное создание или ошибка подписки
         if (response && response.access === false && response.channel) {
           // Показываем модалку с каналом
