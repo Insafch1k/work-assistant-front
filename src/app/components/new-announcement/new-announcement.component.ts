@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AnnouncementService } from 'src/app/services/announcement.service';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
+import { SubscriptionService } from 'src/app/services/subscription.service';
 
 declare const Dadata: any;
 
@@ -20,7 +21,8 @@ export class NewAnnouncementComponent implements AfterViewInit {
     private fb: FormBuilder, 
     private announcementService: AnnouncementService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private subscriptionService: SubscriptionService
   ) {
     this.form = this.fb.group({
       wanted_job: ['', Validators.required],
@@ -65,6 +67,37 @@ export class NewAnnouncementComponent implements AfterViewInit {
 
   onSubmit() {
     this.formError = '';
+    // Проверка подписки через бэкенд по выбранному городу
+    const city = this.form.get('city')?.value || '';
+    if (!city) {
+      this.formError = 'Укажите город';
+      return;
+    }
+
+    // Выполняем проверку подписки и только затем продолжаем сабмит
+    this.subscriptionService.checkSubscriptionForCityAsync(city)
+      .then((resp) => {
+        if (!resp.access) {
+          this.subscriptionService.channelUrl = `https://t.me/${resp.channel?.replace('@','')}`;
+          this.subscriptionService.showModal = true;
+          throw new Error('no-access');
+        }
+
+        // если есть доступ — продолжаем обычную отправку
+        this.submitAfterCheck();
+      })
+      .catch((err) => {
+        if (String(err?.message) !== 'no-access') {
+          this.formError = 'Ошибка проверки подписки';
+        }
+      });
+  }
+
+  private submitAfterCheck() {
+    if (this.form.invalid) {
+      this.formError = 'Заполните все поля';
+      return;
+    }
     if (this.form.invalid) {
       this.formError = 'Заполните все поля';
       return;
