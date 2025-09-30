@@ -87,18 +87,19 @@ export class NewAnnouncementComponent implements AfterViewInit {
 
     this.announcementService.createAnnouncement(announcementData).subscribe({
       next: (response) => {
-        this.router.navigate(['/app/announcements']);
-      },
-      error: (err) => {
-        // Проверяем, это ошибка подписки или другая ошибка
-        if (err.error && err.error.access === false && err.error.channel) {
+        // Проверяем, это успешное создание или ошибка подписки
+        if (response && response.access === false && response.channel) {
           // Показываем модалку с каналом
-          this.subscriptionService.channelUrl = `https://t.me/${err.error.channel.replace('@', '')}`;
+          this.subscriptionService.channelUrl = `https://t.me/${response.channel.replace('@', '')}`;
           this.subscriptionService.showModal = true;
         } else {
-          this.formError = 'Ошибка при отправке объявления';
-          console.error('Ошибка при создании:', err);
+          // Успешное создание - переходим к объявлениям
+          this.router.navigate(['/app/announcements']);
         }
+      },
+      error: (err) => {
+        this.formError = 'Ошибка при отправке объявления';
+        console.error('Ошибка при создании:', err);
       }
     });
   }
