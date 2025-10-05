@@ -244,8 +244,13 @@ select.general-input {
     margin-top: 20px;
     cursor: pointer;
 
-    &:hover {
+    &:hover:not(:disabled) {
         background: #4bdda8; 
+    }
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
     }
 }
 
