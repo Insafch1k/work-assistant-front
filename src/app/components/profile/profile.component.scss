@@ -40,10 +40,6 @@
       justify-content: center;
     }
 
-    .admin-icon {
-      cursor: pointer;
-    }
-
     svg {
         cursor: pointer;
         fill: #fff;
@@ -259,16 +255,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    .admin-icon {
-      cursor: pointer;
-      fill: #8b5cf6;
-      transition: fill 0.2s ease;
-
-      &:hover {
-        fill: #7c3aed;
-      }
     }
 
     svg {
