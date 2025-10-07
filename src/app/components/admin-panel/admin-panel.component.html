@@ -10,7 +10,7 @@
   <!-- Блок основных метрик -->
   <div class="metrics-section">
     <div class="section-header" (click)="toggleMetrics()">
-      <h2>📊 Основные метрики</h2>
+      <h2>Основные метрики</h2>
       <span class="arrow" [class.rotated]="metricsExpanded">▼</span>
     </div>
     
@@ -72,7 +72,7 @@
   <!-- Блок модерирования -->
   <div class="moderation-section">
     <div class="section-header" (click)="toggleModeration()">
-      <h2>🛡️ Модерирование</h2>
+      <h2>Модерирование</h2>
       <span class="arrow" [class.rotated]="moderationExpanded">▼</span>
     </div>
     
@@ -85,25 +85,46 @@
           placeholder="Поиск пользователя..."
           [(ngModel)]="userSearchTerm"
           (keyup.enter)="onUserSearch()">
-        <button (click)="onUserSearch()">🔍</button>
+        <button (click)="onUserSearch()">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.5 17.5L13.8808 13.8808M13.8808 13.8808C14.4999 13.2617 14.991 12.5268 15.326 11.7179C15.6611 10.9091 15.8335 10.0422 15.8335 9.16666C15.8335 8.29115 15.6611 7.42422 15.326 6.61537C14.991 5.80651 14.4999 5.07156 13.8808 4.45249C13.2618 3.83342 12.5268 3.34234 11.718 3.0073C10.9091 2.67226 10.0422 2.49982 9.16667 2.49982C8.29116 2.49982 7.42424 2.67226 6.61538 3.0073C5.80652 3.34234 5.07157 3.83342 4.4525 4.45249C3.20223 5.70276 2.49983 7.3985 2.49983 9.16666C2.49983 10.9348 3.20223 12.6305 4.4525 13.8808C5.70277 15.1311 7.39851 15.8335 9.16667 15.8335C10.9348 15.8335 12.6306 15.1311 13.8808 13.8808Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
       </div>
 
       <div class="users-list" *ngIf="!usersLoading">
         <div class="user-card" *ngFor="let user of users">
           <div class="user-info">
-            <h4>{{ user.name }}</h4>
-            <p>{{ user.role === 'employer' ? 'Работодатель' : 'Соискатель' }}</p>
-            <small>Регистрация: {{ user.registration_date | date:'dd.MM.yyyy' }}</small>
-            <span class="status" [class.banned]="user.status === 'banned'">
+            <h4>{{ user.user_name }}</h4>
+            <!-- <p><strong>{{ user.is_admin ? 'Админ' : 'Не Админ' }}</strong></p> -->
+            <p><strong>Роль:</strong> {{ user.user_role === 'employer' ? 'Работодатель' : 'Соискатель' }}</p>
+            <p><strong>Регистрация:</strong> {{ user.created_at | date:'dd.MM.yyyy HH:mm' }}</p>
+            <p><strong>Последний вход:</strong> {{ user.last_login_at | date:'dd.MM.yyyy HH:mm' }}</p>
+            <p><strong>USER_ID:</strong> {{ user.user_id }}</p>
+            <p><strong>TG_ID:</strong> {{ user.tg }}</p>
+            <p><strong>TG_USERNAME:</strong> {{ user.tg_username || 'Не указан' }}</p>
+            <p><strong>Телефон:</strong> {{ user.phone || 'Не указан' }}</p>
+            <p><strong>Рейтинг:</strong> {{ user.rating }}</p>
+            
+            <!-- <span class="status" [class.banned]="user.status === 'banned'">
               {{ user.status === 'banned' ? 'Забанен' : 'Активен' }}
-            </span>
+            </span> -->
+            <div class="status-row">
+              <span class="status" [class.admin]="user.is_admin" [class.user]="!user.is_admin">
+                {{ user.is_admin ? 'Администратор' : 'Пользователь' }}
+              </span>
+              <span class="status" [class.active]="user.status !== 'banned'" [class.banned]="user.status === 'banned'">
+                {{ user.status === 'banned' ? 'Забанен' : 'Активен' }}
+              </span>
+            </div>
+            
           </div>
           <button 
             class="action-btn" 
             [class.ban]="user.status === 'active'"
             [class.unban]="user.status === 'banned'"
             (click)="user.status === 'active' ? banUser(user) : unbanUser(user)">
-            {{ user.status === 'active' ? '🚫' : '✅' }}
+            {{ user.status === 'active' ? 'Заблокировать' : 'Разблокировать' }}
           </button>
         </div>
       </div>

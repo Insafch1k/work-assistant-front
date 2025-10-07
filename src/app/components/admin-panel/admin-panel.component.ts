@@ -25,7 +25,7 @@ export class AdminPanelComponent implements OnInit {
   usersLoading = false;
 
   // Данные для модерации вакансий
-  vacancies: Vacancy[] = [];
+  // vacancies: Vacancy[] = [];
   currentVacancyPage = 1;
   totalVacancyPages = 0;
   vacanciesLoading = false;
@@ -114,7 +114,7 @@ export class AdminPanelComponent implements OnInit {
     this.moderationExpanded = !this.moderationExpanded;
     if (this.moderationExpanded && this.users.length === 0) {
       this.loadUsers();
-      this.loadVacancies();
+      // this.loadVacancies();
     }
   }
 
@@ -149,8 +149,13 @@ export class AdminPanelComponent implements OnInit {
       name_filter: this.userSearchTerm || undefined
     }).subscribe({
       next: (response: UsersResponse) => {
-        this.users = response.users;
-        this.totalUserPages = Math.ceil(response.total / 20);
+        // Устанавливаем статус по умолчанию для пользователей
+        this.users = response.data.map(user => ({
+          ...user,
+          status: user.status || 'active' // По умолчанию активен
+        }));
+        // Пока нет total в ответе, используем длину массива
+        this.totalUserPages = Math.ceil(response.data.length / 20);
         this.currentUserPage = page;
         this.usersLoading = false;
       },
@@ -169,16 +174,17 @@ export class AdminPanelComponent implements OnInit {
   banUser(user: User): void {
     this.itemToDelete = {
       type: 'user',
-      id: user.id,
-      name: user.name
+      id: user.user_id.toString(),
+      name: user.user_name
     };
     this.showDeleteConfirm = true;
   }
 
   unbanUser(user: User): void {
-    this.adminService.unbanUser(user.id).subscribe({
+    this.adminService.unbanUser(user.user_id.toString()).subscribe({
       next: () => {
-        this.loadUsers(this.currentUserPage);
+        // Обновляем статус пользователя локально
+        user.status = 'active';
       },
       error: (error) => {
         console.error('Ошибка разбана пользователя:', error);
@@ -187,24 +193,24 @@ export class AdminPanelComponent implements OnInit {
   }
 
   // Методы для работы с вакансиями
-  loadVacancies(page: number = 1): void {
-    this.vacanciesLoading = true;
-    this.adminService.getVacanciesForModeration({
-      limit: 10,
-      offset: (page - 1) * 10
-    }).subscribe({
-      next: (response: VacanciesResponse) => {
-        this.vacancies = response.vacancies;
-        this.totalVacancyPages = Math.ceil(response.total / 10);
-        this.currentVacancyPage = page;
-        this.vacanciesLoading = false;
-      },
-      error: (error) => {
-        console.error('Ошибка загрузки вакансий:', error);
-        this.vacanciesLoading = false;
-      }
-    });
-  }
+  // loadVacancies(page: number = 1): void {
+  //   this.vacanciesLoading = true;
+  //   this.adminService.getVacanciesForModeration({
+  //     limit: 10,
+  //     offset: (page - 1) * 10
+  //   }).subscribe({
+  //     next: (response: VacanciesResponse) => {
+  //       this.vacancies = response.vacancies;
+  //       this.totalVacancyPages = Math.ceil(response.total / 10);
+  //       this.currentVacancyPage = page;
+  //       this.vacanciesLoading = false;
+  //     },
+  //     error: (error) => {
+  //       console.error('Ошибка загрузки вакансий:', error);
+  //       this.vacanciesLoading = false;
+  //     }
+  //   });
+  // }
 
   deleteVacancy(vacancy: Vacancy): void {
     this.itemToDelete = {
@@ -222,7 +228,11 @@ export class AdminPanelComponent implements OnInit {
     if (this.itemToDelete.type === 'user') {
       this.adminService.banUser(this.itemToDelete.id).subscribe({
         next: () => {
-          this.loadUsers(this.currentUserPage);
+          // Обновляем статус пользователя локально
+          const user = this.users.find(u => u.user_id.toString() === this.itemToDelete!.id);
+          if (user) {
+            user.status = 'banned';
+          }
           this.closeDeleteConfirm();
         },
         error: (error) => {
@@ -232,7 +242,7 @@ export class AdminPanelComponent implements OnInit {
     } else if (this.itemToDelete.type === 'vacancy') {
       this.adminService.deleteVacancy(this.itemToDelete.id).subscribe({
         next: () => {
-          this.loadVacancies(this.currentVacancyPage);
+          // this.loadVacancies(this.currentVacancyPage);
           this.closeDeleteConfirm();
         },
         error: (error) => {

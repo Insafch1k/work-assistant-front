@@ -16,6 +16,7 @@ declare const Dadata: any;
 export class NewAnnouncementComponent implements AfterViewInit {
   form: FormGroup;
   formError: string = '';
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder, 
@@ -78,30 +79,38 @@ export class NewAnnouncementComponent implements AfterViewInit {
       this.formError = 'Вы указали прошедшую дату. Пожалуйста, исправьте.';
       return;
     }
+    
+    // Показываем загрузку и добавляем задержку
+    this.isLoading = true;
+    
+    // Небольшая задержка перед отправкой
+    setTimeout(() => {
+      const formValue = this.form.value;
+      const announcementData = {
+        ...formValue,
+        salary: Number(formValue.salary),
+      };
 
-    const formValue = this.form.value;
-    const announcementData = {
-      ...formValue,
-      salary: Number(formValue.salary),
-    };
-
-    this.announcementService.createAnnouncement(announcementData).subscribe({
-      next: (response: any) => {
-        // Проверяем, это успешное создание или ошибка подписки
-        if (response && response.access === false && response.channel) {
-          // Показываем модалку с каналом
-          this.subscriptionService.channelUrl = `https://t.me/${response.channel.replace('@', '')}`;
-          this.subscriptionService.showModal = true;
-        } else {
-          // Успешное создание - переходим к объявлениям
-          this.router.navigate(['/app/announcements']);
+      this.announcementService.createAnnouncement(announcementData).subscribe({
+        next: (response: any) => {
+          this.isLoading = false; // Скрываем загрузку
+          // Проверяем, это успешное создание или ошибка подписки
+          if (response && response.access === false && response.channel) {
+            // Показываем модалку с каналом
+            this.subscriptionService.channelUrl = `https://t.me/${response.channel.replace('@', '')}`;
+            this.subscriptionService.showModal = true;
+          } else {
+            // Успешное создание - переходим к объявлениям
+            this.router.navigate(['/app/announcements']);
+          }
+        },
+        error: (err) => {
+          this.isLoading = false; // Скрываем загрузку
+          this.formError = 'Ошибка при отправке объявления';
+          console.error('Ошибка при создании:', err);
         }
-      },
-      error: (err) => {
-        this.formError = 'Ошибка при отправке объявления';
-        console.error('Ошибка при создании:', err);
-      }
-    });
+      });
+    }, 1500); // 1.5 секунды задержки
   }
 
 

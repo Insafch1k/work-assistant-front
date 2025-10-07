@@ -133,7 +133,10 @@
 
     <input formControlName="description" class="general-input" type="text" placeholder="Напишите описание подработки">
     
-    <button type="submit" class="btn-confirm">Разместить объявление</button>
+    <button type="submit" class="btn-confirm" [disabled]="isLoading">
+      <span *ngIf="!isLoading">Разместить объявление</span>
+      <span *ngIf="isLoading">Публикуем...</span>
+    </button>
     
     <div *ngIf="formError" class="error-message">{{ formError }}</div>
 </form>
