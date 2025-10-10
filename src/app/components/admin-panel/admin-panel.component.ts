@@ -31,8 +31,8 @@ export class AdminPanelComponent implements OnInit {
   vacanciesLoading = false;
 
   // Подтверждение удаления
-  showDeleteConfirm = false;
-  itemToDelete: { type: 'user' | 'vacancy', id: string, name: string } | null = null;
+  // showDeleteConfirm = false;
+  // itemToDelete: { type: 'user' | 'vacancy', id: string, name: string } | null = null;
 
   constructor(
     private adminService: AdminService,
@@ -65,14 +65,14 @@ export class AdminPanelComponent implements OnInit {
       next: (isAdmin) => {
         this.isAdmin = isAdmin;
         if (!isAdmin) {
-          this.router.navigate(['/app/authorization']);
+          this.router.navigate(['/app/profile']);
           return;
         }
         // Не загружаем метрики сразу - только при раскрытии блока
       },
       error: (error) => {
         console.error('Ошибка проверки прав админа:', error);
-        this.router.navigate(['/app/authorization']);
+        this.router.navigate(['/app/profile']);
         return;
       }
     });
@@ -96,7 +96,7 @@ export class AdminPanelComponent implements OnInit {
   }
 
 
-  //Возврат к авторизации
+  //Возврат в профиль
   goBack(): void {
     this.router.navigate(['/app/profile']);
   }
@@ -149,13 +149,10 @@ export class AdminPanelComponent implements OnInit {
       name_filter: this.userSearchTerm || undefined
     }).subscribe({
       next: (response: UsersResponse) => {
-        // Устанавливаем статус по умолчанию для пользователей
-        this.users = response.data.map(user => ({
-          ...user,
-          status: user.status || 'active' // По умолчанию активен
-        }));
-        // Пока нет total в ответе, используем длину массива
-        this.totalUserPages = Math.ceil(response.data.length / 20);
+        this.users = response.data;
+        // Пока API не возвращает total, уберём пагинацию или сделаем её простой
+        // this.totalUserPages = Math.ceil(response.data.length / 20); // Это неправильно!
+        this.totalUserPages = 1; // Пока одна страница
         this.currentUserPage = page;
         this.usersLoading = false;
       },
@@ -171,103 +168,62 @@ export class AdminPanelComponent implements OnInit {
     this.loadUsers(1);
   }
 
-  banUser(user: User): void {
-    this.itemToDelete = {
-      type: 'user',
-      id: user.user_id.toString(),
-      name: user.user_name
-    };
-    this.showDeleteConfirm = true;
-  }
+  // banUser(user: User): void {
+  //   this.itemToDelete = {
+  //     type: 'user',
+  //     id: user.user_id.toString(),
+  //     name: user.user_name
+  //   };
+  //   this.showDeleteConfirm = true;
+  // }
 
-  unbanUser(user: User): void {
-    this.adminService.unbanUser(user.user_id.toString()).subscribe({
-      next: () => {
-        // Обновляем статус пользователя локально
-        user.status = 'active';
-      },
-      error: (error) => {
-        console.error('Ошибка разбана пользователя:', error);
-      }
-    });
-  }
-
-  // Методы для работы с вакансиями
-  // loadVacancies(page: number = 1): void {
-  //   this.vacanciesLoading = true;
-  //   this.adminService.getVacanciesForModeration({
-  //     limit: 10,
-  //     offset: (page - 1) * 10
-  //   }).subscribe({
-  //     next: (response: VacanciesResponse) => {
-  //       this.vacancies = response.vacancies;
-  //       this.totalVacancyPages = Math.ceil(response.total / 10);
-  //       this.currentVacancyPage = page;
-  //       this.vacanciesLoading = false;
+  // unbanUser(user: User): void {
+  //   this.adminService.unbanUser(user.user_id.toString()).subscribe({
+  //     next: () => {
+  //       // Обновляем статус пользователя локально
+  //       user.status = 'active';
   //     },
   //     error: (error) => {
-  //       console.error('Ошибка загрузки вакансий:', error);
-  //       this.vacanciesLoading = false;
+  //       console.error('Ошибка разбана пользователя:', error);
   //     }
   //   });
   // }
 
-  deleteVacancy(vacancy: Vacancy): void {
-    this.itemToDelete = {
-      type: 'vacancy',
-      id: vacancy.id,
-      name: vacancy.title
-    };
-    this.showDeleteConfirm = true;
-  }
+  // // Подтверждение удаления
+  // confirmDelete(): void {
+  //   if (!this.itemToDelete) return;
 
-  // Подтверждение удаления
-  confirmDelete(): void {
-    if (!this.itemToDelete) return;
+  //   if (this.itemToDelete.type === 'user') {
+  //     this.adminService.banUser(this.itemToDelete.id).subscribe({
+  //       next: () => {
+  //         // Обновляем статус пользователя локально
+  //         const user = this.users.find(u => u.user_id.toString() === this.itemToDelete!.id);
+  //         if (user) {
+  //           user.status = 'banned';
+  //         }
+  //         this.closeDeleteConfirm();
+  //       },
+  //       error: (error) => {
+  //         console.error('Ошибка бана пользователя:', error);
+  //       }
+  //     });
+  //   } else if (this.itemToDelete.type === 'vacancy') {
+  //     this.adminService.deleteVacancy(this.itemToDelete.id).subscribe({
+  //       next: () => {
+  //         // this.loadVacancies(this.currentVacancyPage);
+  //         this.closeDeleteConfirm();
+  //       },
+  //       error: (error) => {
+  //         console.error('Ошибка удаления вакансии:', error);
+  //       }
+  //     });
+  //   }
+  // }
 
-    if (this.itemToDelete.type === 'user') {
-      this.adminService.banUser(this.itemToDelete.id).subscribe({
-        next: () => {
-          // Обновляем статус пользователя локально
-          const user = this.users.find(u => u.user_id.toString() === this.itemToDelete!.id);
-          if (user) {
-            user.status = 'banned';
-          }
-          this.closeDeleteConfirm();
-        },
-        error: (error) => {
-          console.error('Ошибка бана пользователя:', error);
-        }
-      });
-    } else if (this.itemToDelete.type === 'vacancy') {
-      this.adminService.deleteVacancy(this.itemToDelete.id).subscribe({
-        next: () => {
-          // this.loadVacancies(this.currentVacancyPage);
-          this.closeDeleteConfirm();
-        },
-        error: (error) => {
-          console.error('Ошибка удаления вакансии:', error);
-        }
-      });
-    }
-  }
-
-  closeDeleteConfirm(): void {
-    this.showDeleteConfirm = false;
-    this.itemToDelete = null;
-  }
-
-  // Вспомогательные методы для пагинации
-  getVacancyPages(): number[] {
-    const pages: number[] = [];
-    const startPage = Math.max(1, this.currentVacancyPage - 2);
-    const endPage = Math.min(this.totalVacancyPages, this.currentVacancyPage + 2);
-    
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(i);
-    }
-    return pages;
-  }
+  // closeDeleteConfirm(): void {
+  //   this.showDeleteConfirm = false;
+  //   this.itemToDelete = null;
+  // }
 
   getUserPages(): number[] {
     const pages: number[] = [];

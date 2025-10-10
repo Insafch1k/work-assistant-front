@@ -3,6 +3,7 @@ import { FavoritesService } from 'src/app/services/favorites.service';
 import { UserService } from 'src/app/services/user.service';
 import { MetricsService } from 'src/app/services/metrics.service';
 import { SubscriptionService } from 'src/app/services/subscription.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-favorites',
@@ -18,7 +19,8 @@ export class FavoritesComponent implements OnInit {
     private favoritesService: FavoritesService,
     private userService: UserService,
     private metricsService: MetricsService,
-    private subscriptionService: SubscriptionService
+    private subscriptionService: SubscriptionService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -69,44 +71,75 @@ export class FavoritesComponent implements OnInit {
     return this.userService.getUserRole() === 'employer';
   }
 
+  // отключили проверку подписки при отклике на вакансию
+  // callEmployer(vacancy: any): void {
+  //   this.subscriptionService.checkSubscriptionAndExecute(
+  //     vacancy.job_id,
+  //     () => {
+  //       if (vacancy.phone) {
+  //         const tgId = this.userService.getTgId();
+  //         if (tgId) {
+  //           this.metricsService.trackVacancySent(tgId);
+  //         }
+  //         window.open(`tel:${vacancy.phone}`, '_blank');
+  //       } else {
+  //         alert('У работодателя не указан номер телефона');
+  //       }
+  //     },
+  //   );
+  // }
+
   callEmployer(vacancy: any): void {
-    this.subscriptionService.checkSubscriptionAndExecute(
-      vacancy.job_id,
-      () => {
-        if (vacancy.phone) {
-          const tgId = this.userService.getTgId();
-          if (tgId) {
-            this.metricsService.trackVacancySent(tgId);
-          }
-          window.open(`tel:${vacancy.phone}`, '_blank');
-        } else {
-          alert('У работодателя не указан номер телефона');
-        }
-      },
-    );
-  }
-  
-  writeEmployer(vacancy: any): void {
-    this.subscriptionService.checkSubscriptionAndExecute(
-      vacancy.job_id,
-      () => {
-        if (vacancy.tg_username) {
-          const tgId = this.userService.getTgId();
-          if (tgId) {
-            this.metricsService.trackVacancySent(tgId);
-          }
-          window.open(`https://t.me/${vacancy.tg_username.replace('@', '')}`, '_blank');
-        } else {
-          alert('У работодателя не указан Telegram username');
-        }
-      },
-    );
+    if (vacancy.phone) {
+      const tgId = this.userService.getTgId();
+      if (tgId) {
+        this.metricsService.trackVacancySent(tgId);
+      }
+      window.open(`tel:${vacancy.phone}`, '_blank');
+    } else {
+      alert('У работодателя не указан номер телефона');
+    }
   }
 
+  // отключили проверку подписки при отправке сообщения работодателю
+  // writeEmployer(vacancy: any): void {
+  //   this.subscriptionService.checkSubscriptionAndExecute(
+  //     vacancy.job_id,
+  //     () => {
+  //       if (vacancy.tg_username) {
+  //         const tgId = this.userService.getTgId();
+  //         if (tgId) {
+  //           this.metricsService.trackVacancySent(tgId);
+  //         }
+  //         window.open(`https://t.me/${vacancy.tg_username.replace('@', '')}`, '_blank');
+  //       } else {
+  //         alert('У работодателя не указан Telegram username');
+  //       }
+  //     },
+  //   );
+  // }
+
+  writeEmployer(vacancy: any): void {
+    if (vacancy.tg_username) {
+      const tgId = this.userService.getTgId();
+      if (tgId) {
+        this.metricsService.trackVacancySent(tgId);
+      }
+      window.open(`https://t.me/${vacancy.tg_username.replace('@', '')}`, '_blank');
+    } else {
+      alert('У работодателя не указан Telegram username');
+    }
+  }
+
+  // отключили проверку подписки при просмотре деталей вакансии
+  // viewDetails(vacancy: any): void {
+  //   this.subscriptionService.checkSubscriptionAndNavigate(
+  //     vacancy.job_id,
+  //     ['/app/jobs', vacancy.job_id.toString(), 'seeall'],
+  //   );
+  // }
+
   viewDetails(vacancy: any): void {
-    this.subscriptionService.checkSubscriptionAndNavigate(
-      vacancy.job_id,
-      ['/app/jobs', vacancy.job_id.toString(), 'seeall'],
-    );
+    this.router.navigate(['/app/jobs', vacancy.job_id.toString(), 'seeall']);
   }
 }

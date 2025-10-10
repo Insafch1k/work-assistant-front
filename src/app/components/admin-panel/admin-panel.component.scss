@@ -338,16 +338,18 @@
     align-items: center;
     justify-content: center;
     font-weight: 600;
+    background: #DC2626;
+    color: white;
     
-    &.ban {
-      background: #DC2626;
-      color: white;
-    }
+    // &.ban {
+    //   background: #DC2626;
+    //   color: white;
+    // }
     
-    &.unban {
-      background: #059669;
-      color: white;
-    }
+    // &.unban {
+    //   background: #059669;
+    //   color: white;
+    // }
   }
 }
 

@@ -93,16 +93,22 @@ export class NewAnnouncementComponent implements AfterViewInit {
 
       this.announcementService.createAnnouncement(announcementData).subscribe({
         next: (response: any) => {
-          this.isLoading = false; // Скрываем загрузку
-          // Проверяем, это успешное создание или ошибка подписки
-          if (response && response.access === false && response.channel) {
-            // Показываем модалку с каналом
-            this.subscriptionService.channelUrl = `https://t.me/${response.channel.replace('@', '')}`;
-            this.subscriptionService.showModal = true;
-          } else {
-            // Успешное создание - переходим к объявлениям
-            this.router.navigate(['/app/announcements']);
-          }
+          // отключили проверку подписки при выкладывании объявления
+          // this.isLoading = false; // Скрываем загрузку
+          // // Проверяем, это успешное создание или ошибка подписки
+          // if (response && response.access === false && response.channel) {
+          //   // Показываем модалку с каналом
+          //   this.subscriptionService.channelUrl = `https://t.me/${response.channel.replace('@', '')}`;
+          //   this.subscriptionService.showModal = true;
+          // } else {
+          //   // Успешное создание - переходим к объявлениям
+          //   this.router.navigate(['/app/announcements']);
+          // }
+
+          // без проверки подписки
+          this.isLoading = false;
+          console.log('Объявление создано:', response);
+          this.router.navigate(['/app/announcements']);
         },
         error: (err) => {
           this.isLoading = false; // Скрываем загрузку
