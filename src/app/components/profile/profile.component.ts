@@ -253,10 +253,18 @@ export class ProfileComponent implements OnInit {
     this.router.navigate(['/app/jobs', jobId, 'seeall']);
   }
 
+  // отключили проверку подписки при просмотре объявления
+  // openAnnouncement(announcement: Announcement): void {
+  //   const jobId = Number(announcement.job_id);
+  //   if (!isNaN(jobId)) {
+  //     this.subscriptionService.checkSubscriptionAndNavigate(jobId, ['/app/jobs', String(jobId), 'seeall']);
+  //   }
+  // }
+  
   openAnnouncement(announcement: Announcement): void {
     const jobId = Number(announcement.job_id);
     if (!isNaN(jobId)) {
-      this.subscriptionService.checkSubscriptionAndNavigate(jobId, ['/app/jobs', String(jobId), 'seeall']);
+      this.router.navigate(['/app/jobs', String(jobId), 'seeall']);
     }
   }
 

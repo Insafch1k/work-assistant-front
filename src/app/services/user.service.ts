@@ -14,7 +14,7 @@ export class UserService {
   private readonly PROFILE_CACHE_KEY = 'profile_cache';
   private readonly PROFILE_PHOTO_KEY = 'profile_photo';
 
-  public readonly apiUrl = 'https://warm-hotels-decide.loca.lt/api';
+  public readonly apiUrl = 'https://long-symbols-punch.loca.lt/api';
 
   constructor(
     private http: HttpClient,

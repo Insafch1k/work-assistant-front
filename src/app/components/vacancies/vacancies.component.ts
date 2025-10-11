@@ -122,49 +122,84 @@ export class VacanciesComponent implements OnInit {
     }
   }
 
-  callEmployer(vacancy: Vacancy): void {
-    this.subscriptionService.checkSubscriptionAndExecute(
-      vacancy.job_id,
-      () => {
-        if (vacancy.phone) {
-          // Отправляем событие отклика на вакансию
-          const tgId = this.userService.getTgId();
-          if (tgId) {
-            this.metricsService.trackVacancySent(tgId);
-          }
+  // отключили проверку подписки при отклике на вакансию
+  // callEmployer(vacancy: Vacancy): void {
+  //   this.subscriptionService.checkSubscriptionAndExecute(
+  //     vacancy.job_id,
+  //     () => {
+  //       if (vacancy.phone) {
+  //         // Отправляем событие отклика на вакансию
+  //         const tgId = this.userService.getTgId();
+  //         if (tgId) {
+  //           this.metricsService.trackVacancySent(tgId);
+  //         }
           
-          window.open(`tel:${vacancy.phone}`, '_blank');
-        } else {
-          alert('У работодателя не указан номер телефона');
-        }
-      },
-    );
+  //         window.open(`tel:${vacancy.phone}`, '_blank');
+  //       } else {
+  //         alert('У работодателя не указан номер телефона');
+  //       }
+  //     },
+  //   );
+  // }
+
+  callEmployer(vacancy: Vacancy): void {
+    if (vacancy.phone) {
+      // Отправляем событие отклика на вакансию
+      const tgId = this.userService.getTgId();
+      if (tgId) {
+        this.metricsService.trackVacancySent(tgId);
+      }
+      
+      window.open(`tel:${vacancy.phone}`, '_blank');
+    } else {
+      alert('У работодателя не указан номер телефона');
+    }
   }
+
+  // отключили проверку подпишки при отправке сообщения работодателю
+  // writeEmployer(vacancy: Vacancy): void {
+  //   this.subscriptionService.checkSubscriptionAndExecute(
+  //     vacancy.job_id,
+  //     () => {
+  //       if (vacancy.tg_username) {
+  //         // Отправляем событие отклика на вакансию
+  //         const tgId = this.userService.getTgId();
+  //         if (tgId) {
+  //           this.metricsService.trackVacancySent(tgId);
+  //         }
+          
+  //         window.open(`https://t.me/${vacancy.tg_username.replace('@', '')}`, '_blank');
+  //       } else {
+  //         alert('У работодателя не указан Telegram username');
+  //       }
+  //     },
+  //   );
+  // }
 
   writeEmployer(vacancy: Vacancy): void {
-    this.subscriptionService.checkSubscriptionAndExecute(
-      vacancy.job_id,
-      () => {
-        if (vacancy.tg_username) {
-          // Отправляем событие отклика на вакансию
-          const tgId = this.userService.getTgId();
-          if (tgId) {
-            this.metricsService.trackVacancySent(tgId);
-          }
-          
-          window.open(`https://t.me/${vacancy.tg_username.replace('@', '')}`, '_blank');
-        } else {
-          alert('У работодателя не указан Telegram username');
-        }
-      },
-    );
+    if (vacancy.tg_username) {
+      // Отправляем событие отклика на вакансию
+      const tgId = this.userService.getTgId();
+      if (tgId) {
+        this.metricsService.trackVacancySent(tgId);
+      }
+      
+      window.open(`https://t.me/${vacancy.tg_username.replace('@', '')}`, '_blank');
+    } else {
+      alert('У работодателя не указан Telegram username');
+    }
   }
 
+  // отключили проверку подписки при просмотре деталей вакансии
+  // viewDetails(vacancy: Vacancy): void {
+  //   this.subscriptionService.checkSubscriptionAndNavigate(
+  //     vacancy.job_id,
+  //     ['/app/jobs', vacancy.job_id.toString(), 'seeall'],
+  //   );
+  // }
+
   viewDetails(vacancy: Vacancy): void {
-    this.subscriptionService.checkSubscriptionAndNavigate(
-      vacancy.job_id,
-      ['/app/jobs', vacancy.job_id.toString(), 'seeall'],
-    );
+    this.router.navigate(['/app/jobs', vacancy.job_id.toString(), 'seeall']);
   }
 
   extractCities(): void {
