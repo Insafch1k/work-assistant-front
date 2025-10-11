@@ -109,4 +109,5 @@ export class FavoritesComponent implements OnInit {
       ['/app/jobs', vacancy.job_id.toString(), 'seeall'],
     );
   }
+  
 }
